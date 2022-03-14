@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_anocca_sequence_viewer_website=self.webpackChunk_anocca_sequence_viewer_website||[]).push([[2962],{7452:function(e){e.exports=JSON.parse('{"allTagsPath":"/sequence-viewer/blog/tags","slug":"/sequence-viewer/blog/tags/sequence-viewer","name":"sequence-viewer","count":1,"permalink":"/sequence-viewer/blog/tags/sequence-viewer"}')}}]);
