@@ -1,0 +1,34 @@
+{
+  "name": "@anocca/sequence-viewer-react-linear",
+  "version": "5.0.1",
+  "description": "",
+  "main": "lib-commonjs/index.js",
+  "module": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "lib-commonjs"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/.bin/heft build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@rushstack/heft": "^0.35.0",
+    "@anocca/sequence-viewer-common-rig": "1.0.0",
+    "typescript": "4.3.5",
+    "@types/react": "17.0.15",
+    "react": "17.0.2"
+  },
+  "dependencies": {
+    "@anocca/sequence-viewer-utils": "4.0.0",
+    "@anocca/sequence-viewer-react-shared": "4.0.1",
+    "@anocca/sequence-viewer-render-linear": "4.0.1"
+  },
+  "peerDependencies": {
+    "react": "*"
+  }
+}

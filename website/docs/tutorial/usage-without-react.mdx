@@ -1,0 +1,112 @@
+---
+sidebar_position: 3
+---
+
+# Usage without react
+
+These libraries do not depend on **any** third party libraries. These are the most low level libraries in the `@anocca/sequence-viewer-*` suite.
+
+## Installation
+
+```bash
+# Pick one or both
+npm i @anocca/sequence-viewer-render-circular
+npm i @anocca/sequence-viewer-render-linear
+
+# utils is recommended to get started
+npm i @anocca/sequence-viewer-utils
+```
+
+`-render-circular` and `-render-linear` both export a function called `drawCircular` and `drawLinear`.
+
+"Draw" refers to drawing the bitmap graphics on a [HTML5 canvas](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) element.
+
+## Usage
+
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+<Tabs>
+<TabItem value="example" label="Example">
+
+```tsx
+import { drawCircular } from '@anocca/sequence-viewer-render-circular';
+/* or for linear */
+// import { drawLinear } from '@anocca/sequence-viewer-render-linear';
+import { getRatio, humanCodons, scaleBuffer } from '@anocca/sequence-viewer-utils';
+
+const w = 640;
+const h = 480;
+
+const buffer = document.getElementById('canvas');
+
+scaleBuffer(buffer, w, h);
+
+const c = buffer.getContext('2d')
+
+const { ratio } = getRatio(c);
+
+drawCircular({
+  c,
+  w,
+  h,
+  ratio,
+  data: {
+    mouseX: 0,
+    mouseY: 0,
+    circluarCamera: {
+      angleOffset: 0,
+      scrollOffsetZoomed: 0,
+      scrollOffsetZooming: 0,
+      value: {
+        zoom: 1,
+        angle: 1,
+        radius: 1,
+      },
+      target: {
+        zoom: 1,
+        angle: 1,
+        radius: 1
+      }
+    },
+    matrix: {
+      a: 1,
+      b: 0,
+      c: 0,
+      d: 1,
+      e: 0,
+      f: 0
+    }
+  },
+  isProtein: false,
+  sequence: 'TCCTCGCATAGGGCGGATCGGTATTCAT',
+  circularSelection: [],
+  searchResults: [],
+  annotationLevels: [],
+  renderStateRef: {
+    hoveringFeature: undefined,
+    clickedFeatures: []
+  },
+  codons: humanCodons
+});
+
+/* in html */
+
+<canvas id="canvas"></canvas>
+
+```
+
+</TabItem>
+<TabItem value="result" label="Result">
+
+import { UsageWithoutReactResult } from './UsageWithoutReactResult';
+
+<UsageWithoutReactResult />
+
+This just renderes the canvas statically without any DOM bindings and thus no out of the box support for zoom, drag and scroll
+
+
+</TabItem>
+</Tabs>

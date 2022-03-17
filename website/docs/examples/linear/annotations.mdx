@@ -1,0 +1,360 @@
+---
+sidebar_position: 3
+---
+
+import { StaticLinear } from '../../../src/components/StaticLinear';
+import { tuple, SeqAnnotationDirectionsEnum, CircularCameraProgress, debounce, humanCodons, CircularSelection, Annotations } from '@anocca/sequence-viewer-utils';
+
+
+# Annotations
+## Normal annotation
+<StaticLinear w={640} h={480} mid={25} len={200} circularSelection={[
+    {
+      state: 'selected',
+      start: 0,
+      end: 50,
+      antiClockwise: false,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "eb5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "OTHER",
+          "label": "CDS",
+          "color": "#dba88a",
+          "locations": [
+              tuple(
+                  1,
+                  50
+              )
+          ],
+              "hidden": false,
+              "displayAsSequence": false,
+              "rightTag": "",
+              "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+      ]
+  ]}
+/>
+
+## Over origin
+<StaticLinear w={640} h={480} startZoom={5} len={200} mid={100} circularSelection={[
+    {
+      state: 'selected',
+      start: 0,
+      end: 50,
+      antiClockwise: false,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "eb5e3fd6-f487-4852-8d39-973954c036f8",
+          type: "OTHER",
+          "label": "fwd-over_v2",
+          "color": "#dba88a",
+          "locations": [
+              tuple(
+                  175,
+                  25
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+        {
+          "id": "eb5e3fd6-f487-4852-8d39-973954c036f6",
+          type: "OTHER",
+          "label": "nrml_v2",
+          "color": "#dba88a",
+          "locations": [
+              tuple(
+                  120,
+                  167
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.NOT_DEFINED,
+        },
+      ],
+      [
+        {
+          "id": "eb5e3fd6-f487-4852-8d39-973954c036f8",
+          type: "OTHER",
+          "label": "rev-over_v2",
+          "color": "#dba88a",
+          "locations": [
+              tuple(
+                  175,
+                  25
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.REVERSE,
+        },
+      ]
+  ]}
+/>
+
+## Small annotation
+<StaticLinear mid={0} w={640} h={480} len={50} circularSelection={[
+    {
+      state: 'selected',
+      start: 0,
+      end: 1,
+      antiClockwise: false,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "eb5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "OTHER",
+          "label": "CDS",
+          "color": "#dba88a",
+          "locations": [
+              tuple(
+                  1,
+                  2
+              )
+          ],
+              "hidden": false,
+              "displayAsSequence": false,
+              "rightTag": "",
+              "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+      ]
+  ]}
+/>
+
+
+## Annotation as sequence
+<StaticLinear w={640} h={480} len={50} circularSelection={[
+    {
+      state: 'selected',
+      start: 0,
+      end: 1,
+      antiClockwise: false,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "eb5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "OTHER",
+          "label": "CDS",
+          "color": "#dba88a",
+          "locations": [
+              tuple(
+                  46,
+                  7
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": true,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+      ]
+  ]}
+/>
+
+
+## Annotation with right tag
+<StaticLinear mid={3} w={640} h={480} len={50} circularSelection={[
+    {
+      state: 'selected',
+      start: 0,
+      end: 1,
+      antiClockwise: false,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "eb5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "OTHER",
+          "label": "CDS",
+          "color": "#dba88a",
+          "locations": [
+              tuple(
+                  1,
+                  7
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "fs58 chrome tag",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+      ]
+  ]}
+/>
+
+
+## Fragmented annotation ((40,43),(9,12))
+<StaticLinear w={640} h={480} len={50} circularSelection={[
+    {
+      state: 'selected',
+      start: 0,
+      end: 0,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "eb5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "OTHER",
+          "label": "CDS",
+          "color": "#dba88a",
+          "locations": [
+              tuple(
+                  40,
+                  43
+              ),
+              tuple(
+                  9,
+                  12
+              ),
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+      ]
+  ]}
+/>
+
+
+
+## Fragmented annotation ((9,12), (40,43))
+<StaticLinear w={640} h={480} len={50} circularSelection={[
+    {
+      state: 'selected',
+      start: 0,
+      end: 0,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "eb5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "OTHER",
+          "label": "CDS",
+          "color": "#dba88a",
+          "locations": [
+              tuple(
+                  9,
+                  12
+              ),
+              tuple(
+                  40,
+                  43
+              ),
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+      ]
+  ]}
+/>
+
+
+
+
+## Reverse fragmented annotation ((40,43),(9,12))
+<StaticLinear w={640} h={480} len={50} circularSelection={[
+    {
+      state: 'selected',
+      start: 0,
+      end: 0,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "eb5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "OTHER",
+          "label": "CDS",
+          "color": "#dba88a",
+          "locations": [
+              tuple(
+                  40,
+                  43
+              ),
+              tuple(
+                  9,
+                  12
+              ),
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.REVERSE,
+        },
+      ]
+  ]}
+/>
+
+
+
+## Reverse fragmented annotation ((9,12), (40,43))
+<StaticLinear w={640} h={480} len={50} startZoom={40} circularSelection={[
+    {
+      state: 'selected',
+      start: 0,
+      end: 0,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "eb5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "OTHER",
+          "label": "CDS",
+          "color": "#dba88a",
+          "locations": [
+              tuple(
+                  9,
+                  12
+              ),
+              tuple(
+                  40,
+                  43
+              ),
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.REVERSE,
+        },
+      ]
+  ]}
+/>
+
+

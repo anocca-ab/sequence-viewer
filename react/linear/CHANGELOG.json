@@ -1,0 +1,178 @@
+{
+  "name": "@anocca/sequence-viewer-react-linear",
+  "entries": [
+    {
+      "version": "5.0.1",
+      "tag": "@anocca/sequence-viewer-react-linear_v5.0.1",
+      "date": "Wed, 17 Nov 2021 08:55:40 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-react-shared\" from `4.0.0` to `4.0.1`"
+          },
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-render-linear\" from `4.0.0` to `4.0.1`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "5.0.0",
+      "tag": "@anocca/sequence-viewer-react-linear_v5.0.0",
+      "date": "Wed, 03 Nov 2021 12:40:23 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "add files field to package.json to ensure lib an"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `3.0.0` to `4.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-react-shared\" from `3.0.0` to `4.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-render-linear\" from `3.0.0` to `4.0.0`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "4.0.0",
+      "tag": "@anocca/sequence-viewer-react-linear_v4.0.0",
+      "date": "Wed, 03 Nov 2021 10:40:15 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "include lib in npm package"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `2.0.0` to `3.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-react-shared\" from `2.0.0` to `3.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-render-linear\" from `2.0.0` to `3.0.0`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "3.0.0",
+      "tag": "@anocca/sequence-viewer-react-linear_v3.0.0",
+      "date": "Wed, 03 Nov 2021 10:03:22 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "specify module and main in package.json"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `1.2.0` to `2.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-react-shared\" from `1.1.2` to `2.0.0`"
+          },
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-render-linear\" from `1.0.3` to `2.0.0`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.3",
+      "tag": "@anocca/sequence-viewer-react-linear_v2.0.3",
+      "date": "Mon, 01 Nov 2021 13:12:12 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-render-linear\" from `1.0.2` to `1.0.3`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.2",
+      "tag": "@anocca/sequence-viewer-react-linear_v2.0.2",
+      "date": "Thu, 28 Oct 2021 12:57:04 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `1.1.0` to `1.2.0`"
+          },
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-react-shared\" from `1.1.1` to `1.1.2`"
+          },
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-render-linear\" from `1.0.1` to `1.0.2`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.1",
+      "tag": "@anocca/sequence-viewer-react-linear_v2.0.1",
+      "date": "Thu, 28 Oct 2021 07:57:43 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-react-shared\" from `1.1.0` to `1.1.1`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.0",
+      "tag": "@anocca/sequence-viewer-react-linear_v2.0.0",
+      "date": "Wed, 27 Oct 2021 08:25:01 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "always render search if provided"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.1.0",
+      "tag": "@anocca/sequence-viewer-react-linear_v1.1.0",
+      "date": "Tue, 26 Oct 2021 13:43:29 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "export controller props"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-react-shared\" from `1.0.1` to `1.1.0`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.0.1",
+      "tag": "@anocca/sequence-viewer-react-linear_v1.0.1",
+      "date": "Thu, 21 Oct 2021 08:40:17 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `1.0.0` to `1.1.0`"
+          },
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-react-shared\" from `1.0.0` to `1.0.1`"
+          },
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-render-linear\" from `1.0.0` to `1.0.1`"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@anocca/sequence-viewer-react-mui-formik-form",
+      "comment": "update docs",
+      "type": "none"
+    }
+  ],
+  "packageName": "@anocca/sequence-viewer-react-mui-formik-form"
+}

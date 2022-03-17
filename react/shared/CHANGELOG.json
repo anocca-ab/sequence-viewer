@@ -1,0 +1,116 @@
+{
+  "name": "@anocca/sequence-viewer-react-shared",
+  "entries": [
+    {
+      "version": "4.0.1",
+      "tag": "@anocca/sequence-viewer-react-shared_v4.0.1",
+      "date": "Wed, 17 Nov 2021 08:55:40 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix search for proteins"
+          }
+        ]
+      }
+    },
+    {
+      "version": "4.0.0",
+      "tag": "@anocca/sequence-viewer-react-shared_v4.0.0",
+      "date": "Wed, 03 Nov 2021 12:40:23 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "add files field to package.json to ensure lib an"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `3.0.0` to `4.0.0`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "3.0.0",
+      "tag": "@anocca/sequence-viewer-react-shared_v3.0.0",
+      "date": "Wed, 03 Nov 2021 10:40:15 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "include lib in npm package"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `2.0.0` to `3.0.0`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.0",
+      "tag": "@anocca/sequence-viewer-react-shared_v2.0.0",
+      "date": "Wed, 03 Nov 2021 10:03:22 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "specify module and main in package.json"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `1.2.0` to `2.0.0`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.1.2",
+      "tag": "@anocca/sequence-viewer-react-shared_v1.1.2",
+      "date": "Thu, 28 Oct 2021 12:57:04 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `1.1.0` to `1.2.0`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.1.1",
+      "tag": "@anocca/sequence-viewer-react-shared_v1.1.1",
+      "date": "Thu, 28 Oct 2021 07:57:43 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "rerender when props update"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.1.0",
+      "tag": "@anocca/sequence-viewer-react-shared_v1.1.0",
+      "date": "Tue, 26 Oct 2021 13:43:29 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "export controller props"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.0.1",
+      "tag": "@anocca/sequence-viewer-react-shared_v1.0.1",
+      "date": "Thu, 21 Oct 2021 08:40:17 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `1.0.0` to `1.1.0`"
+          }
+        ]
+      }
+    }
+  ]
+}

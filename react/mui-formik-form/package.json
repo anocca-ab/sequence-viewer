@@ -1,0 +1,38 @@
+{
+  "name": "@anocca/sequence-viewer-react-mui-formik-form",
+  "version": "4.0.0",
+  "description": "",
+  "main": "lib-commonjs/index.js",
+  "module": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "lib-commonjs"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/.bin/heft build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@rushstack/heft": "^0.35.0",
+    "typescript": "4.3.5",
+    "@anocca/sequence-viewer-common-rig": "1.0.0",
+    "@material-ui/core": "^4.11.4",
+    "react-icons": "3.11.0",
+    "react": "17.0.2",
+    "@types/react": "17.0.15",
+    "formik": "~2.2.9"
+  },
+  "dependencies": {
+    "@anocca/sequence-viewer-utils": "4.0.0"
+  },
+  "peerDependencies": {
+    "@material-ui/core": "4.x",
+    "react-icons": "*",
+    "react": "*",
+    "formik": "2.x"
+  }
+}

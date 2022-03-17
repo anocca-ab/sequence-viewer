@@ -1,0 +1,80 @@
+{
+  "name": "@anocca/sequence-viewer-react-mui-formik-form",
+  "entries": [
+    {
+      "version": "4.0.0",
+      "tag": "@anocca/sequence-viewer-react-mui-formik-form_v4.0.0",
+      "date": "Wed, 03 Nov 2021 12:40:23 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "add files field to package.json to ensure lib an"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `3.0.0` to `4.0.0`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "3.0.0",
+      "tag": "@anocca/sequence-viewer-react-mui-formik-form_v3.0.0",
+      "date": "Wed, 03 Nov 2021 10:40:15 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "include lib in npm package"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `2.0.0` to `3.0.0`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.0",
+      "tag": "@anocca/sequence-viewer-react-mui-formik-form_v2.0.0",
+      "date": "Wed, 03 Nov 2021 10:03:22 GMT",
+      "comments": {
+        "major": [
+          {
+            "comment": "specify module and main in package.json"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `1.2.0` to `2.0.0`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.0.2",
+      "tag": "@anocca/sequence-viewer-react-mui-formik-form_v1.0.2",
+      "date": "Thu, 28 Oct 2021 12:57:04 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `1.1.0` to `1.2.0`"
+          }
+        ]
+      }
+    },
+    {
+      "version": "1.0.1",
+      "tag": "@anocca/sequence-viewer-react-mui-formik-form_v1.0.1",
+      "date": "Thu, 21 Oct 2021 08:40:17 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `1.0.0` to `1.1.0`"
+          }
+        ]
+      }
+    }
+  ]
+}

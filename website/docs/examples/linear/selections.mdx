@@ -1,0 +1,75 @@
+---
+sidebar_position: 2
+---
+
+import { StaticLinear } from '../../../src/components/StaticLinear';
+import { tuple, SeqAnnotationDirectionsEnum, CircularCameraProgress, debounce, humanCodons, CircularSelection, Annotations } from '@anocca/sequence-viewer-utils';
+
+
+# Selections
+## Caret
+<StaticLinear w={640} h={480} len={200} circularSelection={[
+    {
+      state: 'selected',
+      start: 0,
+      end: 0,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[]}
+  startZoom={100}
+  mouseX={360}
+  mouseY={0}
+/>
+
+## Selections
+<StaticLinear w={640} h={480} len={20} circularSelection={[
+    {
+      state: 'selected',
+      start: 0,
+      end: 2,
+      antiClockwise: false,
+    },
+    {
+      state: 'selected',
+      start: 6,
+      end: 4,
+      antiClockwise: true,
+    },
+  ]}
+  annotationLevels={[]}
+  startZoom={100}
+/>
+
+## Search result
+<StaticLinear w={640} h={480} len={20} circularSelection={[
+    {
+      state: 'selected',
+      start: 0,
+      end: 0,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[]}
+  startZoom={100}
+  searchResults={[
+    {
+      start: 0,
+      end: 3,
+      active: false,
+      complement: false,
+    },
+    {
+      start: 5,
+      end: 8,
+      active: false,
+      complement: true,
+    },
+    {
+      start: 13,
+      end: 18,
+      active: true,
+      complement: false,
+    }
+  ]}
+/>

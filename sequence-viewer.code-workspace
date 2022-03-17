@@ -1,0 +1,66 @@
+{
+	"folders": [
+		{
+			"name": "✨ root",
+			"path": "."
+		},
+		{
+			"name": "🚀 @anocca/sequence-viewer-app",
+			"path": "app"
+		},
+		{
+			"name": "🚀 @anocca/sequence-viewer-backend-react-state",
+			"path": "backend/react-state"
+		},
+		{
+			"name": "📦 @anocca/sequence-viewer-common-rig",
+			"path": "common-rig"
+		},
+		{
+			"name": "@anocca/doc-plugin-rush-stack",
+			"path": "doc-plugin-rush-stack"
+		},
+		{
+			"name": "@anocca/sequence-viewer-react-circular",
+			"path": "react/circular"
+		},
+		{
+			"name": "@anocca/sequence-viewer-react-linear",
+			"path": "react/linear"
+		},
+		{
+			"name": "@anocca/sequence-viewer-react-mui",
+			"path": "react/mui"
+		},
+		{
+			"name": "@anocca/sequence-viewer-react-mui-formik-form",
+			"path": "react/mui-formik-form"
+		},
+		{
+			"name": "@anocca/sequence-viewer-react-shared",
+			"path": "react/shared"
+		},
+		{
+			"name": "@anocca/sequence-viewer-render-circular",
+			"path": "render/circular"
+		},
+		{
+			"name": "@anocca/sequence-viewer-render-linear",
+			"path": "render/linear"
+		},
+		{
+			"name": "⚙️ @anocca/sequence-viewer-utils",
+			"path": "utils"
+		},
+		{
+			"name": "🚀 @anocca/sequence-viewer-website",
+			"path": "website"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.json": "jsonc"
+		},
+		"typescript.tsdk": "🚀 @anocca/sequence-viewer-app/node_modules/typescript/lib"
+	}
+}

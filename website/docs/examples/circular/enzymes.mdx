@@ -1,0 +1,367 @@
+---
+sidebar_position: 4
+---
+
+import { StaticCircular } from '../../../src/components/StaticCircular';
+import { tuple, SeqAnnotationDirectionsEnum, CircularCameraProgress, debounce, humanCodons, CircularSelection, Annotations } from '@anocca/sequence-viewer-utils';
+
+
+# Enzymes
+
+## Enzyme with cutsite
+<StaticCircular w={640} h={480} len={50} startZoom={100} circularSelection={[
+    {
+      state: 'selected',
+      start: 7,
+      end: 7,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "eb5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "DNA_RE_NUC",
+          "cleavageSites": [[-1, 3]],
+          "label": "FakEI",
+          "color": "#25c2a0",
+          "locations": [
+              tuple(
+                  4,
+                  10
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+      ]
+  ]}
+/>
+
+
+
+## Enzyme with reverse cutsite
+<StaticCircular w={640} h={480} len={50} startZoom={100} circularSelection={[
+    {
+      state: 'selected',
+      start: 7,
+      end: 7,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "ab5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "DNA_RE_NUC",
+          "cleavageSites": [[-1, 3]],
+          "label": "FakEI",
+          "color": "#25c2a0",
+          "locations": [
+              tuple(
+                  12,
+                  16,
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.REVERSE,
+        },
+      ]
+  ]}
+/>
+
+
+
+## Enzyme with reverse cutsite and normal cutsite
+<StaticCircular w={640} h={480} len={50} startZoom={100} circularSelection={[
+    {
+      state: 'selected',
+      start: 7,
+      end: 7,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "eb5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "DNA_RE_NUC",
+          "cleavageSites": [[-1, 3]],
+          "label": "FakEI",
+          "color": "#25c2a0",
+          "locations": [
+              tuple(
+                  4,
+                  10
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+        {
+          "id": "ab5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "DNA_RE_NUC",
+          "cleavageSites": [[-1, 3]],
+          "label": "FakEI",
+          "color": "#25c2a0",
+          "locations": [
+              tuple(
+                  12,
+                  16,
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.REVERSE,
+        },
+      ]
+  ]}
+/>
+
+
+## Enzyme with cutsite over origin
+<StaticCircular w={640} h={480} len={50} startZoom={100} circularSelection={[
+    {
+      state: 'selected',
+      start: 45,
+      end: 45,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "ab5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "DNA_RE_NUC",
+          "cleavageSites": [[-1, 3]],
+          "label": "FakEI",
+          "color": "#25c2a0",
+          "locations": [
+              tuple(
+                  0,
+                  4,
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+      ]
+  ]}
+/>
+
+
+
+## Enzyme with cutsite (0, 1)
+<StaticCircular w={640} h={480} len={50} startZoom={100} circularSelection={[
+    {
+      state: 'selected',
+      start: 45,
+      end: 45,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "ab5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "DNA_RE_NUC",
+          "cleavageSites": [[0, 1]],
+          "label": "FakEI",
+          "color": "#25c2a0",
+          "locations": [
+              tuple(
+                  0,
+                  4,
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+      ]
+  ]}
+/>
+
+## Enzyme with cutsite (0, 0)
+<StaticCircular w={640} h={480} len={50} startZoom={100} circularSelection={[
+    {
+      state: 'selected',
+      start: 45,
+      end: 45,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "ab5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "DNA_RE_NUC",
+          "cleavageSites": [[0, 0]],
+          "label": "FakEI",
+          "color": "#25c2a0",
+          "locations": [
+              tuple(
+                  0,
+                  4,
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+      ]
+  ]}
+/>
+
+## Enzyme with cutsite
+<StaticCircular w={640} h={480} len={50} startZoom={100} circularSelection={[
+    {
+      state: 'selected',
+      start: 45,
+      end: 45,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "ab5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "DNA_RE_NUC",
+          "cleavageSites": [[11, 10]],
+          "label": "FakEI",
+          "color": "#25c2a0",
+          "locations": [
+              tuple(
+                  0,
+                  4,
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+      ]
+  ]}
+/>
+
+## Enzyme with reverse cutsite
+<StaticCircular w={640} h={480} len={50} startZoom={100} circularSelection={[
+    {
+      state: 'selected',
+      start: 45,
+      end: 45,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "ab5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "DNA_RE_NUC",
+          "cleavageSites": [[10, 11]],
+          "label": "FakEI",
+          "color": "#25c2a0",
+          "locations": [
+              tuple(
+                  0,
+                  4,
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+      ]
+  ]}
+/>
+
+
+## Enzyme with reverse cutsite on reverse annotation
+<StaticCircular w={640} h={480} len={50} startZoom={100} circularSelection={[
+    {
+      state: 'selected',
+      start: 45,
+      end: 45,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "ab5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "DNA_RE_NUC",
+          "cleavageSites": [[10, 11]],
+          "label": "FakEI",
+          "color": "#25c2a0",
+          "locations": [
+              tuple(
+                  0,
+                  4,
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.REVERSE,
+        },
+      ]
+  ]}
+/>
+
+
+
+## Enzyme with reverse cutsite on downstream
+<StaticCircular w={640} h={480} len={50} startZoom={100} circularSelection={[
+    {
+      state: 'selected',
+      start: 45,
+      end: 45,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "ab5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "DNA_RE_NUC",
+          "cleavageSites": [[-10, -11]],
+          "label": "FakEI",
+          "color": "#25c2a0",
+          "locations": [
+              tuple(
+                  0,
+                  4,
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+      ]
+  ]}
+/>

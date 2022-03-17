@@ -1,0 +1,6 @@
+{
+  "extends": "./node_modules/@anocca/sequence-viewer-common-rig/profiles/library/tsconfig-base.json",
+  "compilerOptions": {
+    "types": ["@types/react"]
+  }
+}

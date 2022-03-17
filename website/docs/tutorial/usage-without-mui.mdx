@@ -1,0 +1,129 @@
+---
+sidebar_position: 2
+---
+
+# Usage without material UI and formik
+
+These packages will not include any extra UI other than the sequence viewer.
+
+This is recommended if you want to build your own UI.
+
+## Installation
+```bash
+# Pick one or both
+npm i @anocca/sequence-viewer-react-circular
+npm i @anocca/sequence-viewer-react-linear
+
+# utils is recommended to get started
+npm i @anocca/sequence-viewer-utils
+```
+
+## Usage
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+<Tabs>
+<TabItem value="example" label="Example">
+
+```tsx
+import { CircularController } from '@anocca/sequence-viewer-react-circular';
+/* or for linear */
+// import { LinearController } from '@anocca/sequence-viewer-react-linear';
+import { humanCodons } from '@anocca/sequence-viewer-utils';
+
+<CircularController
+  width={800}
+  height={640}
+  isProtein={false}
+  annotations={[]}
+  codons={humanCodons}
+  sequence="ATCAGATACAGATCAAGATCACCCCACCCCATTTA"
+/>
+```
+
+</TabItem>
+<TabItem value="result" label="Result">
+
+Note how there is no UI to:
+* add or remove annotations
+* search for sequence
+* copy the selected sequence
+
+import { CircularController } from '@anocca/sequence-viewer-react-circular';
+import { humanCodons } from '@anocca/sequence-viewer-utils';
+
+<CircularController
+  width={800}
+  height={640}
+  isProtein={false}
+  annotations={[]}
+  codons={humanCodons}
+  sequence="ATCAGATACAGATCAAGATCACCCCACCCCATTTA"
+/>
+
+</TabItem>
+</Tabs>
+
+### Building your own UI
+
+<Tabs>
+<TabItem value="example" label="Example">
+
+To get access to internals you can pass a function in the `children` prop.
+
+
+```tsx
+<CircularController
+  width={800}
+  height={640}
+  isProtein={false}
+  annotations={[]}
+  codons={humanCodons}
+  sequence="ATCAGATACAGATCAAGATCACCCCACCCCATTTA"
+>
+  {({ canvas, circularSelections }) => (
+    <div style={{ margin: 'auto', maxWidth: '800px' }}>
+      <div style={{ position: 'relative' }}>
+        {canvas}
+        <div style={{position: 'absolute'}}>
+          <pre>
+            {JSON.stringify(circularSelections, null, 2)}
+          </pre>
+        </div>
+      </div>
+    </div>
+  )}
+</CircularController>
+
+```
+
+</TabItem>
+<TabItem value="result" label="Result">
+
+<CircularController
+  width={800}
+  height={640}
+  isProtein={false}
+  annotations={[]}
+  codons={humanCodons}
+  sequence="ATCAGATACAGATCAAGATCACCCCACCCCATTTA"
+>
+  {({ canvas, circularSelections }) => (
+    <div style={{ margin: 'auto', maxWidth: '800px' }}>
+      <div style={{ position: 'relative' }}>
+        {canvas}
+        <div style={{position: 'absolute', top: 0, left: 0}}>
+          <pre>
+            {JSON.stringify(circularSelections, null, 2)}
+          </pre>
+        </div>
+      </div>
+    </div>
+  )}
+</CircularController>
+
+
+</TabItem>
+</Tabs>

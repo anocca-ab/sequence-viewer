@@ -1,0 +1,13 @@
+{
+  "extends": "@tsconfig/docusaurus/tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "noEmit": true,
+    "noImplicitAny": false,
+    "types": ["node", "@docusaurus/module-type-aliases", "@docusaurus/theme-classic"]
+  },
+  "include": ["src/"]
+}

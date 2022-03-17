@@ -1,0 +1,38 @@
+---
+sidebar_position: 1
+---
+
+import { StaticCircular } from '../../../src/components/StaticCircular';
+import { tuple, SeqAnnotationDirectionsEnum, CircularCameraProgress, debounce, humanCodons, CircularSelection, Annotations } from '@anocca/sequence-viewer-utils';
+import { CircularApp } from '../../../src/components/CircularApp'
+
+
+# App
+
+## DNA
+<CircularApp sequence="TCCTCGCATAGGGCGGATCGGTATTCATGGGACGCCACACAACTCTTAGATTGATTGTCGCTTTCAGGCGTGTCATCCTGCGCCCCGGCACGAGCTCGTCCGGCGGTATAGTCGTATGTGCTTATACACATCAAAGCTAACAAATCTTTCTGCGGGCGGTCGTCACGACACACGTTCTTACG" isProtein={false} />
+
+## With Annotation
+<CircularApp
+  sequence="TCCTCGCATAGGGCGGATCGGTATTCATGGGACGCCACACAACTCTTAGATTGATTGTCGCTTTCAGGCGTGTCATCCTGCGCCCCGGCACGAGCTCGTCCGG"
+  annotations={[
+    {
+      "id": "eb5e3fd6-f487-4852-8d39-973954c036f8",
+      "type": "OTHER",
+      "label": "CDS",
+      "color": "#dba88a",
+      "locations": [
+          tuple(
+              1,
+              50
+          )
+      ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+      "direction": SeqAnnotationDirectionsEnum.FORWARD,
+    },
+  ]}
+/>
+

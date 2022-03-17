@@ -1,0 +1,122 @@
+---
+sidebar_position: 1
+---
+
+# Get started
+
+### Intro
+At anocca we have developed a suite of npm packages used in our internal tooling to display DNA and protein sequences.
+These packages are published under the `@anocca/sequence-viewer-*` namespace. Have a look at our [list of packages](/docs/api/).
+
+
+### Quick start
+
+To get started **quickly** you can add `@anocca/sequence-viewer-app` which exports the [SequenceViewerApp](/docs/api/sequence-viewer-app.sequenceviewerapp).
+
+SequenceViewerApp is a react component with the [linear](/docs/api/sequence-viewer-react-linear.linearcontroller) and [circular](/docs/api/sequence-viewer-react-circular.circularcontroller) viewer. It includes:
+
+* [search bar](/docs/api/sequence-viewer-react-mui.search)
+* [toolbar](/docs/api/sequence-viewer-react-mui.toolbar)
+* [UI](/docs/api/sequence-viewer-react-mui-formik-form.annotationform) to view, create and edit annotations
+
+#### Installation
+
+```bash
+# peer dependencies
+npm i react-icons @material-ui/core formik
+# app
+npm i @anocca/sequence-viewer-app @anocca/sequence-viewer-backend-react-state
+```
+
+
+:::note
+@anocca/sequence-viewer-app also requires **react-icons**, **@material-ui/core** and **formik**.
+
+Unless you already use these packages in your project the sequence-viewer-app should only be used to get started quickly or to prototype.
+
+See [Usage without material UI and formik](/docs/tutorial/usage-without-mui) to use the `@anocca/sequence-viewer-*` suite of libraries without third party libraries (except react).
+
+See [Usage without react](/docs/tutorial/usage-without-react) to use the `@anocca/sequence-viewer-*` suite of libraries without **any** third party library, only vanilla js.
+
+:::
+
+
+
+#### Usage
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+<Tabs>
+<TabItem value="example" label="Example">
+
+```tsx
+import {SequenceViewerApp} from '@anocca/sequence-viewer-app';
+import {useBackend} from '@anocca/sequence-viewer-backend-react-state';
+import {AnnotationForm} from '@anocca/sequence-viewer-react-mui-formik-form';
+
+function MyAmazingSequenceViewers() {
+
+  // The annotation backend allows us to store, edit and delete annotations.
+  // The `useBackend` simply stores all annotations in the component state.
+  // Scroll down in the tutorial to read about creating your own backend.
+  const annotationBackend = useBackend();
+
+  return (
+    <>
+      <SequenceViewerApp
+        {...annotationBackend}
+        // Sequence must be an uppercase string of nucleotides or amino acids.
+        sequence='ATGCTGATATCA'
+        // A component which will render the form used to create and edit annotations
+        AnnotationForm={AnnotationForm}
+        // A fixed width and height is required
+        width={800}
+        height={640}
+      />
+      <SequenceViewerApp
+        {...annotationBackend}
+        // If using an amino acid sequence set the `isProtein` prop to true.
+        isProtein
+        // protein sequence
+        sequence='DYKDHDGDYKDH'
+        AnnotationForm={AnnotationForm}
+        width={800}
+        height={640}
+      />
+    </>
+  )
+}
+```
+
+</TabItem>
+<TabItem value="result" label="Result">
+
+import {GetStarted} from './_examples/GetStarted';
+
+<GetStarted />
+
+</TabItem>
+</Tabs>
+
+
+### Creating your own annotation backend
+An annotaion backend should implement the following interface:
+
+```tsx
+interface AnnotationBackend {
+  annotations: Annotation[];
+  getAnnotationLabelById: (id: string) => string;
+  getAnnotationById: (id: string) => Annotation;
+  addAnnotation: (annotation: Annotation) => void;
+  deleteAnnotations: (ids: string[]) => void;
+  showAnnotations: (ids: string[]) => void;
+  hideAnnotations: (ids: string[]) => void;
+  updateAnnotation: (annotation: Annotation) => void;
+}
+const annotationBackend: AnnotationBackend = {
+  /* create your backend here */
+}
+```
+

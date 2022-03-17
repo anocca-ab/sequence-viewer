@@ -1,0 +1,22 @@
+---
+sidebar_position: 1
+---
+
+import { CircularController } from '@anocca/sequence-viewer-react-circular';
+import { humanCodons } from '@anocca/sequence-viewer-utils';
+import { Search } from '@anocca/sequence-viewer-react-mui';
+
+
+# Controller
+
+## DNA
+<CircularController
+  sequence="TCCTCGCATAGGGCGGATCGGTATTCATGGGACGCCACACAACTCTTAGATTGATTGTCGCTTTCAGGCGTGTCATCCTGCGCCCCGGCACGAGCTCGTCCGGCGGTATAGTCGTATGTGCTTATACACATCAAAGCTAACAAATCTTTCTGCGGGCGGTCGTCACGACACACGTTCTTACG"
+  isProtein={false} 
+  width={600}
+  height={400}
+  isProtein={false}
+  annotations={[]}
+  codons={humanCodons}
+  Search={Search}
+/>
