@@ -74,7 +74,7 @@ rush version --bump
 ## Publish npm packages
 
 ```bash
-rush publish -p --include-all
+NPM_AUTH_TOKEN=npm_... rush publish -p --include-all
 ```
 
 ## Useful vscode extension
