@@ -95,3 +95,16 @@ We are using the following settings, which is automatically enforced by the `.gi
 git config --local core.eol lf # all checked out files should have LF
 git config --local core.autocrlf input # convert all added CRLF to LF when staging
 ```
+
+## Get latest version of each package
+```bash
+cat rush.json | \
+grep -A 2 '"packageName": "@anocca' | \
+grep -B 2 '"shouldPublish": true' | \
+grep 'projectFolder' | \
+awk '{ print substr($2, 2, length($2)-3) "/package.json" }' | \
+xargs cat | \
+grep -B 1 '"version"' | \
+sed 'N;N;s/\n/ /g;s/--//' | \
+awk '{ print substr($2, 1, length($2)-1) ": " $4 }'
+```
