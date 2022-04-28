@@ -1,6 +1,13 @@
 # Change Log - @anocca/sequence-viewer-utils
 
-This log was last generated on Wed, 03 Nov 2021 12:40:23 GMT and should not be manually modified.
+This log was last generated on Thu, 28 Apr 2022 15:41:04 GMT and should not be manually modified.
+
+## 4.0.1
+Thu, 28 Apr 2022 15:41:04 GMT
+
+### Patches
+
+- change font from BlinkMacSystemFont to sans-serif to improve performance on M1 Mac
 
 ## 4.0.0
 Wed, 03 Nov 2021 12:40:23 GMT

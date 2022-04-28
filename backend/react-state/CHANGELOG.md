@@ -1,6 +1,11 @@
 # Change Log - @anocca/sequence-viewer-backend-react-state
 
-This log was last generated on Wed, 03 Nov 2021 12:40:23 GMT and should not be manually modified.
+This log was last generated on Thu, 28 Apr 2022 15:41:04 GMT and should not be manually modified.
+
+## 4.0.1
+Thu, 28 Apr 2022 15:41:04 GMT
+
+_Version update only_
 
 ## 4.0.0
 Wed, 03 Nov 2021 12:40:23 GMT

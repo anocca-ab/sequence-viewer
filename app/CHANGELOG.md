@@ -1,6 +1,17 @@
 # Change Log - @anocca/sequence-viewer-app
 
-This log was last generated on Wed, 17 Nov 2021 08:55:40 GMT and should not be manually modified.
+This log was last generated on Thu, 28 Apr 2022 15:41:04 GMT and should not be manually modified.
+
+## 6.0.0
+Thu, 28 Apr 2022 15:41:04 GMT
+
+### Breaking changes
+
+- upgrade to material ui version 5
+
+### Patches
+
+- change font from BlinkMacSystemFont to sans-serif to improve performance on M1 Mac
 
 ## 5.0.1
 Wed, 17 Nov 2021 08:55:40 GMT

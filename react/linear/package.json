@@ -1,6 +1,6 @@
 {
   "name": "@anocca/sequence-viewer-react-linear",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "",
   "main": "lib-commonjs/index.js",
   "module": "lib/index.js",
@@ -24,9 +24,9 @@
     "react": "17.0.2"
   },
   "dependencies": {
-    "@anocca/sequence-viewer-utils": "4.0.0",
-    "@anocca/sequence-viewer-react-shared": "4.0.1",
-    "@anocca/sequence-viewer-render-linear": "4.0.1"
+    "@anocca/sequence-viewer-utils": "4.0.1",
+    "@anocca/sequence-viewer-react-shared": "4.0.2",
+    "@anocca/sequence-viewer-render-linear": "4.0.2"
   },
   "peerDependencies": {
     "react": "*"
