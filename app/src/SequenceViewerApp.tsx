@@ -9,55 +9,8 @@ import {
 } from '@anocca/sequence-viewer-utils';
 import { Search, Toolbar } from '@anocca/sequence-viewer-react-mui';
 import { Flex } from '@anocca/sequence-viewer-react-shared';
-import {
-  Theme,
-  Chip,
-  Dialog,
-  Snackbar,
-  IconButton,
-  Typography,
-  Grid,
-  Switch,
-  withStyles,
-  createStyles
-} from '@material-ui/core';
+import { Theme, Chip, Dialog, Snackbar, IconButton, Typography, Grid, Switch } from '@mui/material';
 import { MdClose } from 'react-icons/md';
-
-const AntSwitch = withStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: 28,
-      height: 16,
-      padding: 0,
-      display: 'flex'
-    },
-    switchBase: {
-      padding: 2,
-      color: theme.palette.grey[500],
-      '&$checked': {
-        transform: 'translateX(12px)',
-        color: theme.palette.common.white,
-        '& + $track': {
-          opacity: 1,
-          backgroundColor: theme.palette.primary.main,
-          borderColor: theme.palette.primary.main
-        }
-      }
-    },
-    thumb: {
-      width: 12,
-      height: 12,
-      boxShadow: 'none'
-    },
-    track: {
-      border: `1px solid ${theme.palette.grey[500]}`,
-      borderRadius: 16 / 2,
-      opacity: 1,
-      backgroundColor: theme.palette.common.white
-    },
-    checked: {}
-  })
-)(Switch);
 
 /**
  * Ready to use sequence viewer component using react-icons, material UI and formik. Use this if you qulckly want to get started with the Anocca sequence viewer in react. See [Get started](/docs/tutorial/get-started)
@@ -99,11 +52,7 @@ export const SequenceViewerApp = (props: {
 
   const [openSnackbar, setOpenSnackbar] = React.useState('');
 
-  const handleCloseSnackbar = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
+  const handleCloseSnackbar = (event: Event | React.SyntheticEvent<any, Event>) => {
     setOpenSnackbar('');
   };
 
@@ -214,9 +163,9 @@ export const SequenceViewerApp = (props: {
                     <Grid component="label" container alignItems="center" spacing={1}>
                       <Grid item>Linear</Grid>
                       <Grid item>
-                        <AntSwitch
+                        <Switch
                           checked={isCircularViewer}
-                          onChange={(ev) => {
+                          onChange={(ev: any) => {
                             setIsCircularViewer(ev.target.checked);
                           }}
                           name="circularswitch"

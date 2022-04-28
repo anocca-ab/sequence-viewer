@@ -10,8 +10,6 @@ import {
   Checkbox,
   DialogTitle,
   Theme,
-  makeStyles,
-  createStyles,
   DialogContent,
   DialogContentText,
   Button,
@@ -21,7 +19,8 @@ import {
   InputLabel,
   Select,
   IconButton
-} from '@material-ui/core';
+} from '@mui/material';
+import { makeStyles, createStyles } from '@mui/styles';
 import { Formik, Form, Field, ErrorMessage, FieldArray, getIn } from 'formik';
 import { MdClose } from 'react-icons/md';
 
@@ -34,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       '& > *': {
-        marginBottom: theme.spacing(2)
+        marginBottom: 16
       }
     }
   })
@@ -42,11 +41,11 @@ const useStyles = makeStyles((theme: Theme) =>
 
 /**
  * Form component to create or edit an Annotation.
- * 
+ *
  * Built with material UI and formik.
- * 
+ *
  * **Usage:**
- * 
+ *
  * ```tsx
  * <AnnotationForm
  *   title="Create annotation"
@@ -54,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
  *   initialValues={{}}
  * />
  * ```
- * 
+ *
  * See
  * {@link @anocca/sequence-viewer-utils#AnnotationFormProps | AnnotationFormProps},
  * {@link @anocca/sequence-viewer-utils#Annotation | Annotation}
@@ -67,7 +66,7 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
   return (
     <>
       <DialogTitle>{title}</DialogTitle>
-      <DialogContent>
+      <DialogContent style={{ paddingTop: 8 }}>
         <Formik
           initialValues={{
             id: getUuid(),
@@ -121,7 +120,7 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
                 label="Color"
                 type="color"
                 style={{ width: '100px' }}
-                inputProps={{ style: { height: '24px', margin: '0', padding: '0' } }}
+                inputProps={{ style: { height: 32, margin: 0, padding: 4 } }}
                 value={formik.values.color}
                 onChange={formik.handleChange}
                 error={formik.touched.color && Boolean(formik.errors.color)}
@@ -180,50 +179,45 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
                 helperText={formik.touched.displayLabel && formik.errors.displayLabel}
               />
 
-              <FormControl fullWidth>
-                <InputLabel id="select-type">Type</InputLabel>
-                <Select
-                  labelId="select-type"
-                  value={formik.values.type}
-                  onChange={formik.handleChange}
-                  error={formik.touched.type && Boolean(formik.errors.type)}
-                  name="type"
-                >
-                  {[
-                    tuple('DNA oligo', 'DNA_OLIGO'),
-                    tuple('DNA restriction nuclease', 'DNA_RE_NUC'),
-                    tuple('Other', 'OTHER')
-                  ].map(([verbose, value]) => {
-                    return (
-                      <MenuItem value={value} key={value} id={value}>
-                        {verbose}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
+              <TextField
+                value={formik.values.type}
+                onChange={formik.handleChange}
+                error={formik.touched.type && Boolean(formik.errors.type)}
+                select
+                name="type"
+                label="Type"
+              >
+                {[
+                  tuple('DNA oligo', 'DNA_OLIGO'),
+                  tuple('DNA restriction nuclease', 'DNA_RE_NUC'),
+                  tuple('Other', 'OTHER')
+                ].map(([verbose, value]) => {
+                  return (
+                    <MenuItem value={value} key={value} id={value}>
+                      {verbose}
+                    </MenuItem>
+                  );
+                })}
+              </TextField>
 
-              <FormControl fullWidth>
-                <InputLabel id="select-direction">Direction</InputLabel>
-                <Select
-                  labelId="select-direction"
-                  value={formik.values.direction}
-                  onChange={formik.handleChange}
-                  error={formik.touched.direction && Boolean(formik.errors.direction)}
-                  name="direction"
-                >
-                  {[
-                    tuple('Forward', SeqAnnotationDirectionsEnum.FORWARD),
-                    tuple('Reverse', SeqAnnotationDirectionsEnum.REVERSE)
-                  ].map(([verbose, value]) => {
-                    return (
-                      <MenuItem value={value} key={value} id={value}>
-                        {verbose}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
-              </FormControl>
+              <TextField
+                value={formik.values.direction}
+                onChange={formik.handleChange}
+                error={formik.touched.direction && Boolean(formik.errors.direction)}
+                name="direction"
+                label="Direction"
+              >
+                {[
+                  tuple('Forward', SeqAnnotationDirectionsEnum.FORWARD),
+                  tuple('Reverse', SeqAnnotationDirectionsEnum.REVERSE)
+                ].map(([verbose, value]) => {
+                  return (
+                    <MenuItem value={value} key={value} id={value}>
+                      {verbose}
+                    </MenuItem>
+                  );
+                })}
+              </TextField>
 
               {formik.values.type === 'DNA_OLIGO' && (
                 <TextField
@@ -245,7 +239,7 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
                   </InputLabel>
                   <FieldArray name="cleavageSites">
                     {({ insert, remove, push }) => (
-                      <div>
+                      <div className={classes.root}>
                         {formik.values.cleavageSites.length > 0 &&
                           formik.values.cleavageSites.map((friend, index) => (
                             <div className="row" key={index}>
@@ -311,7 +305,7 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
               </InputLabel>
               <FieldArray name="locations">
                 {({ insert, remove, push }) => (
-                  <div>
+                  <div className={classes.root}>
                     {formik.values.locations.length > 0 &&
                       formik.values.locations.map((friend, index) => (
                         <div className="row" key={index}>

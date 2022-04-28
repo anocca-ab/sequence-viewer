@@ -4,7 +4,7 @@
 
 ```ts
 
-/// <reference types="@types/react" />
+/// <reference types="react" />
 
 import { Annotation } from '@anocca/sequence-viewer-utils';
 import { AnnotationFormProps } from '@anocca/sequence-viewer-utils';

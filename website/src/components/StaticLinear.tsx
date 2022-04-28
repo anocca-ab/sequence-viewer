@@ -19,7 +19,7 @@ import {
   Annotation
 } from '@anocca/sequence-viewer-utils';
 import { useCanvas } from '@anocca/sequence-viewer-react-shared';
-import { Slider } from '@material-ui/core';
+import { Slider } from '@mui/material';
 
 export const StaticLinear = ({
   w = 640,

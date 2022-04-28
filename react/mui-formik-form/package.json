@@ -20,19 +20,25 @@
     "@rushstack/heft": "^0.35.0",
     "typescript": "4.3.5",
     "@anocca/sequence-viewer-common-rig": "1.0.0",
-    "@material-ui/core": "^4.11.4",
     "react-icons": "3.11.0",
     "react": "17.0.2",
     "@types/react": "17.0.15",
-    "formik": "~2.2.9"
+    "formik": "~2.2.9",
+    "@mui/material": "~5.6.3",
+    "@mui/styles": "~5.6.2",
+    "@emotion/react": "~11.9.0",
+    "@emotion/styled": "~11.8.1"
   },
   "dependencies": {
     "@anocca/sequence-viewer-utils": "4.0.0"
   },
   "peerDependencies": {
-    "@material-ui/core": "4.x",
     "react-icons": "*",
     "react": "*",
-    "formik": "2.x"
+    "formik": "2.x",
+    "@mui/material": "5.x",
+    "@mui/styles": "5.x",
+    "@emotion/react": "11.x",
+    "@emotion/styled": "11.x"
   }
 }

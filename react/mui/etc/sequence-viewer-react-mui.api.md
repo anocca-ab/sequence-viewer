@@ -4,6 +4,8 @@
 
 ```ts
 
+/// <reference types="react" />
+
 import { CircularSelection } from '@anocca/sequence-viewer-utils';
 import { SearchComponent } from '@anocca/sequence-viewer-react-shared';
 import { SeqAnnotationDirectionsEnum } from '@anocca/sequence-viewer-utils';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { getReverseComplement, SearchResult, sequenceMatch } from '@anocca/sequence-viewer-utils';
-import { ClickAwayListener, IconButton, Input, Tooltip } from '@material-ui/core';
+import { ClickAwayListener, IconButton, Input, Tooltip } from '@mui/material';
 import { AiOutlineQuestionCircle } from 'react-icons/ai';
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 import { IoIosSearch } from 'react-icons/io';
