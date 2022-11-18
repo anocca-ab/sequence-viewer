@@ -34,8 +34,8 @@ export default function Home() {
 
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />"
+      title={`${siteConfig.title}`}
+      description="A DNA and protein sequence viewer"
     >
       <HomepageHeader />
       <main style={{ paddingTop: '24px', paddingBottom: '24px', textAlign: 'center' }}>
