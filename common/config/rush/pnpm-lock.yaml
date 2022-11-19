@@ -4,6 +4,7 @@ specifiers:
   '@docusaurus/core': 2.0.0-beta.15
   '@docusaurus/module-type-aliases': ^2.0.0-beta.4
   '@docusaurus/preset-classic': 2.0.0-beta.15
+  '@docusaurus/theme-classic': ^2.0.0-beta.4
   '@docusaurus/theme-live-codeblock': 2.0.0-beta.15
   '@mdx-js/react': ^1.6.21
   '@microsoft/api-documenter': 7.13.4
@@ -49,6 +50,7 @@ dependencies:
   '@docusaurus/core': 2.0.0-beta.15_e45b7434b4551d95649a8954dd4b0749
   '@docusaurus/module-type-aliases': 2.0.0-beta.18_react-dom@17.0.2+react@17.0.2
   '@docusaurus/preset-classic': 2.0.0-beta.15_f820d6702076c46a48b85ca3234c4872
+  '@docusaurus/theme-classic': 2.0.0-beta.15_e45b7434b4551d95649a8954dd4b0749
   '@docusaurus/theme-live-codeblock': 2.0.0-beta.15_e45b7434b4551d95649a8954dd4b0749
   '@mdx-js/react': 1.6.22_react@17.0.2
   '@microsoft/api-documenter': 7.13.4
@@ -7894,7 +7896,7 @@ packages:
     dev: false
 
   /is-in-browser/1.1.3:
-    resolution: {integrity: sha1-Vv9NtoOgeMYILrldrX3GLh0E+DU=}
+    resolution: {integrity: sha512-FeXIBgG/CPGd/WUxuEyvgGTEfwiG9Z4EKGxjNMRqviiIIfsmgrpnHLffEDdwUHqNva1VEW91o3xBT/m8Elgl9g==}
     dev: false
 
   /is-installed-globally/0.4.0:
@@ -13110,7 +13112,7 @@ packages:
     dev: false
 
   file:projects/sequence-viewer-app.tgz_react-dom@17.0.2:
-    resolution: {integrity: sha512-vIXdpgvqpqaOWY9P6x5p/hVwR9lEkxalffaniuTFmSbLXXAWaMdxWFs781sPIW5n95JM1AOC28mJCLqrDSSf3w==, tarball: file:projects/sequence-viewer-app.tgz}
+    resolution: {integrity: sha512-AwMHI43hGt8+54BWjwGO1JBAhx9PbJW1I9rl3R8GONJSj+r4k47iPYmwOtCn0x/Y1AmrEDqnDKPQnj2fdmGmRw==, tarball: file:projects/sequence-viewer-app.tgz}
     id: file:projects/sequence-viewer-app.tgz
     name: '@rush-temp/sequence-viewer-app'
     version: 0.0.0
@@ -13131,7 +13133,7 @@ packages:
     dev: false
 
   file:projects/sequence-viewer-backend-react-state.tgz:
-    resolution: {integrity: sha512-OLhH3bWEU+uMUsyZQej2IXPmKE3+AQZQ8K2HUmHLVGl+n9iwZQpN7xB0sJ8Bff0X1urXcxkqll6dwIzh7Ux3rg==, tarball: file:projects/sequence-viewer-backend-react-state.tgz}
+    resolution: {integrity: sha512-+6liqnzdO9L6xX6TOET88ErokibAvxCvN3VGDZ5nWdnzMnnszNeNT7vogqCsrzC10MLWv5e7p1qKXvRuZnn9uw==, tarball: file:projects/sequence-viewer-backend-react-state.tgz}
     name: '@rush-temp/sequence-viewer-backend-react-state'
     version: 0.0.0
     dependencies:
@@ -13160,7 +13162,7 @@ packages:
     dev: false
 
   file:projects/sequence-viewer-react-circular.tgz:
-    resolution: {integrity: sha512-xa4RThamRI0YTlqMX32bypEcZ7w/GX1zGlB/ZFnzL+nF+S71oFlhPYuPV1HT5Z0oa7akwHf50eA8eNRWMbGsWw==, tarball: file:projects/sequence-viewer-react-circular.tgz}
+    resolution: {integrity: sha512-eN7XzyjvNgWGNNtW8cWN9vpUyxky8j1dpCEjtY8njog9a/lU7PcZA1OC8xM75D0P5rpNFoq916dwE1A8T36+QA==, tarball: file:projects/sequence-viewer-react-circular.tgz}
     name: '@rush-temp/sequence-viewer-react-circular'
     version: 0.0.0
     dependencies:
@@ -13171,7 +13173,7 @@ packages:
     dev: false
 
   file:projects/sequence-viewer-react-linear.tgz:
-    resolution: {integrity: sha512-vCWDk304GKkeOREjWioZkASwxgM3ZQ1N9yZnNYN14jkz40QA1HWIoJyzE+nwqpiMFTF44l74oebTiFk8jMUHRQ==, tarball: file:projects/sequence-viewer-react-linear.tgz}
+    resolution: {integrity: sha512-Xyt399P+yrtbyr3ITRGZTni6zAZO/+X6HeJwBogc2B/1UqBuIi/eZFi6brtKkKV1mRiUIkz7n7bT047T8DNJVA==, tarball: file:projects/sequence-viewer-react-linear.tgz}
     name: '@rush-temp/sequence-viewer-react-linear'
     version: 0.0.0
     dependencies:
@@ -13182,7 +13184,7 @@ packages:
     dev: false
 
   file:projects/sequence-viewer-react-mui-formik-form.tgz_react-dom@17.0.2:
-    resolution: {integrity: sha512-X71b+vhVFdVQhfril+F7tg+XHpwqhaGDo6KEJfU7YVj/1zW6B1AcbKzaJRbqZSfgQ1diKAIcuVjceKwif3r1CQ==, tarball: file:projects/sequence-viewer-react-mui-formik-form.tgz}
+    resolution: {integrity: sha512-R9j3KWhO6cGfHhSh6oR71KKn4g/8jhnDFXyE9JjyPEpM76PYHcd2qMR5WSN5Jv2Ys41YbcEvyDClep2AzmOcMw==, tarball: file:projects/sequence-viewer-react-mui-formik-form.tgz}
     id: file:projects/sequence-viewer-react-mui-formik-form.tgz
     name: '@rush-temp/sequence-viewer-react-mui-formik-form'
     version: 0.0.0
@@ -13203,7 +13205,7 @@ packages:
     dev: false
 
   file:projects/sequence-viewer-react-mui.tgz_react-dom@17.0.2:
-    resolution: {integrity: sha512-HoBmrWijqbqSmLk5VDwqjb2F7Lb6ZEGOWPdyTDDT2xOmIR4YSRlwdprsXOk6l59ZFLqJ9sXOMepGTbEWfDaBCA==, tarball: file:projects/sequence-viewer-react-mui.tgz}
+    resolution: {integrity: sha512-To9n3MqG35+I4ibpC4UGMPFcdde1xzeDVSiJC4G4J+Lc+eMJP0V2BDsYa3W2C/POgA4ZPhfd4M0+tODeFmpllQ==, tarball: file:projects/sequence-viewer-react-mui.tgz}
     id: file:projects/sequence-viewer-react-mui.tgz
     name: '@rush-temp/sequence-viewer-react-mui'
     version: 0.0.0
@@ -13223,7 +13225,7 @@ packages:
     dev: false
 
   file:projects/sequence-viewer-react-shared.tgz:
-    resolution: {integrity: sha512-292c+m9/8D8hJ1Tb0IZMdYWpjcYJ7cJLqNN9lJnaODuOyKdTdJ2mmbsLIB8/Z4/2rWbUg+Maw83wKjh2EDDuug==, tarball: file:projects/sequence-viewer-react-shared.tgz}
+    resolution: {integrity: sha512-/3FqbvBPoJicSLe1DQKAScFRxPiwV+gTj4N7CVRMc9ugsYqC7QjMF5w4Ji2KvlaoL5LxduElDk+Cl913VEenaQ==, tarball: file:projects/sequence-viewer-react-shared.tgz}
     name: '@rush-temp/sequence-viewer-react-shared'
     version: 0.0.0
     dependencies:
@@ -13234,7 +13236,7 @@ packages:
     dev: false
 
   file:projects/sequence-viewer-render-circular.tgz:
-    resolution: {integrity: sha512-nE1+kaca3GnZ2d/6CU+OskEgfu/VVWwkRs3roNt1F0l7ln11x3W4t5/JrCWi57sjKKmS4QHn2h3YnVny8T8g7Q==, tarball: file:projects/sequence-viewer-render-circular.tgz}
+    resolution: {integrity: sha512-ALAORMhwwLnKzxnoZfBmyX/WA/ZduzFKzo9sMiT52ABU4q5Q22if0VjLoiyqUJk2ANgbUelvuXbIA0y9P1uBFg==, tarball: file:projects/sequence-viewer-render-circular.tgz}
     name: '@rush-temp/sequence-viewer-render-circular'
     version: 0.0.0
     dependencies:
@@ -13243,7 +13245,7 @@ packages:
     dev: false
 
   file:projects/sequence-viewer-render-linear.tgz:
-    resolution: {integrity: sha512-G/5ttpubxvD4kTETVr8fwibIm6U9i6e4X8M41E9DeJ/q5xeTBUVUTxjkjVkOWpykg13RBFvi5yvbBGiS8PcbtQ==, tarball: file:projects/sequence-viewer-render-linear.tgz}
+    resolution: {integrity: sha512-n3QZj0L5fxzWJ7BCYZU0xONu6WJg66/kR7ncVWkc4D8/83s8HAUgSAZw6dO2iwMlaz0cuAnq9rFDGPo3xeEC/g==, tarball: file:projects/sequence-viewer-render-linear.tgz}
     name: '@rush-temp/sequence-viewer-render-linear'
     version: 0.0.0
     dependencies:
@@ -13261,7 +13263,7 @@ packages:
     dev: false
 
   file:projects/sequence-viewer-website.tgz_eslint@7.30.0:
-    resolution: {integrity: sha512-uP7MUepHqRKdG+C1OevOMscI4I1X/K6rI4oSUNjh+ET5VQTfwb2uS18L9C9Nnd6eT7ciQKLDl/s+J5+7r3q61A==, tarball: file:projects/sequence-viewer-website.tgz}
+    resolution: {integrity: sha512-O4dw+BuxX9rcGU/6uA0abc0eeUlTdBikWZ+seZG2sNhAOnPKLnAVefytqX96fusbG+OKHWwTwfcUoUfJM1Bj/Q==, tarball: file:projects/sequence-viewer-website.tgz}
     id: file:projects/sequence-viewer-website.tgz
     name: '@rush-temp/sequence-viewer-website'
     version: 0.0.0
@@ -13269,6 +13271,7 @@ packages:
       '@docusaurus/core': 2.0.0-beta.15_e45b7434b4551d95649a8954dd4b0749
       '@docusaurus/module-type-aliases': 2.0.0-beta.18_react-dom@17.0.2+react@17.0.2
       '@docusaurus/preset-classic': 2.0.0-beta.15_f820d6702076c46a48b85ca3234c4872
+      '@docusaurus/theme-classic': 2.0.0-beta.15_e45b7434b4551d95649a8954dd4b0749
       '@docusaurus/theme-live-codeblock': 2.0.0-beta.15_e45b7434b4551d95649a8954dd4b0749
       '@emotion/react': 11.9.0_5801e6465414ef85acbf5710ce4c0dcf
       '@emotion/styled': 11.8.1_3f8bb9aa189aa0545bff8dc1d058f957
@@ -13277,6 +13280,7 @@ packages:
       '@mui/styles': 5.6.2_5801e6465414ef85acbf5710ce4c0dcf
       '@svgr/webpack': 5.5.0
       '@tsconfig/docusaurus': 1.0.5
+      '@types/node': 10.17.13
       '@types/react': 17.0.15
       '@types/react-helmet': 6.1.5
       '@types/react-router-dom': 5.3.3

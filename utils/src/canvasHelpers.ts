@@ -89,7 +89,9 @@ export const getTextColor = (background: string) => {
     }
   }
   if (!offScreenContext) {
-    offScreenContext = offScreenCanavs.getContext('2d');
+    offScreenContext = offScreenCanavs.getContext('2d', {
+      willReadFrequently: true
+    } as any as undefined);
   }
   const c = offScreenContext;
   if (c) {

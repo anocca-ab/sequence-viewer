@@ -2,6 +2,30 @@
   "name": "@anocca/sequence-viewer-app",
   "entries": [
     {
+      "version": "6.0.1",
+      "tag": "@anocca/sequence-viewer-app_v6.0.1",
+      "date": "Sat, 19 Nov 2022 09:05:26 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-react-circular\" from `5.0.2` to `5.0.3`"
+          },
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-react-linear\" from `5.0.2` to `5.0.3`"
+          },
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `4.0.1` to `4.0.2`"
+          },
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-react-mui\" from `5.0.0` to `5.0.1`"
+          },
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-react-shared\" from `4.0.2` to `4.0.3`"
+          }
+        ]
+      }
+    },
+    {
       "version": "6.0.0",
       "tag": "@anocca/sequence-viewer-app_v6.0.0",
       "date": "Thu, 28 Apr 2022 15:41:04 GMT",

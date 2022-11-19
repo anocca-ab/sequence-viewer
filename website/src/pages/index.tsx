@@ -34,7 +34,7 @@ export default function Home() {
 
   return (
     <Layout
-      title={`${siteConfig.title}`}
+      title="Home"
       description="A DNA and protein sequence viewer"
     >
       <HomepageHeader />

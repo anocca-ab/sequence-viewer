@@ -1,6 +1,13 @@
 # Change Log - @anocca/sequence-viewer-utils
 
-This log was last generated on Thu, 28 Apr 2022 15:41:04 GMT and should not be manually modified.
+This log was last generated on Sat, 19 Nov 2022 09:05:26 GMT and should not be manually modified.
+
+## 4.0.2
+Sat, 19 Nov 2022 09:05:26 GMT
+
+### Patches
+
+- add the willReadFrequently optimization option on the canvas used for calculating text color
 
 ## 4.0.1
 Thu, 28 Apr 2022 15:41:04 GMT

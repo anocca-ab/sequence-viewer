@@ -1,6 +1,6 @@
 {
   "name": "@anocca/sequence-viewer-render-circular",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "",
   "main": "lib-commonjs/index.js",
   "module": "lib/index.js",
@@ -22,6 +22,6 @@
     "typescript": "4.3.5"
   },
   "dependencies": {
-    "@anocca/sequence-viewer-utils": "4.0.1"
+    "@anocca/sequence-viewer-utils": "4.0.2"
   }
 }

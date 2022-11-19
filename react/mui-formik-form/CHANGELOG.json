@@ -2,6 +2,23 @@
   "name": "@anocca/sequence-viewer-react-mui-formik-form",
   "entries": [
     {
+      "version": "5.0.1",
+      "tag": "@anocca/sequence-viewer-react-mui-formik-form_v5.0.1",
+      "date": "Sat, 19 Nov 2022 09:05:26 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "vertically center a button"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `4.0.1` to `4.0.2`"
+          }
+        ]
+      }
+    },
+    {
       "version": "5.0.0",
       "tag": "@anocca/sequence-viewer-react-mui-formik-form_v5.0.0",
       "date": "Thu, 28 Apr 2022 15:41:04 GMT",

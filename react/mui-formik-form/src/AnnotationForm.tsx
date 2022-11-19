@@ -345,7 +345,7 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
                               }
                             />
                           </div>
-                          <div className="col">
+                          <div className="col" style={{ display: 'flex', alignItems: 'center' }}>
                             <IconButton onClick={() => remove(index)}>
                               <MdClose />
                             </IconButton>
