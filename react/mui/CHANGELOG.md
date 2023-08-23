@@ -1,6 +1,13 @@
 # Change Log - @anocca/sequence-viewer-react-mui
 
-This log was last generated on Sat, 19 Nov 2022 09:05:26 GMT and should not be manually modified.
+This log was last generated on Wed, 23 Aug 2023 14:55:39 GMT and should not be manually modified.
+
+## 5.0.2
+Wed, 23 Aug 2023 14:55:39 GMT
+
+### Patches
+
+- Remove @mui/styles dependency
 
 ## 5.0.1
 Sat, 19 Nov 2022 09:05:26 GMT

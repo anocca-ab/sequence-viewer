@@ -2,6 +2,23 @@
   "name": "@anocca/sequence-viewer-app",
   "entries": [
     {
+      "version": "6.0.2",
+      "tag": "@anocca/sequence-viewer-app_v6.0.2",
+      "date": "Wed, 23 Aug 2023 14:55:39 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Remove @mui/styles dependency"
+          }
+        ],
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-react-mui\" from `5.0.1` to `5.0.2`"
+          }
+        ]
+      }
+    },
+    {
       "version": "6.0.1",
       "tag": "@anocca/sequence-viewer-app_v6.0.1",
       "date": "Sat, 19 Nov 2022 09:05:26 GMT",

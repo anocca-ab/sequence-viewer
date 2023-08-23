@@ -2,6 +2,18 @@
   "name": "@anocca/sequence-viewer-react-mui",
   "entries": [
     {
+      "version": "5.0.2",
+      "tag": "@anocca/sequence-viewer-react-mui_v5.0.2",
+      "date": "Wed, 23 Aug 2023 14:55:39 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Remove @mui/styles dependency"
+          }
+        ]
+      }
+    },
+    {
       "version": "5.0.1",
       "tag": "@anocca/sequence-viewer-react-mui_v5.0.1",
       "date": "Sat, 19 Nov 2022 09:05:26 GMT",

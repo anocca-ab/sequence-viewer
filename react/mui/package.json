@@ -1,6 +1,6 @@
 {
   "name": "@anocca/sequence-viewer-react-mui",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "",
   "main": "lib-commonjs/index.js",
   "module": "lib/index.js",
