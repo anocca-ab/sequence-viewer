@@ -20,7 +20,6 @@ import {
   Select,
   IconButton
 } from '@mui/material';
-import { makeStyles, createStyles } from '@mui/styles';
 import { Formik, Form, Field, ErrorMessage, FieldArray, getIn } from 'formik';
 import { MdClose } from 'react-icons/md';
 
@@ -29,16 +28,7 @@ const getUuid = (a: string = ''): string =>
     ? ((Number(a) ^ (Math.random() * 16)) >> (Number(a) / 4)).toString(16)
     : `${1e7}-${1e3}-${4e3}-${8e3}-${1e11}`.replace(/[018]/g, getUuid);
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      '& > *': {
-        marginBottom: 16
-      }
-    }
-  })
-);
-
+const childStyle = { marginBottom: 16 };
 /**
  * Form component to create or edit an Annotation.
  *
@@ -61,8 +51,6 @@ const useStyles = makeStyles((theme: Theme) =>
  * @public
  */
 export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFormProps) => {
-  const classes = useStyles();
-
   return (
     <>
       <DialogTitle>{title}</DialogTitle>
@@ -103,7 +91,7 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
           }}
         >
           {(formik) => (
-            <form onSubmit={formik.handleSubmit} className={classes.root}>
+            <form onSubmit={formik.handleSubmit}>
               <TextField
                 fullWidth
                 id="label"
@@ -113,13 +101,14 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
                 onChange={formik.handleChange}
                 error={formik.touched.label && Boolean(formik.errors.label)}
                 helperText={formik.touched.label && formik.errors.label}
+                style={childStyle}
               />
               <TextField
                 id="color"
                 name="color"
                 label="Color"
                 type="color"
-                style={{ width: '100px' }}
+                style={{ width: '100px', ...childStyle }}
                 inputProps={{ style: { height: 32, margin: 0, padding: 4 } }}
                 value={formik.values.color}
                 onChange={formik.handleChange}
@@ -127,7 +116,7 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
                 helperText={formik.touched.color && formik.errors.color}
               />
 
-              <div>
+              <div style={childStyle}>
                 <ErrorMessage name={'displayAsSequence'} />
                 <FormControlLabel
                   control={
@@ -142,7 +131,7 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
                 />
               </div>
 
-              <div>
+              <div style={childStyle}>
                 <ErrorMessage name={'hidden'} />
                 <FormControlLabel
                   control={
@@ -166,6 +155,7 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
                 onChange={formik.handleChange}
                 error={formik.touched.rightTag && Boolean(formik.errors.rightTag)}
                 helperText={formik.touched.rightTag && formik.errors.rightTag}
+                style={childStyle}
               />
 
               <TextField
@@ -177,11 +167,13 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
                 onChange={formik.handleChange}
                 error={formik.touched.displayLabel && Boolean(formik.errors.displayLabel)}
                 helperText={formik.touched.displayLabel && formik.errors.displayLabel}
+                style={childStyle}
               />
 
               <TextField
                 value={formik.values.type}
                 onChange={formik.handleChange}
+                style={childStyle}
                 error={formik.touched.type && Boolean(formik.errors.type)}
                 select
                 name="type"
@@ -206,6 +198,7 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
                 error={formik.touched.direction && Boolean(formik.errors.direction)}
                 name="direction"
                 label="Direction"
+                style={childStyle}
               >
                 {[
                   tuple('Forward', SeqAnnotationDirectionsEnum.FORWARD),
@@ -221,6 +214,7 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
 
               {formik.values.type === 'DNA_OLIGO' && (
                 <TextField
+                  style={childStyle}
                   fullWidth
                   id="fivePExtension"
                   name="fivePExtension"
@@ -234,15 +228,15 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
 
               {formik.values.type === 'DNA_RE_NUC' && (
                 <>
-                  <InputLabel id="select-cleavageSites" shrink>
+                  <InputLabel id="select-cleavageSites" shrink style={childStyle}>
                     Cleavage sites
                   </InputLabel>
                   <FieldArray name="cleavageSites">
                     {({ insert, remove, push }) => (
-                      <div className={classes.root}>
+                      <div style={childStyle}>
                         {formik.values.cleavageSites.length > 0 &&
                           formik.values.cleavageSites.map((friend, index) => (
-                            <div className="row" key={index}>
+                            <div className="row" key={index} style={childStyle}>
                               <div className="col">
                                 <TextField
                                   id={`cleavageSites.${index}.0`}
@@ -305,10 +299,10 @@ export const AnnotationForm = ({ onSubmit, initialValues, title }: AnnotationFor
               </InputLabel>
               <FieldArray name="locations">
                 {({ insert, remove, push }) => (
-                  <div className={classes.root}>
+                  <div style={childStyle}>
                     {formik.values.locations.length > 0 &&
                       formik.values.locations.map((friend, index) => (
-                        <div className="row" key={index}>
+                        <div className="row" key={index} style={childStyle}>
                           <div className="col">
                             <TextField
                               id={`locations.${index}.0`}
