@@ -1,5 +1,5 @@
 import { useCanvas, useDOMListeners } from './hooks';
-import { SearchComponent } from './types';
+import { FilterChromatogramType, SearchComponent } from './types';
 import {
   getSelectionDeltaAngle,
   isInSelection,
@@ -54,6 +54,7 @@ export const useController = ({
   allAnnotations,
   codons,
   Search,
+  FilterChromatogram,
   openAnnotationDialog
 }: {
   ref: React.ForwardedRef<SequenceControllerRef>;
@@ -63,6 +64,7 @@ export const useController = ({
   allAnnotations: Annotations;
   codons: { [k: string]: string };
   Search?: SearchComponent;
+  FilterChromatogram?: FilterChromatogramType;
   openAnnotationDialog?: (annotationId: string) => void;
   draw: DrawFunction;
   zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
@@ -104,6 +106,14 @@ export const useController = ({
 
   const [ratio, setRatio] = React.useState<undefined | number>(undefined);
 
+  const [filterChromOptions, setFilterChromOptions] = React.useState<string[]>([
+    'A',
+    'C',
+    'G',
+    'T',
+    'phred'
+  ])
+
   React.useEffect(() => {
     if (context) {
       setRatio(getRatio(context).ratio);
@@ -140,7 +150,8 @@ export const useController = ({
         hoveringFeature,
         clickedFeatures: selectedAnnotations
       },
-      isProtein
+      isProtein,
+      filterChromOptions,
       chromatogramData
     });
     setHoveringFeature(_hoveringFeature);
@@ -369,7 +380,8 @@ export const useController = ({
     clickedAnnotation,
     sequence,
     codons,
-    searchResults
+    searchResults,
+    filterChromOptions
   ]);
   React.useLayoutEffect(() => {
     renderRef.current();
@@ -416,12 +428,19 @@ export const useController = ({
     />
   );
 
+  const filterChromatogram = chromatogramData && FilterChromatogram && (
+    <FilterChromatogram
+      optionsToRender={filterChromOptions}
+      setOptionsToRender={(options: string[]) => setFilterChromOptions(options)}
+    />
+  )
   return {
     canvas,
     selectedAnnotations,
     circularSelection,
     clickedAnnotation,
     search,
+    filterChromatogram,
     canvasRef,
     zoomToSearchResult,
     setSearchResults

@@ -149,6 +149,7 @@ export type DrawFunction = (props: {
         active: boolean;
         complement: boolean;
     }[];
+    filterChromOptions: string[];
     annotationLevels: Annotations[];
     renderStateRef: {
         clickedFeatures: string[];

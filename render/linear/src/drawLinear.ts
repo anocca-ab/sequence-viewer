@@ -56,6 +56,7 @@ export const drawLinear: DrawFunction = ({
   data,
   renderStateRef,
   searchResults,
+  filterChromOptions,
   isProtein,
   chromatogramData,
   circularSelection,
@@ -899,6 +900,7 @@ export const drawLinear: DrawFunction = ({
   if (chromatogramData) {
     const peakLocations = chromatogramData.peakLocations
     Object.entries(chromatogramData)
+      .filter(([key, _]) => key.includes("Trace") && filterChromOptions.includes(key.charAt(0).toUpperCase()))
       .forEach(([key, data]) => {
         if (typeof data === "string" || !key.includes("Trace")) return
         const traceData = data

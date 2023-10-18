@@ -24,12 +24,14 @@ export type ControllerProps = {
         [k: string]: string;
     };
     Search?: SearchComponent;
+    FilterChromatogram?: FilterChromatogramType;
     openAnnotationDialog?: (annotationId: string) => void;
     isProtein: boolean;
     chromatogramData?: ChromatogramData;
     children?: (props: {
         canvas: React.ReactNode;
         search?: React.ReactNode;
+        filterChromatogram?: React.ReactNode;
         selectedAnnotations: string[];
         circularSelections: CircularSelection[];
         clickedAnnotation?: string;
@@ -43,6 +45,12 @@ export type ControllerProps = {
         }[]>) => void;
     }) => React.ReactNode;
 };
+
+// @public
+export type FilterChromatogramType = ({ optionsToRender, setOptionsToRender, }: {
+    optionsToRender: string[];
+    setOptionsToRender: (options: string[]) => void;
+}) => JSX.Element;
 
 // @internal
 export const Flex: ({ children, style, alignItems, justifyContent }: {
@@ -75,6 +83,7 @@ export const useController: ({ isProtein, chromatogramData, clickedAnnotation, r
         [k: string]: string;
     };
     Search?: SearchComponent | undefined;
+    FilterChromatogram?: FilterChromatogramType | undefined;
     openAnnotationDialog?: ((annotationId: string) => void) | undefined;
     draw: DrawFunction;
     zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
@@ -93,6 +102,7 @@ export const useController: ({ isProtein, chromatogramData, clickedAnnotation, r
     circularSelection: CircularSelection[];
     clickedAnnotation: string | undefined;
     search: JSX.Element | undefined;
+    filterChromatogram: JSX.Element | undefined;
     canvasRef: (buffer: HTMLCanvasElement | null) => void;
     zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
     setSearchResults: React_2.Dispatch<React_2.SetStateAction<SearchResult[]>>;

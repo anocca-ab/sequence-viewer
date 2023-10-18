@@ -28,6 +28,7 @@ export const LinearController = React.forwardRef<SequenceControllerRef, Controll
       annotations: allAnnotations,
       codons,
       Search,
+      FilterChromatogram,
       children: renderLayout,
       openAnnotationDialog,
       isProtein,
@@ -41,6 +42,7 @@ export const LinearController = React.forwardRef<SequenceControllerRef, Controll
       circularSelection,
       clickedAnnotation,
       search,
+      filterChromatogram,
       canvasRef,
       zoomToSearchResult,
       setSearchResults
@@ -52,6 +54,7 @@ export const LinearController = React.forwardRef<SequenceControllerRef, Controll
       allAnnotations,
       codons,
       Search,
+      FilterChromatogram,
       openAnnotationDialog,
       isProtein,
       chromatogramData
@@ -66,6 +69,7 @@ export const LinearController = React.forwardRef<SequenceControllerRef, Controll
             circularSelections: circularSelection,
             clickedAnnotation,
             search,
+            filterChromatogram,
             canvasRef,
             zoomToSearchResult,
             setSearchResults

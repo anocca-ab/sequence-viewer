@@ -8,7 +8,7 @@ import {
   AnnotationFormProps,
   ChromatogramData
 } from '@anocca/sequence-viewer-utils';
-import { Search, Toolbar } from '@anocca/sequence-viewer-react-mui';
+import { Search, Toolbar, FilterChromatogram } from '@anocca/sequence-viewer-react-mui';
 import { Flex } from '@anocca/sequence-viewer-react-shared';
 import { Theme, Chip, Dialog, Snackbar, IconButton, Typography, Grid, Switch } from '@mui/material';
 import { MdClose } from 'react-icons/md';
@@ -129,12 +129,13 @@ export const SequenceViewerApp = (props: {
         codons={humanCodons}
         sequence={props.sequence}
         Search={Search}
+        FilterChromatogram={FilterChromatogram}
         openAnnotationDialog={(id) => {
           const annotation = props.getAnnotationById(id);
           setEditAnnotation(annotation);
         }}
       >
-        {({ canvas, search, selectedAnnotations, circularSelections, clickedAnnotation }) => (
+        {({ canvas, search, filterChromatogram, selectedAnnotations, circularSelections, clickedAnnotation }) => (
           <div style={{ margin: 'auto', maxWidth: props.width + 'px' }}>
             <Flex justifyContent="space-between" style={{ maxWidth: props.width + 'px' }}>
               <Flex style={{ position: 'relative', zIndex: 1 }}>
@@ -156,7 +157,10 @@ export const SequenceViewerApp = (props: {
                   }}
                 />
               </Flex>
-              {search}
+              <Flex style={{ flexDirection: 'column', paddingBottom: '16px', gap: '8px' }}>
+                {search}
+                {filterChromatogram}
+              </Flex>
             </Flex>
             <div style={{ position: 'relative' }}>
               {canvas}
