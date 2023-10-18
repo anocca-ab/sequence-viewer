@@ -42,8 +42,8 @@ export const SequenceViewerApp = (props: {
   >(undefined);
   const [editAnnotation, setEditAnnotation] = React.useState<
     | {
-      [k in keyof Annotation]?: Annotation[k];
-    }
+        [k in keyof Annotation]?: Annotation[k];
+      }
     | undefined
   >(undefined);
 
@@ -135,7 +135,14 @@ export const SequenceViewerApp = (props: {
           setEditAnnotation(annotation);
         }}
       >
-        {({ canvas, search, filterChromatogram, selectedAnnotations, circularSelections, clickedAnnotation }) => (
+        {({
+          canvas,
+          search,
+          filterChromatogram,
+          selectedAnnotations,
+          circularSelections,
+          clickedAnnotation
+        }) => (
           <div style={{ margin: 'auto', maxWidth: props.width + 'px' }}>
             <Flex justifyContent="space-between" style={{ maxWidth: props.width + 'px' }}>
               <Flex style={{ position: 'relative', zIndex: 1 }}>

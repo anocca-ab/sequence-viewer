@@ -433,7 +433,8 @@ export const useController = ({
       optionsToRender={filterChromOptions}
       setOptionsToRender={(options: string[]) => setFilterChromOptions(options)}
     />
-  )
+  );
+
   return {
     canvas,
     selectedAnnotations,
