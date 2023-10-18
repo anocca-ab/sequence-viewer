@@ -181,6 +181,85 @@ export const drawLinear: DrawFunction = ({
     }
   }
 
+  // Chromatogram functions
+  const GRAPH_PADDING = 5
+  const NORMALIZATION_WINDOW = 4
+  const relativeHeight = (height: number, yInterval: number) => {
+    const topWithPadding = topAreaHeight - baseHeight / 2;
+    const y = (topWithPadding) * (1 - height / yInterval);
+    return y - topWithPadding;
+  }
+
+  const interpolatedXAxis = (peakLocations: number[]) => {
+    const newAxis = [];
+    for (let i = 0; i <= peakLocations.length; i++) {
+      const interval = i > 0 ? peakLocations[i] - peakLocations[i - 1] : peakLocations[i];
+      for (let iInt = 0; iInt < interval; iInt++) {
+        const increment = iInt / interval;
+        const newX = i + increment;
+        newAxis.push(newX);
+      }
+      if (i === peakLocations.length) newAxis.push(i);
+    }
+    return newAxis;
+  }
+
+  const mostRelevantMax = (chromatogramData: ChromatogramData) => {
+    const maxPhred = Math.max(...chromatogramData.phred)
+    const maxReference = maxPhred - Math.sqrt(maxPhred)
+    const peaks = (traceData: number[]) => chromatogramData.peakLocations
+      .map(location => traceData[location])
+      .filter((peak, idx) => {
+        const phreds = chromatogramData.phred
+        if (idx > NORMALIZATION_WINDOW || idx < phreds.length - NORMALIZATION_WINDOW) {
+          let sum = 0
+          for (let i = idx - NORMALIZATION_WINDOW; i < idx + NORMALIZATION_WINDOW; i++) {
+            sum += phreds[i]
+          }
+          const average = sum / (2 * NORMALIZATION_WINDOW)
+          return average > maxReference
+        }
+        return false;
+      })
+
+    const cleanData = [
+      ...peaks(chromatogramData.aTrace),
+      ...peaks(chromatogramData.cTrace),
+      ...peaks(chromatogramData.gTrace),
+      ...peaks(chromatogramData.tTrace)
+    ]
+    return Math.max(...cleanData);
+  }
+
+  const drawChromatogram = ({
+    base,
+    iInterpol,
+    iNext,
+    value,
+    nextValue,
+    top,
+    yMax
+  }: {
+    base: string,
+    iInterpol: number,
+    iNext: number,
+    value: number,
+    nextValue: number,
+    top: number,
+    yMax: number
+  }) => {
+    const padding = dynamicFontSize + GRAPH_PADDING;
+    const x = (ix: number) => getIndexBaseX(ix) - baseWidth / 2;
+    const y = (value: number) => (top - padding) * (1 - value / yMax) - m.f;
+    const color = getBaseColor(isProtein, base);
+    c.lineWidth = 1;
+    c.strokeStyle = color;
+    c.beginPath();
+    c.moveTo(transformX(x(iInterpol)), transformY(y(value)));
+    c.lineTo(transformX(x(iNext)), transformY(y(nextValue)));
+    c.stroke();
+  }
+
   const drawBase = ({
     base,
     i,
@@ -207,6 +286,15 @@ export const drawLinear: DrawFunction = ({
       const _base = getBaseName(level, isProtein, base);
       c.font = getFont(dynamicFontSize, 'bold');
       drawNonScaledText(_base, xStart + baseWidth / 2, top, align, 'center');
+    }
+    if (chromatogramData) {
+      if (!filterChromOptions.includes('phred')) return
+      const phreds = chromatogramData.phred;
+      const yMax = Math.max(...phreds);
+      const y = relativeHeight(phreds[i], yMax);
+      c.lineWidth = 1;
+      c.strokeStyle = "rgba(0, 0, 0, 0.075)";
+      c.strokeRect(transformX(xStart), transformY(top), baseWidth * m.a, y);
     }
   };
 
@@ -789,7 +877,7 @@ export const drawLinear: DrawFunction = ({
     dynamicFontSize * 2 +
     (complement
       ? (getSelectionDelta(len, true, selectionOver!.start, selectionOver!.end) >= 3 ? 2 : 1) *
-        dynamicFontSize
+      dynamicFontSize
       : 0);
   if (isProtein) {
     ca = base + dynamicFontSize;
@@ -807,6 +895,30 @@ export const drawLinear: DrawFunction = ({
   c.fillStyle = 'black';
 
   drawNonScaledText(String(i + 1), caretx, cc, 'start', 'center');
+
+  if (chromatogramData) {
+    const peakLocations = chromatogramData.peakLocations
+    Object.entries(chromatogramData)
+      .forEach(([key, data]) => {
+        if (typeof data === "string" || !key.includes("Trace")) return
+        const traceData = data
+        const baseForPlot = key.charAt(0).toUpperCase()
+        const interpolAxis = interpolatedXAxis(peakLocations)
+        const yMax = mostRelevantMax(chromatogramData)
+        for (let i = 0; i < interpolAxis.length; i++) {
+          drawChromatogram({
+            base: baseForPlot,
+            iInterpol: interpolAxis[i],
+            iNext: interpolAxis[i + 1],
+            value: traceData[i],
+            nextValue: traceData[i + 1],
+            top,
+            yMax
+          })
+
+        }
+      })
+  }
 
   //#endregion
 
