@@ -695,7 +695,7 @@ export const drawLinear: DrawFunction = ({
       continue;
     }
 
-    drawBase({ base: sequence[i], i, top: topAreaHeight + (isProtein ? 0 : dynamicFontSize) });
+    drawBase({ base: sequence[i], i, top: topAreaHeight - m.f + (isProtein ? 0 : dynamicFontSize) });
     const gap = 48 / (baseWidth * m.a);
 
     const numberOfIndicators = Math.floor(iLen / gap);
