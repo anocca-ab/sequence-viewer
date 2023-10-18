@@ -5,6 +5,7 @@
 ```ts
 
 import { Annotations } from '@anocca/sequence-viewer-utils';
+import { ChromatogramData } from '@anocca/sequence-viewer-utils';
 import { CircularSelection } from '@anocca/sequence-viewer-utils';
 import { DrawFunction } from '@anocca/sequence-viewer-utils';
 import { default as React_2 } from 'react';
@@ -25,6 +26,7 @@ export type ControllerProps = {
     Search?: SearchComponent;
     openAnnotationDialog?: (annotationId: string) => void;
     isProtein: boolean;
+    chromatogramData?: ChromatogramData;
     children?: (props: {
         canvas: React.ReactNode;
         search?: React.ReactNode;
@@ -63,7 +65,7 @@ export type SearchComponent = ({ sequence, zoomOnResult, onSearchResults, spinOn
 export const useCanvas: () => [HTMLCanvasElement | null, (buffer: HTMLCanvasElement | null) => void];
 
 // @public
-export const useController: ({ isProtein, clickedAnnotation, renderData, circularSelection, setCircularSelection, getCaretPosition, updateScroll, resetAngularScroll, zoomToSearchResult, draw, ref, width, height, sequence, allAnnotations, codons, Search, openAnnotationDialog }: {
+export const useController: ({ isProtein, chromatogramData, clickedAnnotation, renderData, circularSelection, setCircularSelection, getCaretPosition, updateScroll, resetAngularScroll, zoomToSearchResult, draw, ref, width, height, sequence, allAnnotations, codons, Search, FilterChromatogram, openAnnotationDialog }: {
     ref: React_2.ForwardedRef<SequenceControllerRef>;
     width: number;
     height: number;
@@ -84,6 +86,7 @@ export const useController: ({ isProtein, clickedAnnotation, renderData, circula
     setCircularSelection: (annotationId: undefined | string, cc: CircularSelection[]) => void;
     clickedAnnotation: string | undefined;
     isProtein: boolean;
+    chromatogramData?: ChromatogramData | undefined;
 }) => {
     canvas: JSX.Element;
     selectedAnnotations: string[];

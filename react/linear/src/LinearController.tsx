@@ -30,7 +30,8 @@ export const LinearController = React.forwardRef<SequenceControllerRef, Controll
       Search,
       children: renderLayout,
       openAnnotationDialog,
-      isProtein
+      isProtein,
+      chromatogramData
     },
     ref
   ) => {
@@ -52,7 +53,8 @@ export const LinearController = React.forwardRef<SequenceControllerRef, Controll
       codons,
       Search,
       openAnnotationDialog,
-      isProtein
+      isProtein,
+      chromatogramData
     });
 
     return (

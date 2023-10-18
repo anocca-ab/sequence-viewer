@@ -9,7 +9,8 @@ import {
   SequenceControllerRef,
   proteinBaseWidth,
   SelectionRange,
-  Matrix
+  Matrix,
+  ChromatogramData
 } from '@anocca/sequence-viewer-utils';
 import React from 'react';
 import { drawLinear, getInverseMatrix, transformPoint } from '@anocca/sequence-viewer-render-linear';
@@ -50,6 +51,7 @@ export const zoomMatrix = (m: Matrix, w: number, viewRange: SelectionRange, isPr
 
 export const useLinearController = ({
   isProtein,
+  chromatogramData,
   ref,
   width,
   height,
@@ -68,6 +70,7 @@ export const useLinearController = ({
   Search?: SearchComponent;
   openAnnotationDialog?: (annotationId: string) => void;
   isProtein: boolean;
+  chromatogramData?: ChromatogramData
 }) => {
   const len = sequence.length;
   const iLen = len - 1;
@@ -236,6 +239,7 @@ export const useLinearController = ({
     codons,
     Search,
     openAnnotationDialog,
-    isProtein
+    isProtein,
+    chromatogramData
   });
 };

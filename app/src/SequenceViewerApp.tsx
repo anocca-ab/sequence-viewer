@@ -5,7 +5,8 @@ import {
   Annotation,
   humanCodons,
   SeqAnnotationDirectionsEnum,
-  AnnotationFormProps
+  AnnotationFormProps,
+  ChromatogramData
 } from '@anocca/sequence-viewer-utils';
 import { Search, Toolbar } from '@anocca/sequence-viewer-react-mui';
 import { Flex } from '@anocca/sequence-viewer-react-shared';
@@ -33,6 +34,7 @@ export const SequenceViewerApp = (props: {
   updateAnnotation: (annotation: Annotation) => void;
   isProtein?: boolean;
   renderLinearByDefault?: boolean;
+  chromatogramData?: ChromatogramData;
   AnnotationForm: (props: AnnotationFormProps) => JSX.Element;
 }) => {
   const [addAnnotation, setAddAnnotation] = React.useState<
@@ -40,8 +42,8 @@ export const SequenceViewerApp = (props: {
   >(undefined);
   const [editAnnotation, setEditAnnotation] = React.useState<
     | {
-        [k in keyof Annotation]?: Annotation[k];
-      }
+      [k in keyof Annotation]?: Annotation[k];
+    }
     | undefined
   >(undefined);
 
@@ -122,6 +124,7 @@ export const SequenceViewerApp = (props: {
         width={props.width}
         height={props.height}
         isProtein={!!props.isProtein}
+        chromatogramData={props.chromatogramData}
         annotations={props.annotations}
         codons={humanCodons}
         sequence={props.sequence}

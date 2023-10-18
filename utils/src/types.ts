@@ -28,13 +28,13 @@ export type SelectionRange = {
  */
 export type CircularSelection =
   | (SelectionRange & {
-      state: 'selecting';
-      antiClockwise?: boolean;
-    })
+    state: 'selecting';
+    antiClockwise?: boolean;
+  })
   | (SelectionRange & {
-      state: 'selected';
-      antiClockwise?: boolean;
-    });
+    state: 'selected';
+    antiClockwise?: boolean;
+  });
 
 /**
  * The progress on zoom, angle and radius between 0 and 1 inclusive
@@ -86,6 +86,21 @@ export type RenderData = {
 };
 
 /**
+ * Chromatogram data
+ *
+ * @public
+ */
+export type ChromatogramData = {
+  aTrace: number[];
+  gTrace: number[];
+  cTrace: number[];
+  tTrace: number[];
+  phred: number[];
+  peakLocations: number[];
+  sequence: string
+}
+
+/**
  * Annotation
  *
  * @public
@@ -128,18 +143,18 @@ export type Annotation = {
    */
   direction: SeqAnnotationDirectionsEnum;
 } & (
-  | {
+    | {
       type: 'DNA_OLIGO';
       fivePExtension: string;
     }
-  | {
+    | {
       type: 'DNA_RE_NUC';
       cleavageSites: [number, number][];
     }
-  | {
+    | {
       type: 'OTHER';
     }
-);
+  );
 
 /**
  * List of annotations
@@ -185,6 +200,7 @@ export type DrawFunction = (props: {
     [k: string]: string;
   };
   isProtein: boolean;
+  chromatogramData?: ChromatogramData;
 }) => {
   clickedFeatures: string[];
   hoveringFeature: undefined | string;

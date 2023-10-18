@@ -22,7 +22,8 @@ import {
   isSelectionOverOrigin,
   isRangeOverOrigin,
   annotationIsOverOrigin,
-  isRangeInSelection
+  isRangeInSelection,
+  ChromatogramData
 } from '@anocca/sequence-viewer-utils';
 import {
   getBaseColor,
@@ -56,6 +57,7 @@ export const drawLinear: DrawFunction = ({
   renderStateRef,
   searchResults,
   isProtein,
+  chromatogramData,
   circularSelection,
   codons
 }) => {

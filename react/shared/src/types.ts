@@ -1,4 +1,4 @@
-import { Annotations, CircularSelection, SearchResult, SelectionRange } from '@anocca/sequence-viewer-utils';
+import { Annotations, ChromatogramData, CircularSelection, SearchResult, SelectionRange } from '@anocca/sequence-viewer-utils';
 
 /**
  * Search component that can be passed to the circular controller.
@@ -35,6 +35,7 @@ export type ControllerProps = {
   Search?: SearchComponent;
   openAnnotationDialog?: (annotationId: string) => void;
   isProtein: boolean;
+  chromatogramData?: ChromatogramData;
   children?: (props: {
     canvas: React.ReactNode;
     search?: React.ReactNode;

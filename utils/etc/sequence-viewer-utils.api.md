@@ -86,6 +86,17 @@ export const anoccaPalette: {
 };
 
 // @public
+export type ChromatogramData = {
+    aTrace: number[];
+    gTrace: number[];
+    cTrace: number[];
+    tTrace: number[];
+    phred: number[];
+    peakLocations: number[];
+    sequence: string;
+};
+
+// @public
 export type CircularCameraProgress = {
     zoom: number;
     angle: number;
@@ -147,6 +158,7 @@ export type DrawFunction = (props: {
         [k: string]: string;
     };
     isProtein: boolean;
+    chromatogramData?: ChromatogramData;
 }) => {
     clickedFeatures: string[];
     hoveringFeature: undefined | string;

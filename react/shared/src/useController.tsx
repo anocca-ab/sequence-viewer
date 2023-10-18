@@ -16,7 +16,8 @@ import {
   SeqAnnotationDirectionsEnum,
   SequenceControllerRef,
   SearchResult,
-  SelectionRange
+  SelectionRange,
+  ChromatogramData
 } from '@anocca/sequence-viewer-utils';
 import React, { useEffect, useState } from 'react';
 
@@ -36,6 +37,7 @@ import React, { useEffect, useState } from 'react';
  */
 export const useController = ({
   isProtein,
+  chromatogramData,
   clickedAnnotation,
   renderData,
   circularSelection,
@@ -72,6 +74,7 @@ export const useController = ({
   setCircularSelection: (annotationId: undefined | string, cc: CircularSelection[]) => void;
   clickedAnnotation: string | undefined;
   isProtein: boolean;
+  chromatogramData?: ChromatogramData;
 }) => {
   const len = sequence.length;
   const iLen = len - 1;
@@ -110,10 +113,10 @@ export const useController = ({
   const canRender =
     ratio !== undefined && context && renderData.current
       ? {
-          context,
-          ratio,
-          data: renderData.current
-        }
+        context,
+        ratio,
+        data: renderData.current
+      }
       : undefined;
 
   const hasRendered = React.useRef(false);
@@ -138,6 +141,7 @@ export const useController = ({
         clickedFeatures: selectedAnnotations
       },
       isProtein
+      chromatogramData
     });
     setHoveringFeature(_hoveringFeature);
   };
@@ -310,7 +314,7 @@ export const useController = ({
           if (typeof cs.antiClockwise !== 'undefined') {
             if (
               getSelectionDeltaAngle(len, cs.antiClockwise, cs.start, caretPosition) -
-                getSelectionDeltaAngle(len, cs.antiClockwise, cs.start, cs.end) >
+              getSelectionDeltaAngle(len, cs.antiClockwise, cs.start, cs.end) >
               0.5
             ) {
               cs.antiClockwise = !cs.antiClockwise;
@@ -334,7 +338,7 @@ export const useController = ({
 
   const onMouseMove = debounce(onMouseMoveCb);
 
-  const onClick = () => {};
+  const onClick = () => { };
 
   useDOMListeners(buffer, onClick, _onStartDrag, _onEndDrag, onScroll, onMouseMove, onDblClick);
 
