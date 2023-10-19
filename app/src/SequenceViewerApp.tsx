@@ -164,9 +164,9 @@ export const SequenceViewerApp = (props: {
                   }}
                 />
               </Flex>
-              <Flex style={{ flexDirection: 'column', paddingBottom: '16px', gap: '8px' }}>
-                {search}
+              <Flex style={{ paddingLeft: '20px', paddingBottom: '20px', gap: '20px', alignItems: 'center' }}>
                 {filterChromatogram}
+                {search}
               </Flex>
             </Flex>
             <div style={{ position: 'relative' }}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FilterChromatogramType } from '../../shared/lib';
-import { FormControl, FormLabel, FormControlLabel, FormGroup, Checkbox } from '@mui/material';
+import { Box, FormControl, FormGroup, Checkbox } from '@mui/material';
 import { dnaColors } from '../../../utils/lib';
 
 const options = ['A', 'C', 'G', 'T', 'phred'];
@@ -8,6 +8,26 @@ const options = ['A', 'C', 'G', 'T', 'phred'];
 const getBaseColor = (ntOrAa: string) => {
   if (ntOrAa === 'phred') return 'rgba(0,0,0,0.2)';
   return dnaColors[ntOrAa];
+};
+
+const CheckboxComponent = ({ base, checked }: { base: string; checked: boolean }) => {
+  return (
+    <Box
+      sx={{
+        px: 1.5,
+        minWidth: '30px',
+        border: `1px solid ${checked ? getBaseColor(base) : 'rgba(0,0,0,0.1)'}`,
+        color: checked ? 'white' : getBaseColor(base),
+        backgroundColor: checked ? getBaseColor(base) : 'rgba(0,0,0,0.01)',
+        borderRadius: '40px',
+        fontWeight: checked ? '700' : '500',
+        boxShadow: checked ? 3 : 0,
+        opacity: checked ? 1 : 0.75
+      }}
+    >
+      {base}
+    </Box>
+  );
 };
 /**
  * See {@link @anocca/sequence-viewer-react-shared#FilterChromatogram | FilterChromatogram}
@@ -25,32 +45,19 @@ export const FilterChromatogram: FilterChromatogramType = ({ optionsToRender, se
   };
 
   return (
-    <FormControl component="fieldset" sx={{ border: '1px solid rgba(0,0,0,0.15)' }}>
-      <FormLabel sx={{ fontSize: '20px', px: 1 }} component="legend">
-        Filter Chomatogram
-      </FormLabel>
+    <FormControl component="fieldset">
       <FormGroup row>
         {options.map((option) => (
-          <FormControlLabel
+          <Checkbox
             key={option}
-            sx={{ color: getBaseColor(option), fontWeight: 'bold' }}
-            control={
-              <Checkbox
-                size="small"
-                onChange={handleChange}
-                value={option}
-                checked={optionsToRender.includes(option)}
-                name={option}
-                sx={{
-                  color: getBaseColor(option),
-                  '&.Mui-checked': {
-                    color: getBaseColor(option)
-                  }
-                }}
-              />
-            }
-            label={option}
-            labelPlacement="bottom"
+            size="small"
+            icon={<CheckboxComponent base={option} checked={false} />}
+            checkedIcon={<CheckboxComponent base={option} checked={true} />}
+            onChange={handleChange}
+            value={option}
+            checked={optionsToRender.includes(option)}
+            name={option}
+            disableRipple
           />
         ))}
       </FormGroup>
