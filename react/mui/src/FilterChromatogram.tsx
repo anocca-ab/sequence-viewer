@@ -16,11 +16,10 @@ const CheckboxComponent = ({ base, checked }: { base: string; checked: boolean }
       sx={{
         px: 1.5,
         minWidth: '30px',
-        border: `1px solid ${checked ? getBaseColor(base) : 'rgba(0,0,0,0.1)'}`,
+        border: `1px solid ${getBaseColor(base)}`,
         color: checked ? 'white' : getBaseColor(base),
         backgroundColor: checked ? getBaseColor(base) : 'rgba(0,0,0,0.01)',
         borderRadius: '40px',
-        fontWeight: checked ? '700' : '500',
         boxShadow: checked ? 3 : 0,
         opacity: checked ? 1 : 0.75
       }}
@@ -45,22 +44,20 @@ export const FilterChromatogram: FilterChromatogramType = ({ optionsToRender, se
   };
 
   return (
-    <FormControl component="fieldset">
-      <FormGroup row>
-        {options.map((option) => (
-          <Checkbox
-            key={option}
-            size="small"
-            icon={<CheckboxComponent base={option} checked={false} />}
-            checkedIcon={<CheckboxComponent base={option} checked={true} />}
-            onChange={handleChange}
-            value={option}
-            checked={optionsToRender.includes(option)}
-            name={option}
-            disableRipple
-          />
-        ))}
-      </FormGroup>
-    </FormControl>
+    <Box sx={{ display: 'flex' }}>
+      {options.map((option) => (
+        <Checkbox
+          key={option}
+          size="small"
+          icon={<CheckboxComponent base={option} checked={false} />}
+          checkedIcon={<CheckboxComponent base={option} checked={true} />}
+          onChange={handleChange}
+          value={option}
+          checked={optionsToRender.includes(option)}
+          name={option}
+          disableRipple
+        />
+      ))}
+    </Box>
   );
 };
