@@ -211,7 +211,7 @@ export const drawLinear: DrawFunction = ({
     const peaks = (traceData: number[]) =>
       chromatogramData.peakLocations
         .map((location) => traceData[location])
-        .filter((peak, idx) => {
+        .filter((_, idx) => {
           const phreds = chromatogramData.phred;
           if (idx > NORMALIZATION_WINDOW || idx < phreds.length - NORMALIZATION_WINDOW) {
             let sum = 0;
@@ -224,13 +224,30 @@ export const drawLinear: DrawFunction = ({
           return false;
         });
 
+    const positionalCleaning = (traceData: number[]) =>
+      chromatogramData.peakLocations
+        .map((location) => traceData[location])
+        .filter((_, idx) => {
+          const phreds = chromatogramData.phred;
+          return idx > phreds.length / 3 && idx < (2 * phreds.length) / 3;
+        });
+
     const cleanData = [
       ...peaks(chromatogramData.aTrace),
       ...peaks(chromatogramData.cTrace),
       ...peaks(chromatogramData.gTrace),
       ...peaks(chromatogramData.tTrace)
     ];
-    return Math.max(...cleanData);
+
+    /* Fallback for low overall phred (low quality) data */
+    const lessCleanData = [
+      ...positionalCleaning(chromatogramData.aTrace),
+      ...positionalCleaning(chromatogramData.cTrace),
+      ...positionalCleaning(chromatogramData.gTrace),
+      ...positionalCleaning(chromatogramData.tTrace)
+    ];
+
+    return cleanData.length > 0 ? Math.max(...cleanData) : Math.max(...lessCleanData);
   };
 
   const drawChromatogram = ({
