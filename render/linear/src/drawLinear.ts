@@ -250,6 +250,16 @@ export const drawLinear: DrawFunction = ({
     return cleanData.length > 0 ? Math.max(...cleanData) : Math.max(...lessCleanData);
   };
 
+  const drawPhreds = ({ i, phred, yMax }: { i: number; phred: number; yMax: number }) => {
+    const xStart = getIndexBaseX(i);
+    if (!filterChromOptions.includes('phred')) return;
+    const top = topAreaHeight + dynamicFontSize - m.f;
+    const y = relativeHeight(phred, yMax);
+    c.lineWidth = 1;
+    c.strokeStyle = 'rgba(0, 0, 0, 0.075)';
+    c.strokeRect(transformX(xStart), transformY(top), baseWidth * m.a, y);
+  };
+
   const drawChromatogram = ({
     base,
     iInterpol,
@@ -305,15 +315,6 @@ export const drawLinear: DrawFunction = ({
       const _base = getBaseName(level, isProtein, base);
       c.font = getFont(dynamicFontSize, 'bold');
       drawNonScaledText(_base, xStart + baseWidth / 2, top, align, 'center');
-    }
-    if (chromatogramData) {
-      if (!filterChromOptions.includes('phred')) return;
-      const phreds = chromatogramData.phred;
-      const yMax = Math.max(...phreds);
-      const y = relativeHeight(phreds[i], yMax);
-      c.lineWidth = 1;
-      c.strokeStyle = 'rgba(0, 0, 0, 0.075)';
-      c.strokeRect(transformX(xStart), transformY(top), baseWidth * m.a, y);
     }
   };
 
@@ -917,6 +918,13 @@ export const drawLinear: DrawFunction = ({
 
   if (chromatogramData) {
     const peakLocations = chromatogramData.peakLocations;
+    const phreds = chromatogramData.phred;
+
+    for (let i = 0; i < phreds.length; i++) {
+      const yMax = Math.max(...phreds);
+      drawPhreds({ i, phred: phreds[i], yMax });
+    }
+
     Object.entries(chromatogramData)
       .filter(([key, _]) => key.includes('Trace') && filterChromOptions.includes(key.charAt(0).toUpperCase()))
       .forEach(([key, data]) => {
