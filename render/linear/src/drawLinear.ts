@@ -788,7 +788,7 @@ export const drawLinear: DrawFunction = ({
     if (circularSelection.antiClockwise === true) {
       lineLeftPx += arrowSize / m.a;
     }
-    let _top = top;
+    let _top = top - m.f;
     if (circularSelection.antiClockwise === true && !isProtein) {
       _top += dynamicFontSize;
     }
@@ -838,10 +838,10 @@ export const drawLinear: DrawFunction = ({
       if (circularSelection.antiClockwise === true) {
         for (let i = circularSelection.start; i >= circularSelection.end; i -= 1) {
           const complementBase = getNtComplement(sequence[i]);
-          drawBase({ base: complementBase, i, top });
+          drawBase({ base: complementBase, i, top: top - m.f });
           tripplet += complementBase;
           if (tripplet.length === 3) {
-            renderCodon(tripplet, i, dynamicFontSize);
+            renderCodon(tripplet, i, dynamicFontSize - m.f);
             tripplet = '';
           }
         }
@@ -849,7 +849,7 @@ export const drawLinear: DrawFunction = ({
         for (let i = circularSelection.start; i <= circularSelection.end; i += 1) {
           tripplet += sequence[i];
           if (tripplet.length === 3) {
-            renderCodon(tripplet, i - 2, -2 * dynamicFontSize - selectionLineMarginTop);
+            renderCodon(tripplet, i - 2, dynamicFontSize - m.f);
             tripplet = '';
           }
         }
@@ -875,7 +875,7 @@ export const drawLinear: DrawFunction = ({
     drawNonScaledText(
       label,
       caretMid * baseWidth + baseWidth / 2,
-      topAreaHeight + _yOffset + selectionLineWidth + selectionLineMarginTop,
+      topAreaHeight + _yOffset + selectionLineWidth + selectionLineMarginTop - m.f,
       'start',
       'center'
     );
