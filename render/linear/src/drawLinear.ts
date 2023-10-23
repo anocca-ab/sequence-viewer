@@ -905,8 +905,8 @@ export const drawLinear: DrawFunction = ({
     cc = base + dynamicFontSize + carretHeight;
   }
   c.beginPath();
-  c.moveTo(transformX(caretx), transformY(ca));
-  c.lineTo(transformX(caretx), transformY(cb));
+  c.moveTo(transformX(caretx), transformY(ca) - m.f);
+  c.lineTo(transformX(caretx), transformY(cb) - m.f);
   c.lineWidth = 3;
   c.strokeStyle = 'rgba(0, 0, 0, 0.5)';
   c.stroke();
@@ -914,7 +914,7 @@ export const drawLinear: DrawFunction = ({
   c.font = getFont(carretFontSize, 'bold');
   c.fillStyle = 'black';
 
-  drawNonScaledText(String(i + 1), caretx, cc, 'start', 'center');
+  drawNonScaledText(String(i + 1), caretx, cc - m.f, 'start', 'center');
 
   if (chromatogramData) {
     const peakLocations = chromatogramData.peakLocations;
