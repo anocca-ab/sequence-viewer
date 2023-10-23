@@ -18,7 +18,7 @@ export const dnaColors: { [k: string]: string } = {
   A: '#C20000', //'#ff5c5c',
   T: '#00B700', //'#2ca039',
   C: '#1000BA', //'#a55cff',
-  G: '#FDE700', //'#ff775c',
+  G: '#F5BF02', //'#FDE700', '#ff775c',
   R: 'black',
   Y: 'black',
   W: 'black',
