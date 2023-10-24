@@ -213,5 +213,14 @@ export const getSelectionLabel = (circularSelection: CircularSelection) => {
   } else {
     label = `${start + 1} - ${end + 1}`;
   }
+  const range = end - start > 0 ? end - start : start - end;
+  if (range > 0) {
+    const numberOfAminoacids = Math.floor((range + 1) / 3);
+    label += ` (${range + 1} bases`;
+    if (numberOfAminoacids > 0) {
+      label += `, ${numberOfAminoacids} amino acids`;
+    }
+    label += `)`;
+  }
   return label;
 };
