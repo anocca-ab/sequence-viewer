@@ -865,10 +865,7 @@ export const drawLinear: DrawFunction = ({
     c.textBaseline = 'top';
 
     const caretMid = getIndexMid(start, end, len, antiClockwise);
-    let _yOffset = dynamicFontSize * 2;
-    if (antiClockwise) {
-      _yOffset = dynamicFontSize * 4;
-    }
+    let _yOffset = dynamicFontSize * 4;
     if (isProtein) {
       _yOffset = dynamicFontSize;
     }
