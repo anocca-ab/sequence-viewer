@@ -196,7 +196,7 @@ export const getSelectionDelta: (len: number, antiClockwise: boolean, start: num
 export const getSelectionDeltaAngle: (len: number, antiClockwise: boolean, start: number, end: number) => number;
 
 // @internal
-export const getSelectionLabel: (circularSelection: CircularSelection) => string;
+export const getSelectionLabel: (circularSelection: CircularSelection, isProtein: boolean) => string;
 
 // @internal
 export const getSelectionOver: (i: number, circularSelection: CircularSelection[]) => CircularSelection | undefined;

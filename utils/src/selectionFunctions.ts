@@ -202,7 +202,7 @@ export const getIndexMid = (start: number, end: number, len: number, antiClockwi
  *
  * @internal
  */
-export const getSelectionLabel = (circularSelection: CircularSelection) => {
+export const getSelectionLabel = (circularSelection: CircularSelection, isProtein: boolean) => {
   const { end, start, antiClockwise } = circularSelection;
 
   let label = `${start + 1} - ${end + 1}`;
@@ -217,7 +217,7 @@ export const getSelectionLabel = (circularSelection: CircularSelection) => {
   if (range > 0) {
     const numberOfAminoacids = Math.floor((range + 1) / 3);
     label += ` (${range + 1} bases`;
-    if (numberOfAminoacids > 0) {
+    if (numberOfAminoacids > 0 && !isProtein) {
       label += `, ${numberOfAminoacids} amino acids`;
     }
     label += `)`;
