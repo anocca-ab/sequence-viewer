@@ -858,7 +858,7 @@ export const drawLinear: DrawFunction = ({
 
     const { end, start, antiClockwise } = circularSelection;
 
-    let label = getSelectionLabel(circularSelection, isProtein);
+    let label = getSelectionLabel(circularSelection, isProtein, sequence.length);
 
     c.font = getFont(16, 'bold');
     c.fillStyle = 'black';

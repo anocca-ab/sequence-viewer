@@ -198,11 +198,15 @@ export const getIndexMid = (start: number, end: number, len: number, antiClockwi
 };
 
 /**
- * gets the label under selections like 2 - 10
+ * gets the label under selections like 2 - 10 (9 bp, 3 aa)
  *
  * @internal
  */
-export const getSelectionLabel = (circularSelection: CircularSelection, isProtein: boolean) => {
+export const getSelectionLabel = (
+  circularSelection: CircularSelection,
+  isProtein: boolean,
+  sequenceSize: number
+) => {
   const { end, start, antiClockwise } = circularSelection;
 
   let label = `${start + 1} - ${end + 1}`;
@@ -213,12 +217,15 @@ export const getSelectionLabel = (circularSelection: CircularSelection, isProtei
   } else {
     label = `${start + 1} - ${end + 1}`;
   }
-  const range = end - start > 0 ? end - start : start - end;
+  let range = 0;
+  if (antiClockwise && start < end) range = start + sequenceSize - end;
+  else if (!antiClockwise && end < start) range = end + sequenceSize - start;
+  else range = end - start > 0 ? end - start : start - end;
   if (range > 0) {
     const numberOfAminoacids = Math.floor((range + 1) / 3);
-    label += ` (${range + 1} bases`;
+    label += ` (${range + 1} ${isProtein ? 'aa' : 'bp'}`;
     if (numberOfAminoacids > 0 && !isProtein) {
-      label += `, ${numberOfAminoacids} amino acids`;
+      label += `, ${numberOfAminoacids} aa`;
     }
     label += `)`;
   }
