@@ -106,13 +106,7 @@ export const useController = ({
 
   const [ratio, setRatio] = React.useState<undefined | number>(undefined);
 
-  const [filterChromOptions, setFilterChromOptions] = React.useState<string[]>([
-    'A',
-    'C',
-    'G',
-    'T',
-    'phred'
-  ])
+  const [filterChromOptions, setFilterChromOptions] = React.useState<string[]>(['A', 'C', 'G', 'T', 'phred']);
 
   React.useEffect(() => {
     if (context) {
@@ -123,10 +117,10 @@ export const useController = ({
   const canRender =
     ratio !== undefined && context && renderData.current
       ? {
-        context,
-        ratio,
-        data: renderData.current
-      }
+          context,
+          ratio,
+          data: renderData.current
+        }
       : undefined;
 
   const hasRendered = React.useRef(false);
@@ -325,7 +319,7 @@ export const useController = ({
           if (typeof cs.antiClockwise !== 'undefined') {
             if (
               getSelectionDeltaAngle(len, cs.antiClockwise, cs.start, caretPosition) -
-              getSelectionDeltaAngle(len, cs.antiClockwise, cs.start, cs.end) >
+                getSelectionDeltaAngle(len, cs.antiClockwise, cs.start, cs.end) >
               0.5
             ) {
               cs.antiClockwise = !cs.antiClockwise;
@@ -349,7 +343,17 @@ export const useController = ({
 
   const onMouseMove = debounce(onMouseMoveCb);
 
-  const onClick = () => { };
+  const onClick = (ev: MouseEvent) => {
+    if (ev.shiftKey) {
+      let start;
+      let end;
+      const carret = getCaretPosition();
+      start = circularSelection[0]?.start;
+      end = carret;
+      const antiClockwise = start === end ? undefined : start > end;
+      if (start) setCircularSelection(undefined, [{ start, end, antiClockwise, state: 'selecting' }]);
+    }
+  };
 
   useDOMListeners(buffer, onClick, _onStartDrag, _onEndDrag, onScroll, onMouseMove, onDblClick);
 
