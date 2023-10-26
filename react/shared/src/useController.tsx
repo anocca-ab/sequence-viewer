@@ -345,11 +345,8 @@ export const useController = ({
 
   const onClick = (ev: MouseEvent) => {
     if (ev.shiftKey) {
-      let start;
-      let end;
-      const carret = getCaretPosition();
-      start = circularSelection[0]?.start;
-      end = carret;
+      const start = circularSelection[0]?.start;
+      const end = getCaretPosition();
       const antiClockwise = start === end ? undefined : start > end;
       if (start) setCircularSelection(undefined, [{ start, end, antiClockwise, state: 'selecting' }]);
     }
