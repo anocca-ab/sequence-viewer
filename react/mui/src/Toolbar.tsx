@@ -7,7 +7,7 @@ import {
   CircularSelection,
   getNtComplement
 } from '@anocca/sequence-viewer-utils';
-import { FaEye, FaEyeSlash, FaRegCopy, FaTrash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaRegCopy, FaTrash, FaRetweet } from 'react-icons/fa';
 
 const FabWrapper = ({ children }: { children: React.ReactNode }) => {
   return <div style={{ paddingRight: '8px' }}>{children}</div>;
@@ -25,6 +25,8 @@ const FabWrapper = ({ children }: { children: React.ReactNode }) => {
 export const Toolbar = ({
   selectedAnnotations,
   circularSelections,
+  setCircularSelection,
+  isCircularViewer,
   sequence,
   createAnnotation,
   onHide,
@@ -35,6 +37,8 @@ export const Toolbar = ({
 }: {
   selectedAnnotations: string[];
   circularSelections: CircularSelection[];
+  setCircularSelection: (annotationId: string | undefined, cc: CircularSelection[]) => void;
+  isCircularViewer: boolean;
   sequence: string;
   createAnnotation: (locations: [number, number][], direction: SeqAnnotationDirectionsEnum) => void;
   onHide: (selectionAnnotations: string[]) => void;
@@ -200,6 +204,21 @@ export const Toolbar = ({
               <FaEye />
             </Fab>
           </FabWrapper>
+          {isCircularViewer && (
+            <FabWrapper>
+              <Fab
+                size="small"
+                onClick={() =>
+                  setCircularSelection(
+                    undefined,
+                    circularSelections.map((cs) => ({ ...cs, antiClockwise: !cs.antiClockwise }))
+                  )
+                }
+              >
+                <FaRetweet />
+              </Fab>
+            </FabWrapper>
+          )}
           <FabWrapper>
             <Fab
               size="small"

@@ -347,7 +347,7 @@ export const useController = ({
     if (ev.shiftKey) {
       const start = circularSelection[0]?.start;
       const end = getCaretPosition();
-      const antiClockwise = start === end ? undefined : start > end;
+      let antiClockwise = start === end ? undefined : start > end;
       if (start) setCircularSelection(undefined, [{ start, end, antiClockwise, state: 'selecting' }]);
     }
   };
@@ -440,6 +440,7 @@ export const useController = ({
     canvas,
     selectedAnnotations,
     circularSelection,
+    setCircularSelection,
     clickedAnnotation,
     search,
     filterChromatogram,

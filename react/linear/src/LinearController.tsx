@@ -45,6 +45,7 @@ export const LinearController = React.forwardRef<SequenceControllerRef, Controll
       filterChromatogram,
       canvasRef,
       zoomToSearchResult,
+      setCircularSelection,
       setSearchResults
     } = useLinearController({
       ref,
@@ -67,6 +68,7 @@ export const LinearController = React.forwardRef<SequenceControllerRef, Controll
             canvas,
             selectedAnnotations,
             circularSelections: circularSelection,
+            setCircularSelection,
             clickedAnnotation,
             search,
             filterChromatogram,

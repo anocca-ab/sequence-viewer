@@ -141,6 +141,7 @@ export const SequenceViewerApp = (props: {
           filterChromatogram,
           selectedAnnotations,
           circularSelections,
+          setCircularSelection,
           clickedAnnotation
         }) => (
           <div style={{ margin: 'auto', maxWidth: props.width + 'px' }}>
@@ -148,7 +149,9 @@ export const SequenceViewerApp = (props: {
               <Flex style={{ position: 'relative', zIndex: 1 }}>
                 <Toolbar
                   selectedAnnotations={selectedAnnotations}
+                  isCircularViewer={isCircularViewer}
                   circularSelections={circularSelections}
+                  setCircularSelection={setCircularSelection}
                   sequence={props.sequence}
                   createAnnotation={(locations, direction) => {
                     setAddAnnotation({ locations, direction });

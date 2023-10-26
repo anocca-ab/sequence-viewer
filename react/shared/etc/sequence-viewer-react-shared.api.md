@@ -34,6 +34,7 @@ export type ControllerProps = {
         filterChromatogram?: React.ReactNode;
         selectedAnnotations: string[];
         circularSelections: CircularSelection[];
+        setCircularSelection: (annotationId: string | undefined, cc: CircularSelection[]) => void;
         clickedAnnotation?: string;
         canvasRef: (buffer: HTMLCanvasElement | null) => void;
         zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
@@ -47,7 +48,7 @@ export type ControllerProps = {
 };
 
 // @public
-export type FilterChromatogramType = ({ optionsToRender, setOptionsToRender, }: {
+export type FilterChromatogramType = ({ optionsToRender, setOptionsToRender }: {
     optionsToRender: string[];
     setOptionsToRender: (options: string[]) => void;
 }) => JSX.Element;
@@ -100,6 +101,7 @@ export const useController: ({ isProtein, chromatogramData, clickedAnnotation, r
     canvas: JSX.Element;
     selectedAnnotations: string[];
     circularSelection: CircularSelection[];
+    setCircularSelection: (annotationId: undefined | string, cc: CircularSelection[]) => void;
     clickedAnnotation: string | undefined;
     search: JSX.Element | undefined;
     filterChromatogram: JSX.Element | undefined;

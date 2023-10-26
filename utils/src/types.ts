@@ -28,13 +28,13 @@ export type SelectionRange = {
  */
 export type CircularSelection =
   | (SelectionRange & {
-    state: 'selecting';
-    antiClockwise?: boolean;
-  })
+      state: 'selecting';
+      antiClockwise?: boolean;
+    })
   | (SelectionRange & {
-    state: 'selected';
-    antiClockwise?: boolean;
-  });
+      state: 'selected';
+      antiClockwise?: boolean;
+    });
 
 /**
  * The progress on zoom, angle and radius between 0 and 1 inclusive
@@ -97,8 +97,8 @@ export type ChromatogramData = {
   tTrace: number[];
   phred: number[];
   peakLocations: number[];
-  sequence: string
-}
+  sequence: string;
+};
 
 /**
  * Annotation
@@ -143,18 +143,18 @@ export type Annotation = {
    */
   direction: SeqAnnotationDirectionsEnum;
 } & (
-    | {
+  | {
       type: 'DNA_OLIGO';
       fivePExtension: string;
     }
-    | {
+  | {
       type: 'DNA_RE_NUC';
       cleavageSites: [number, number][];
     }
-    | {
+  | {
       type: 'OTHER';
     }
-  );
+);
 
 /**
  * List of annotations

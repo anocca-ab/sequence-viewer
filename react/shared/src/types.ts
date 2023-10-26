@@ -1,4 +1,10 @@
-import { Annotations, ChromatogramData, CircularSelection, SearchResult, SelectionRange } from '@anocca/sequence-viewer-utils';
+import {
+  Annotations,
+  ChromatogramData,
+  CircularSelection,
+  SearchResult,
+  SelectionRange
+} from '@anocca/sequence-viewer-utils';
 /**
  * Filter options to be shown on chromatogram
  *
@@ -8,7 +14,7 @@ import { Annotations, ChromatogramData, CircularSelection, SearchResult, Selecti
  */
 export type FilterChromatogramType = ({
   optionsToRender,
-  setOptionsToRender,
+  setOptionsToRender
 }: {
   optionsToRender: string[];
   setOptionsToRender: (options: string[]) => void;
@@ -57,6 +63,7 @@ export type ControllerProps = {
     filterChromatogram?: React.ReactNode;
     selectedAnnotations: string[];
     circularSelections: CircularSelection[];
+    setCircularSelection: (annotationId: string | undefined, cc: CircularSelection[]) => void;
     clickedAnnotation?: string;
     canvasRef: (buffer: HTMLCanvasElement | null) => void;
     zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
