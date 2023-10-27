@@ -222,7 +222,7 @@ export const useController = ({
       const caretPosition = getCaretPosition();
       {
         const cs = [...circularSelection];
-        if (!ev.shiftKey) {
+        if (!ev.metaKey && !ev.shiftKey) {
           cs.splice(0, cs.length);
         }
         const currentSelection = getSelectionOver(caretPosition, cs);
@@ -260,7 +260,7 @@ export const useController = ({
   const _onEndDrag = (ev: MouseEvent) => {
     if (hoveringFeature) {
       if (hoveringFeature === clickedAnnotationCandidateDuringMouseDown.current) {
-        onClickAnnotation(hoveringFeature, ev.shiftKey);
+        onClickAnnotation(hoveringFeature, ev.metaKey);
         clickedAnnotationCandidateDuringMouseDown.current = undefined;
         return;
       }
