@@ -1,4 +1,9 @@
-import { FilterChromatogramType, SearchComponent, useController, useRenderData } from '@anocca/sequence-viewer-react-shared';
+import {
+  FilterChromatogramType,
+  SearchComponent,
+  useController,
+  useRenderData
+} from '@anocca/sequence-viewer-react-shared';
 import {
   Annotations,
   dnaBaseWidth,
@@ -72,7 +77,7 @@ export const useLinearController = ({
   FilterChromatogram?: FilterChromatogramType;
   openAnnotationDialog?: (annotationId: string) => void;
   isProtein: boolean;
-  chromatogramData?: ChromatogramData
+  chromatogramData?: ChromatogramData;
 }) => {
   const len = sequence.length;
   const iLen = len - 1;
@@ -243,6 +248,7 @@ export const useLinearController = ({
     FilterChromatogram,
     openAnnotationDialog,
     isProtein,
-    chromatogramData
+    chromatogramData,
+    isCircularView: false
   });
 };

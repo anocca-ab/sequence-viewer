@@ -55,7 +55,8 @@ export const useController = ({
   codons,
   Search,
   FilterChromatogram,
-  openAnnotationDialog
+  openAnnotationDialog,
+  isCircularView
 }: {
   ref: React.ForwardedRef<SequenceControllerRef>;
   width: number;
@@ -77,6 +78,7 @@ export const useController = ({
   clickedAnnotation: string | undefined;
   isProtein: boolean;
   chromatogramData?: ChromatogramData;
+  isCircularView: boolean;
 }) => {
   const len = sequence.length;
   const iLen = len - 1;

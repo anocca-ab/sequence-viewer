@@ -74,7 +74,7 @@ export type SearchComponent = ({ sequence, zoomOnResult, onSearchResults, spinOn
 export const useCanvas: () => [HTMLCanvasElement | null, (buffer: HTMLCanvasElement | null) => void];
 
 // @public
-export const useController: ({ isProtein, chromatogramData, clickedAnnotation, renderData, circularSelection, setCircularSelection, getCaretPosition, updateScroll, resetAngularScroll, zoomToSearchResult, draw, ref, width, height, sequence, allAnnotations, codons, Search, FilterChromatogram, openAnnotationDialog }: {
+export const useController: ({ isProtein, chromatogramData, clickedAnnotation, renderData, circularSelection, setCircularSelection, getCaretPosition, updateScroll, resetAngularScroll, zoomToSearchResult, draw, ref, width, height, sequence, allAnnotations, codons, Search, FilterChromatogram, openAnnotationDialog, isCircularView }: {
     ref: React_2.ForwardedRef<SequenceControllerRef>;
     width: number;
     height: number;
@@ -97,6 +97,7 @@ export const useController: ({ isProtein, chromatogramData, clickedAnnotation, r
     clickedAnnotation: string | undefined;
     isProtein: boolean;
     chromatogramData?: ChromatogramData | undefined;
+    isCircularView: boolean;
 }) => {
     canvas: JSX.Element;
     selectedAnnotations: string[];
