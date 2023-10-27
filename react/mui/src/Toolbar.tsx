@@ -121,18 +121,20 @@ export const Toolbar = ({
       triggeredCopy.current = false;
     }
   };
-
-  const ac = circularSelections[0].antiClockwise;
-  const invalidSelection = circularSelections.find((selection) => {
-    return selection.antiClockwise !== ac;
-  });
+  const invalidSelection = (ac: boolean | undefined) => {
+    return circularSelections.find((selection) => {
+      return selection.antiClockwise !== ac;
+    });
+  };
 
   const invertSelection = () => {
-    if (invalidSelection) {
+    const ac = circularSelections[0].antiClockwise;
+    if (invalidSelection(ac)) {
       alert('All selections must have the same direction when using this feature');
       return;
     }
     const len = circularSelections.length;
+    if (len === 0) return;
     setCircularSelection(
       undefined,
       circularSelections
@@ -174,7 +176,8 @@ export const Toolbar = ({
     copy();
   };
   const onAdd = () => {
-    if (invalidSelection) {
+    const ac = circularSelections[0].antiClockwise;
+    if (invalidSelection(ac)) {
       alert('All selections must have the same direction when creating a new annotation');
       return;
     }
