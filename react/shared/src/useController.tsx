@@ -349,8 +349,20 @@ export const useController = ({
     if (ev.shiftKey) {
       const start = circularSelection[0]?.start;
       const end = getCaretPosition();
-      let antiClockwise = start === end ? undefined : start > end;
-      if (start) setCircularSelection(undefined, [{ start, end, antiClockwise, state: 'selecting' }]);
+      const isAntiClockwise = () => {
+        if (start === end) return undefined;
+        if (isCircularView) {
+          if (start > end) {
+            return start - end < len / 2;
+          } else {
+            return end - start > len / 2;
+          }
+        } else return start > end;
+      };
+      if (start !== undefined)
+        setCircularSelection(undefined, [
+          { start, end, antiClockwise: isAntiClockwise(), state: 'selecting' }
+        ]);
     }
   };
 
