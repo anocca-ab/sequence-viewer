@@ -145,7 +145,11 @@ export const SequenceViewerApp = (props: {
           clickedAnnotation
         }) => (
           <div style={{ margin: 'auto', maxWidth: props.width + 'px' }}>
-            <Flex justifyContent="space-between" style={{ maxWidth: props.width + 'px' }}>
+            <Flex
+              justifyContent="space-between"
+              alignItems="center"
+              style={{ maxWidth: props.width + 'px', height: '56px', padding: '0 10px' }}
+            >
               <Flex style={{ position: 'relative', zIndex: 1 }}>
                 <Toolbar
                   selectedAnnotations={selectedAnnotations}
@@ -167,7 +171,7 @@ export const SequenceViewerApp = (props: {
                   }}
                 />
               </Flex>
-              <Flex style={{ paddingLeft: '20px', paddingBottom: '20px', gap: '20px', alignItems: 'center' }}>
+              <Flex style={{ gap: '20px', alignItems: 'center' }}>
                 {filterChromatogram}
                 {search}
               </Flex>

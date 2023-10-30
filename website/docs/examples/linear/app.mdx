@@ -5,8 +5,8 @@ sidebar_position: 1
 import { StaticLinear } from '../../../src/components/StaticLinear';
 import { tuple, SeqAnnotationDirectionsEnum, CircularCameraProgress, debounce, humanCodons, CircularSelection, Annotations } from '@anocca/sequence-viewer-utils';
 import { LinearApp } from '../../../src/components/LinearApp'
-import ab1 from '../../../static/example-data/ab1.json'
-
+// Import your Chromatogram Data here for testing
+// import ab1 from '../../../static/example-data/ab1_10.json'
 
 # App
 
@@ -70,4 +70,5 @@ import ab1 from '../../../static/example-data/ab1.json'
 
 ## With Chromatogram
 
-<LinearApp codons={humanCodons} sequence={ab1.sequence} isProtein={false} chromatogramData={ab1} />
+_Add props sequence={ab1.sequence} chromatograData={ab1}_
+<LinearApp codons={humanCodons} sequence="TCCTCGCATAGGGCGGATCGGTATTCATGGGACGCCACACAACTCTTAGATTGATTGTCGCTTTCAGGCGTGTCATCCTGCGCCCCGGCACGAGCTCGTCCGGCGGTATAGTCGTATGTGCTTATACACATCAAAGCTAACAAATCTTTCTGCGGGCGGTCGTCACGACACACGTTCTTACG" isProtein={false} />
