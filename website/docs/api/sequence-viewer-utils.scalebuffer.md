@@ -9,7 +9,7 @@ title: "scaleBuffer"
 
 Scale the canvas according to the device pixel ratio
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare function scaleBuffer(canvas: HTMLCanvasElement, width: number, height: number): {
@@ -26,7 +26,7 @@ export declare function scaleBuffer(canvas: HTMLCanvasElement, width: number, he
 |  width | number |  |
 |  height | number |  |
 
-<b>Returns:</b>
+**Returns:**
 
 { ratio: number; shouldScale: boolean; } \| undefined
 

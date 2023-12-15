@@ -13,5 +13,5 @@ Renders interactive circular viewer
 
 |  Variable | Description |
 |  --- | --- |
-|  [CircularController](./sequence-viewer-react-circular.circularcontroller.md) | Renders interactive circular viewer.See: [Annotations](./sequence-viewer-utils.annotations.md), [CircularSelection](./sequence-viewer-utils.circularselection.md), [SequenceControllerRef](./sequence-viewer-utils.sequencecontrollerref.md), [SearchComponent](./sequence-viewer-react-shared.searchcomponent.md) |
+|  [CircularController](./sequence-viewer-react-circular.circularcontroller.md) | <p>Renders interactive circular viewer.</p><p>See: [Annotations](./sequence-viewer-utils.annotations.md), [CircularSelection](./sequence-viewer-utils.circularselection.md), [SequenceControllerRef](./sequence-viewer-utils.sequencecontrollerref.md), [SearchComponent](./sequence-viewer-react-shared.searchcomponent.md)</p> |
 

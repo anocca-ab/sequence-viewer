@@ -9,7 +9,7 @@ title: "Matrix"
 
 A transform matrix
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare type Matrix = {

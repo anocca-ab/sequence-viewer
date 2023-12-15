@@ -11,7 +11,7 @@ Renders interactive linear viewer.
 
 See: [Annotations](./sequence-viewer-utils.annotations.md), [CircularSelection](./sequence-viewer-utils.circularselection.md), [SequenceControllerRef](./sequence-viewer-utils.sequencecontrollerref.md), [SearchComponent](./sequence-viewer-react-shared.searchcomponent.md)
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 LinearController: React.ForwardRefExoticComponent<ControllerProps & React.RefAttributes<SequenceControllerRef>>

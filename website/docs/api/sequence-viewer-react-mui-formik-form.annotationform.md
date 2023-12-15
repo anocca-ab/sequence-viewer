@@ -22,7 +22,7 @@ Built with material UI and formik.
 ```
 See [AnnotationFormProps](./sequence-viewer-utils.annotationformprops.md), [Annotation](./sequence-viewer-utils.annotation.md)
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 AnnotationForm: ({ onSubmit, initialValues, title }: AnnotationFormProps) => JSX.Element

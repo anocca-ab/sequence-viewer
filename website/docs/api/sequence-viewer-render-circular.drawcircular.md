@@ -11,7 +11,7 @@ Will render the circular sequence with annotations and caret.
 
 See: [DrawFunction](./sequence-viewer-utils.drawfunction.md)
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 drawCircular: DrawFunction

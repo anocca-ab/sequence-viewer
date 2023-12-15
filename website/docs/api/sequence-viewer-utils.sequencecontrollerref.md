@@ -9,7 +9,7 @@ title: "SequenceControllerRef"
 
 To programatically call onClickAnnotation to select annotation in the sequence controller
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare type SequenceControllerRef = {

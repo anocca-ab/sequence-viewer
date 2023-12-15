@@ -13,5 +13,5 @@ Renders interactive linear viewer
 
 |  Variable | Description |
 |  --- | --- |
-|  [LinearController](./sequence-viewer-react-linear.linearcontroller.md) | Renders interactive linear viewer.See: [Annotations](./sequence-viewer-utils.annotations.md), [CircularSelection](./sequence-viewer-utils.circularselection.md), [SequenceControllerRef](./sequence-viewer-utils.sequencecontrollerref.md), [SearchComponent](./sequence-viewer-react-shared.searchcomponent.md) |
+|  [LinearController](./sequence-viewer-react-linear.linearcontroller.md) | <p>Renders interactive linear viewer.</p><p>See: [Annotations](./sequence-viewer-utils.annotations.md), [CircularSelection](./sequence-viewer-utils.circularselection.md), [SequenceControllerRef](./sequence-viewer-utils.sequencecontrollerref.md), [SearchComponent](./sequence-viewer-react-shared.searchcomponent.md)</p> |
 

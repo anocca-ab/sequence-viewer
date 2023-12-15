@@ -11,7 +11,7 @@ Ready to use sequence viewer component using react-icons, material UI and formik
 
 See: [Annotation](./sequence-viewer-utils.annotation.md)
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 SequenceViewerApp: (props: {

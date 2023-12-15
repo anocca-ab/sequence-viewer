@@ -13,7 +13,7 @@ Ready to use annotation form, to edit and create annotations using material UI a
 
 |  Variable | Description |
 |  --- | --- |
-|  [AnnotationForm](./sequence-viewer-react-mui-formik-form.annotationform.md) | Form component to create or edit an Annotation.Built with material UI and formik.**Usage:**
+|  [AnnotationForm](./sequence-viewer-react-mui-formik-form.annotationform.md) | <p>Form component to create or edit an Annotation.</p><p>Built with material UI and formik.</p><p>**Usage:**</p>
 ```tsx
 <AnnotationForm
   title="Create annotation"
@@ -21,5 +21,5 @@ Ready to use annotation form, to edit and create annotations using material UI a
   initialValues={{}}
 />
 ```
-See [AnnotationFormProps](./sequence-viewer-utils.annotationformprops.md), [Annotation](./sequence-viewer-utils.annotation.md) |
+<p>See [AnnotationFormProps](./sequence-viewer-utils.annotationformprops.md), [Annotation](./sequence-viewer-utils.annotation.md)</p> |
 

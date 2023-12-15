@@ -9,7 +9,7 @@ title: "DrawFunction"
 
 The draw function, e.g. drawLinear or drawCircular that paints the canvas element
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare type DrawFunction = (props: {
@@ -40,7 +40,5 @@ export declare type DrawFunction = (props: {
     hoveringFeature: undefined | string;
 };
 ```
-<b>References:</b>
-
- [RenderData](./sequence-viewer-utils.renderdata.md), [CircularSelection](./sequence-viewer-utils.circularselection.md), [Annotations](./sequence-viewer-utils.annotations.md)
+**References:** [RenderData](./sequence-viewer-utils.renderdata.md), [CircularSelection](./sequence-viewer-utils.circularselection.md), [Annotations](./sequence-viewer-utils.annotations.md)
 

@@ -9,7 +9,7 @@ title: "RenderData"
 
 Frequently updated data for drawCircular and drawLinear
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare type RenderData = {
@@ -25,7 +25,5 @@ export declare type RenderData = {
     matrix: Matrix;
 };
 ```
-<b>References:</b>
-
- [CircularCameraProgress](./sequence-viewer-utils.circularcameraprogress.md), [Matrix](./sequence-viewer-utils.matrix.md)
+**References:** [CircularCameraProgress](./sequence-viewer-utils.circularcameraprogress.md), [Matrix](./sequence-viewer-utils.matrix.md)
 

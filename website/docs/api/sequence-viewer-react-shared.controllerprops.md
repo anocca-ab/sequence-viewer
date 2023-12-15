@@ -9,7 +9,7 @@ title: "ControllerProps"
 
 Props for the CircularController and the LinearController component
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare type ControllerProps = {
@@ -40,7 +40,5 @@ export declare type ControllerProps = {
     }) => React.ReactNode;
 };
 ```
-<b>References:</b>
-
- [Annotations](./sequence-viewer-utils.annotations.md), [SearchComponent](./sequence-viewer-react-shared.searchcomponent.md), [CircularSelection](./sequence-viewer-utils.circularselection.md), [SelectionRange](./sequence-viewer-utils.selectionrange.md)
+**References:** [Annotations](./sequence-viewer-utils.annotations.md), [SearchComponent](./sequence-viewer-react-shared.searchcomponent.md), [CircularSelection](./sequence-viewer-utils.circularselection.md), [SelectionRange](./sequence-viewer-utils.selectionrange.md)
 

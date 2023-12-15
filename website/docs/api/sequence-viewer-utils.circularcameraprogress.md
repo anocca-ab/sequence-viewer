@@ -9,7 +9,7 @@ title: "CircularCameraProgress"
 
 The progress on zoom, angle and radius between 0 and 1 inclusive
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare type CircularCameraProgress = {

@@ -9,7 +9,7 @@ title: "SeqAnnotationDirectionsEnum"
 
 The direction of an annotation
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare enum SeqAnnotationDirectionsEnum 

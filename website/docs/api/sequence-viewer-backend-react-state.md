@@ -13,5 +13,5 @@ Creates an annotation backend that stores annotations in React.setState
 
 |  Variable | Description |
 |  --- | --- |
-|  [useBackend](./sequence-viewer-backend-react-state.usebackend.md) | Creates an annotation backend that stores annotations in React.setState.See: [Annotation](./sequence-viewer-utils.annotation.md) |
+|  [useBackend](./sequence-viewer-backend-react-state.usebackend.md) | <p>Creates an annotation backend that stores annotations in React.setState.</p><p>See: [Annotation](./sequence-viewer-utils.annotation.md)</p> |
 

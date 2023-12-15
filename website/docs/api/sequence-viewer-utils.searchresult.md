@@ -9,7 +9,7 @@ title: "SearchResult"
 
 Search result
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare type SearchResult = {

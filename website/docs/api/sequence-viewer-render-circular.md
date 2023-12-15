@@ -13,5 +13,5 @@ Draws the circle on a canvas
 
 |  Variable | Description |
 |  --- | --- |
-|  [drawCircular](./sequence-viewer-render-circular.drawcircular.md) | Will render the circular sequence with annotations and caret.See: [DrawFunction](./sequence-viewer-utils.drawfunction.md) |
+|  [drawCircular](./sequence-viewer-render-circular.drawcircular.md) | <p>Will render the circular sequence with annotations and caret.</p><p>See: [DrawFunction](./sequence-viewer-utils.drawfunction.md)</p> |
 

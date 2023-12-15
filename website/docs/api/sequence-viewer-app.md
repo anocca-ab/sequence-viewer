@@ -13,5 +13,5 @@ Ready to use sequence viewer component using material UI
 
 |  Variable | Description |
 |  --- | --- |
-|  [SequenceViewerApp](./sequence-viewer-app.sequenceviewerapp.md) | Ready to use sequence viewer component using react-icons, material UI and formik. Use this if you qulckly want to get started with the Anocca sequence viewer in react. See \[Get started\](/docs/tutorial/get-started)See: [Annotation](./sequence-viewer-utils.annotation.md) |
+|  [SequenceViewerApp](./sequence-viewer-app.sequenceviewerapp.md) | <p>Ready to use sequence viewer component using react-icons, material UI and formik. Use this if you qulckly want to get started with the Anocca sequence viewer in react. See \[Get started\](/docs/tutorial/get-started)</p><p>See: [Annotation](./sequence-viewer-utils.annotation.md)</p> |
 

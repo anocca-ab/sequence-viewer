@@ -9,7 +9,7 @@ title: "AnnotationFormProps"
 
 Props for an AnnotationForm component
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare type AnnotationFormProps = {
@@ -20,7 +20,5 @@ export declare type AnnotationFormProps = {
     };
 };
 ```
-<b>References:</b>
-
- [Annotation](./sequence-viewer-utils.annotation.md)
+**References:** [Annotation](./sequence-viewer-utils.annotation.md)
 

@@ -11,7 +11,7 @@ A toolbar component.
 
 See: [CircularSelection](./sequence-viewer-utils.circularselection.md), [SeqAnnotationDirectionsEnum](./sequence-viewer-utils.seqannotationdirectionsenum.md)
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 Toolbar: ({ selectedAnnotations, circularSelections, sequence, createAnnotation, onHide, onShow, onDelete, onCopySuccess, onCopyError }: {

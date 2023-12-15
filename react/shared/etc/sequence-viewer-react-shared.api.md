@@ -93,6 +93,7 @@ export const useController: ({ isProtein, clickedAnnotation, renderData, circula
     canvasRef: (buffer: HTMLCanvasElement | null) => void;
     zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
     setSearchResults: React_2.Dispatch<React_2.SetStateAction<SearchResult[]>>;
+    render: () => void;
 };
 
 // @internal

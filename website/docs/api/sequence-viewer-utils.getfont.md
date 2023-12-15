@@ -9,7 +9,7 @@ title: "getFont"
 
 Creates a font string based on fontSize and fontWeight
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare function getFont(size: number, weight?: 'normal' | 'bold' | number): string;
@@ -22,7 +22,7 @@ export declare function getFont(size: number, weight?: 'normal' | 'bold' | numbe
 |  size | number |  |
 |  weight | 'normal' \| 'bold' \| number |  |
 
-<b>Returns:</b>
+**Returns:**
 
 string
 

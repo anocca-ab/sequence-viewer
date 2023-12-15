@@ -11,7 +11,7 @@ Creates an annotation backend that stores annotations in React.setState.
 
 See: [Annotation](./sequence-viewer-utils.annotation.md)
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 useBackend: (initialAnnotations?: Annotation[]) => {

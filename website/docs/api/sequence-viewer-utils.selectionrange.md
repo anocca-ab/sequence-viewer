@@ -9,7 +9,7 @@ title: "SelectionRange"
 
 Selection range
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare type SelectionRange = {

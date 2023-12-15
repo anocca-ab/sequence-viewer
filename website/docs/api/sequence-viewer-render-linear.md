@@ -13,5 +13,5 @@ Draws the linear sequence viewer on a canvas
 
 |  Variable | Description |
 |  --- | --- |
-|  [drawLinear](./sequence-viewer-render-linear.drawlinear.md) | Render a linear view of a sequence on a canvas.See: [DrawFunction](./sequence-viewer-utils.drawfunction.md) |
+|  [drawLinear](./sequence-viewer-render-linear.drawlinear.md) | <p>Render a linear view of a sequence on a canvas.</p><p>See: [DrawFunction](./sequence-viewer-utils.drawfunction.md)</p> |
 

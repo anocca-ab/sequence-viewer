@@ -72,6 +72,7 @@ Deploy the docs: `GIT_USER=<Your GitHub username> USE_SSH=true yarn deploy`
 If you've updated the docstrings in the code run:
 
 ```bash
+npm install -g @microsoft/api-documenter
 cd website && ./write-docs.sh
 ```
 

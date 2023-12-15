@@ -14,5 +14,5 @@ Contains a few helpful react material UI components
 |  Variable | Description |
 |  --- | --- |
 |  [Search](./sequence-viewer-react-mui.search.md) | See [SearchComponent](./sequence-viewer-react-shared.searchcomponent.md) |
-|  [Toolbar](./sequence-viewer-react-mui.toolbar.md) | A toolbar component.See: [CircularSelection](./sequence-viewer-utils.circularselection.md), [SeqAnnotationDirectionsEnum](./sequence-viewer-utils.seqannotationdirectionsenum.md) |
+|  [Toolbar](./sequence-viewer-react-mui.toolbar.md) | <p>A toolbar component.</p><p>See: [CircularSelection](./sequence-viewer-utils.circularselection.md), [SeqAnnotationDirectionsEnum](./sequence-viewer-utils.seqannotationdirectionsenum.md)</p> |
 

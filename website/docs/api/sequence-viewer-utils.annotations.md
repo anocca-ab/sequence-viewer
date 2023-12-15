@@ -9,12 +9,10 @@ title: "Annotations"
 
 List of annotations
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare type Annotations = Annotation[];
 ```
-<b>References:</b>
-
- [Annotation](./sequence-viewer-utils.annotation.md)
+**References:** [Annotation](./sequence-viewer-utils.annotation.md)
 

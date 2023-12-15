@@ -11,7 +11,7 @@ Render a linear view of a sequence on a canvas.
 
 See: [DrawFunction](./sequence-viewer-utils.drawfunction.md)
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 drawLinear: DrawFunction

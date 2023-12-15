@@ -11,7 +11,7 @@ Will add mouse and keyboard interactions to the sequence viewer.
 
 See: [SequenceControllerRef](./sequence-viewer-utils.sequencecontrollerref.md), [Annotations](./sequence-viewer-utils.annotations.md), [DrawFunction](./sequence-viewer-utils.drawfunction.md), [RenderData](./sequence-viewer-utils.renderdata.md), [CircularSelection](./sequence-viewer-utils.circularselection.md), [SelectionRange](./sequence-viewer-utils.selectionrange.md), [SearchComponent](./sequence-viewer-react-shared.searchcomponent.md)
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 useController: ({ isProtein, clickedAnnotation, renderData, circularSelection, setCircularSelection, getCaretPosition, updateScroll, resetAngularScroll, zoomToSearchResult, draw, ref, width, height, sequence, allAnnotations, codons, Search, openAnnotationDialog }: {
@@ -44,5 +44,6 @@ useController: ({ isProtein, clickedAnnotation, renderData, circularSelection, s
     canvasRef: (buffer: HTMLCanvasElement | null) => void;
     zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
     setSearchResults: React.Dispatch<React.SetStateAction<SearchResult[]>>;
+    render: () => void;
 }
 ```

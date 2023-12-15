@@ -420,6 +420,7 @@ export const useController = ({
     search,
     canvasRef,
     zoomToSearchResult,
-    setSearchResults
+    setSearchResults,
+    render
   };
 };

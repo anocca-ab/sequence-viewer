@@ -9,7 +9,7 @@ title: "Annotation"
 
 Annotation
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare type Annotation = {
@@ -32,7 +32,5 @@ export declare type Annotation = {
     type: 'OTHER';
 });
 ```
-<b>References:</b>
-
- [SeqAnnotationDirectionsEnum](./sequence-viewer-utils.seqannotationdirectionsenum.md)
+**References:** [SeqAnnotationDirectionsEnum](./sequence-viewer-utils.seqannotationdirectionsenum.md)
 

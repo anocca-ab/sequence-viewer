@@ -19,7 +19,7 @@ lets say we have sequence of length 3000 and annotation of 4 bp length locations
 
 `forward(over the origin): [2998 - 2], antiClockwise: false`
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare type CircularSelection = (SelectionRange & {
@@ -30,7 +30,5 @@ export declare type CircularSelection = (SelectionRange & {
     antiClockwise?: boolean;
 });
 ```
-<b>References:</b>
-
- [SelectionRange](./sequence-viewer-utils.selectionrange.md)
+**References:** [SelectionRange](./sequence-viewer-utils.selectionrange.md)
 

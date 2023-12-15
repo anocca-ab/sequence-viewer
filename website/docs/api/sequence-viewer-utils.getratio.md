@@ -9,7 +9,7 @@ title: "getRatio"
 
 Get the device pixel ratio
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare function getRatio(context: CanvasRenderingContext2D): {
@@ -24,7 +24,7 @@ export declare function getRatio(context: CanvasRenderingContext2D): {
 |  --- | --- | --- |
 |  context | CanvasRenderingContext2D |  |
 
-<b>Returns:</b>
+**Returns:**
 
 { ratio: number; shouldScale: boolean; }
 

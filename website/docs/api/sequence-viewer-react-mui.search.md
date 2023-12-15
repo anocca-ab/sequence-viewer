@@ -9,7 +9,7 @@ title: "Search"
 
 See [SearchComponent](./sequence-viewer-react-shared.searchcomponent.md)
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 Search: SearchComponent

@@ -11,7 +11,7 @@ Search component that can be passed to the circular controller.
 
 See: [SearchResult](./sequence-viewer-utils.searchresult.md)
 
-<b>Signature:</b>
+**Signature:**
 
 ```typescript
 export declare type SearchComponent = ({ sequence, zoomOnResult, onSearchResults, spinOnResult, isProtein }: {
@@ -22,7 +22,5 @@ export declare type SearchComponent = ({ sequence, zoomOnResult, onSearchResults
     isProtein: boolean;
 }) => JSX.Element;
 ```
-<b>References:</b>
-
- [SearchResult](./sequence-viewer-utils.searchresult.md)
+**References:** [SearchResult](./sequence-viewer-utils.searchresult.md)
 
