@@ -1,6 +1,6 @@
 {
   "name": "@anocca/sequence-viewer-app",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "main": "lib-commonjs/index.js",
   "module": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -36,11 +36,11 @@
     "@emotion/styled": "11.x"
   },
   "dependencies": {
-    "@anocca/sequence-viewer-react-circular": "5.0.3",
-    "@anocca/sequence-viewer-react-linear": "5.0.3",
+    "@anocca/sequence-viewer-react-circular": "5.0.4",
+    "@anocca/sequence-viewer-react-linear": "5.0.4",
     "@anocca/sequence-viewer-utils": "4.0.2",
-    "@anocca/sequence-viewer-react-mui": "5.0.2",
-    "@anocca/sequence-viewer-react-shared": "4.0.3"
+    "@anocca/sequence-viewer-react-mui": "5.0.3",
+    "@anocca/sequence-viewer-react-shared": "4.1.0"
   },
   "description": ""
 }

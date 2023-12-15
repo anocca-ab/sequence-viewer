@@ -2,6 +2,18 @@
   "name": "@anocca/sequence-viewer-react-shared",
   "entries": [
     {
+      "version": "4.1.0",
+      "tag": "@anocca/sequence-viewer-react-shared_v4.1.0",
+      "date": "Fri, 15 Dec 2023 17:05:02 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "return render from useController, so the sequence viewer can be updated from code living outside of the anocca sequence viewer"
+          }
+        ]
+      }
+    },
+    {
       "version": "4.0.3",
       "tag": "@anocca/sequence-viewer-react-shared_v4.0.3",
       "date": "Sat, 19 Nov 2022 09:05:26 GMT",

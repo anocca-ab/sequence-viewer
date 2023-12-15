@@ -1,6 +1,13 @@
 # Change Log - @anocca/sequence-viewer-react-shared
 
-This log was last generated on Sat, 19 Nov 2022 09:05:26 GMT and should not be manually modified.
+This log was last generated on Fri, 15 Dec 2023 17:05:02 GMT and should not be manually modified.
+
+## 4.1.0
+Fri, 15 Dec 2023 17:05:02 GMT
+
+### Minor changes
+
+- return render from useController, so the sequence viewer can be updated from code living outside of the anocca sequence viewer
 
 ## 4.0.3
 Sat, 19 Nov 2022 09:05:26 GMT

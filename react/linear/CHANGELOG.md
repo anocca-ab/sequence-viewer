@@ -1,6 +1,11 @@
 # Change Log - @anocca/sequence-viewer-react-linear
 
-This log was last generated on Sat, 19 Nov 2022 09:05:26 GMT and should not be manually modified.
+This log was last generated on Fri, 15 Dec 2023 17:05:02 GMT and should not be manually modified.
+
+## 5.0.4
+Fri, 15 Dec 2023 17:05:02 GMT
+
+_Version update only_
 
 ## 5.0.3
 Sat, 19 Nov 2022 09:05:26 GMT

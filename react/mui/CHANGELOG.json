@@ -2,6 +2,18 @@
   "name": "@anocca/sequence-viewer-react-mui",
   "entries": [
     {
+      "version": "5.0.3",
+      "tag": "@anocca/sequence-viewer-react-mui_v5.0.3",
+      "date": "Fri, 15 Dec 2023 17:05:02 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-react-shared\" from `4.0.3` to `4.1.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "5.0.2",
       "tag": "@anocca/sequence-viewer-react-mui_v5.0.2",
       "date": "Wed, 23 Aug 2023 14:55:39 GMT",
