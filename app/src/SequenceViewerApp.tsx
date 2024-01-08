@@ -5,9 +5,10 @@ import {
   Annotation,
   humanCodons,
   SeqAnnotationDirectionsEnum,
-  AnnotationFormProps
+  AnnotationFormProps,
+  ChromatogramData
 } from '@anocca/sequence-viewer-utils';
-import { Search, Toolbar } from '@anocca/sequence-viewer-react-mui';
+import { Search, Toolbar, FilterChromatogram } from '@anocca/sequence-viewer-react-mui';
 import { Flex } from '@anocca/sequence-viewer-react-shared';
 import { Theme, Chip, Dialog, Snackbar, IconButton, Typography, Grid, Switch } from '@mui/material';
 import { MdClose } from 'react-icons/md';
@@ -33,6 +34,7 @@ export const SequenceViewerApp = (props: {
   updateAnnotation: (annotation: Annotation) => void;
   isProtein?: boolean;
   renderLinearByDefault?: boolean;
+  chromatogramData?: ChromatogramData;
   AnnotationForm: (props: AnnotationFormProps) => JSX.Element;
 }) => {
   const [addAnnotation, setAddAnnotation] = React.useState<
@@ -122,22 +124,38 @@ export const SequenceViewerApp = (props: {
         width={props.width}
         height={props.height}
         isProtein={!!props.isProtein}
+        chromatogramData={props.chromatogramData}
         annotations={props.annotations}
         codons={humanCodons}
         sequence={props.sequence}
         Search={Search}
+        FilterChromatogram={FilterChromatogram}
         openAnnotationDialog={(id) => {
           const annotation = props.getAnnotationById(id);
           setEditAnnotation(annotation);
         }}
       >
-        {({ canvas, search, selectedAnnotations, circularSelections, clickedAnnotation }) => (
+        {({
+          canvas,
+          search,
+          filterChromatogram,
+          selectedAnnotations,
+          circularSelections,
+          setCircularSelection,
+          clickedAnnotation
+        }) => (
           <div style={{ margin: 'auto', maxWidth: props.width + 'px' }}>
-            <Flex justifyContent="space-between" style={{ maxWidth: props.width + 'px' }}>
+            <Flex
+              justifyContent="space-between"
+              alignItems="center"
+              style={{ maxWidth: props.width + 'px', height: '56px', padding: '0 10px' }}
+            >
               <Flex style={{ position: 'relative', zIndex: 1 }}>
                 <Toolbar
                   selectedAnnotations={selectedAnnotations}
+                  isCircularViewer={isCircularViewer}
                   circularSelections={circularSelections}
+                  setCircularSelection={setCircularSelection}
                   sequence={props.sequence}
                   createAnnotation={(locations, direction) => {
                     setAddAnnotation({ locations, direction });
@@ -153,7 +171,10 @@ export const SequenceViewerApp = (props: {
                   }}
                 />
               </Flex>
-              {search}
+              <Flex style={{ gap: '20px', alignItems: 'center' }}>
+                {filterChromatogram}
+                {search}
+              </Flex>
             </Flex>
             <div style={{ position: 'relative' }}>
               {canvas}

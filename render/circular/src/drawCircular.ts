@@ -307,7 +307,7 @@ export const drawCircular: DrawFunction = ({
 
       const angle = caretMid * angleDelta + angleOffset;
 
-      const label = getSelectionLabel(circularSelection);
+      const label = getSelectionLabel(circularSelection, false, sequence.length);
 
       c.font = getFont(fontSize, 'bold');
       c.fillStyle = 'black';

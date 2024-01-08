@@ -5,6 +5,7 @@
 ```ts
 
 import { Annotations } from '@anocca/sequence-viewer-utils';
+import { ChromatogramData } from '@anocca/sequence-viewer-utils';
 import { CircularSelection } from '@anocca/sequence-viewer-utils';
 import { DrawFunction } from '@anocca/sequence-viewer-utils';
 import { default as React_2 } from 'react';
@@ -23,13 +24,17 @@ export type ControllerProps = {
         [k: string]: string;
     };
     Search?: SearchComponent;
+    FilterChromatogram?: FilterChromatogramType;
     openAnnotationDialog?: (annotationId: string) => void;
     isProtein: boolean;
+    chromatogramData?: ChromatogramData;
     children?: (props: {
         canvas: React.ReactNode;
         search?: React.ReactNode;
+        filterChromatogram?: React.ReactNode;
         selectedAnnotations: string[];
         circularSelections: CircularSelection[];
+        setCircularSelection: (annotationId: string | undefined, cc: CircularSelection[]) => void;
         clickedAnnotation?: string;
         canvasRef: (buffer: HTMLCanvasElement | null) => void;
         zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
@@ -41,6 +46,12 @@ export type ControllerProps = {
         }[]>) => void;
     }) => React.ReactNode;
 };
+
+// @public
+export type FilterChromatogramType = ({ optionsToRender, setOptionsToRender }: {
+    optionsToRender: string[];
+    setOptionsToRender: (options: string[]) => void;
+}) => JSX.Element;
 
 // @internal
 export const Flex: ({ children, style, alignItems, justifyContent }: {
@@ -63,7 +74,7 @@ export type SearchComponent = ({ sequence, zoomOnResult, onSearchResults, spinOn
 export const useCanvas: () => [HTMLCanvasElement | null, (buffer: HTMLCanvasElement | null) => void];
 
 // @public
-export const useController: ({ isProtein, clickedAnnotation, renderData, circularSelection, setCircularSelection, getCaretPosition, updateScroll, resetAngularScroll, zoomToSearchResult, draw, ref, width, height, sequence, allAnnotations, codons, Search, openAnnotationDialog }: {
+export const useController: ({ isProtein, chromatogramData, clickedAnnotation, renderData, circularSelection, setCircularSelection, getCaretPosition, updateScroll, resetAngularScroll, zoomToSearchResult, draw, ref, width, height, sequence, allAnnotations, codons, Search, FilterChromatogram, openAnnotationDialog, isCircularView }: {
     ref: React_2.ForwardedRef<SequenceControllerRef>;
     width: number;
     height: number;
@@ -73,6 +84,7 @@ export const useController: ({ isProtein, clickedAnnotation, renderData, circula
         [k: string]: string;
     };
     Search?: SearchComponent | undefined;
+    FilterChromatogram?: FilterChromatogramType | undefined;
     openAnnotationDialog?: ((annotationId: string) => void) | undefined;
     draw: DrawFunction;
     zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
@@ -84,12 +96,16 @@ export const useController: ({ isProtein, clickedAnnotation, renderData, circula
     setCircularSelection: (annotationId: undefined | string, cc: CircularSelection[]) => void;
     clickedAnnotation: string | undefined;
     isProtein: boolean;
+    chromatogramData?: ChromatogramData | undefined;
+    isCircularView: boolean;
 }) => {
     canvas: JSX.Element;
     selectedAnnotations: string[];
     circularSelection: CircularSelection[];
+    setCircularSelection: (annotationId: undefined | string, cc: CircularSelection[]) => void;
     clickedAnnotation: string | undefined;
     search: JSX.Element | undefined;
+    filterChromatogram: JSX.Element | undefined;
     canvasRef: (buffer: HTMLCanvasElement | null) => void;
     zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
     setSearchResults: React_2.Dispatch<React_2.SetStateAction<SearchResult[]>>;

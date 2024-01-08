@@ -42,7 +42,8 @@ export const CircularController = React.forwardRef<SequenceControllerRef, Contro
       search,
       canvasRef,
       zoomToSearchResult,
-      setSearchResults
+      setSearchResults,
+      setCircularSelection
     } = useCircularController({
       ref,
       width,
@@ -62,6 +63,7 @@ export const CircularController = React.forwardRef<SequenceControllerRef, Contro
             canvas,
             selectedAnnotations,
             circularSelections: circularSelection,
+            setCircularSelection,
             clickedAnnotation,
             search,
             canvasRef,

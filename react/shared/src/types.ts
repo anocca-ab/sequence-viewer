@@ -1,4 +1,24 @@
-import { Annotations, CircularSelection, SearchResult, SelectionRange } from '@anocca/sequence-viewer-utils';
+import {
+  Annotations,
+  ChromatogramData,
+  CircularSelection,
+  SearchResult,
+  SelectionRange
+} from '@anocca/sequence-viewer-utils';
+/**
+ * Filter options to be shown on chromatogram
+ *
+ * See: {@link @anocca/sequence-viewer-utils#FilterChromatogram | FilterChromatogram}
+ *
+ * @public
+ */
+export type FilterChromatogramType = ({
+  optionsToRender,
+  setOptionsToRender
+}: {
+  optionsToRender: string[];
+  setOptionsToRender: (options: string[]) => void;
+}) => JSX.Element;
 
 /**
  * Search component that can be passed to the circular controller.
@@ -33,13 +53,17 @@ export type ControllerProps = {
   annotations: Annotations;
   codons: { [k: string]: string };
   Search?: SearchComponent;
+  FilterChromatogram?: FilterChromatogramType;
   openAnnotationDialog?: (annotationId: string) => void;
   isProtein: boolean;
+  chromatogramData?: ChromatogramData;
   children?: (props: {
     canvas: React.ReactNode;
     search?: React.ReactNode;
+    filterChromatogram?: React.ReactNode;
     selectedAnnotations: string[];
     circularSelections: CircularSelection[];
+    setCircularSelection: (annotationId: string | undefined, cc: CircularSelection[]) => void;
     clickedAnnotation?: string;
     canvasRef: (buffer: HTMLCanvasElement | null) => void;
     zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;

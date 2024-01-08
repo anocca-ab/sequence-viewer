@@ -156,6 +156,7 @@ export const useCircularController = ({
     codons,
     Search,
     openAnnotationDialog,
-    isProtein
+    isProtein,
+    isCircularView: true
   });
 };

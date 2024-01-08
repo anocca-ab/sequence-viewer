@@ -1,5 +1,5 @@
 import { useCanvas, useDOMListeners } from './hooks';
-import { SearchComponent } from './types';
+import { FilterChromatogramType, SearchComponent } from './types';
 import {
   getSelectionDeltaAngle,
   isInSelection,
@@ -16,7 +16,8 @@ import {
   SeqAnnotationDirectionsEnum,
   SequenceControllerRef,
   SearchResult,
-  SelectionRange
+  SelectionRange,
+  ChromatogramData
 } from '@anocca/sequence-viewer-utils';
 import React, { useEffect, useState } from 'react';
 
@@ -36,6 +37,7 @@ import React, { useEffect, useState } from 'react';
  */
 export const useController = ({
   isProtein,
+  chromatogramData,
   clickedAnnotation,
   renderData,
   circularSelection,
@@ -52,7 +54,9 @@ export const useController = ({
   allAnnotations,
   codons,
   Search,
-  openAnnotationDialog
+  FilterChromatogram,
+  openAnnotationDialog,
+  isCircularView
 }: {
   ref: React.ForwardedRef<SequenceControllerRef>;
   width: number;
@@ -61,6 +65,7 @@ export const useController = ({
   allAnnotations: Annotations;
   codons: { [k: string]: string };
   Search?: SearchComponent;
+  FilterChromatogram?: FilterChromatogramType;
   openAnnotationDialog?: (annotationId: string) => void;
   draw: DrawFunction;
   zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
@@ -72,6 +77,8 @@ export const useController = ({
   setCircularSelection: (annotationId: undefined | string, cc: CircularSelection[]) => void;
   clickedAnnotation: string | undefined;
   isProtein: boolean;
+  chromatogramData?: ChromatogramData;
+  isCircularView: boolean;
 }) => {
   const len = sequence.length;
   const iLen = len - 1;
@@ -100,6 +107,8 @@ export const useController = ({
   const [hoveringFeature, setHoveringFeature] = React.useState<undefined | string>();
 
   const [ratio, setRatio] = React.useState<undefined | number>(undefined);
+
+  const [filterChromOptions, setFilterChromOptions] = React.useState<string[]>(['A', 'C', 'G', 'T', 'phred']);
 
   React.useEffect(() => {
     if (context) {
@@ -137,7 +146,9 @@ export const useController = ({
         hoveringFeature,
         clickedFeatures: selectedAnnotations
       },
-      isProtein
+      isProtein,
+      filterChromOptions,
+      chromatogramData
     });
     setHoveringFeature(_hoveringFeature);
   };
@@ -211,7 +222,7 @@ export const useController = ({
       const caretPosition = getCaretPosition();
       {
         const cs = [...circularSelection];
-        if (!ev.shiftKey) {
+        if (!ev.metaKey && !ev.shiftKey) {
           cs.splice(0, cs.length);
         }
         const currentSelection = getSelectionOver(caretPosition, cs);
@@ -249,7 +260,7 @@ export const useController = ({
   const _onEndDrag = (ev: MouseEvent) => {
     if (hoveringFeature) {
       if (hoveringFeature === clickedAnnotationCandidateDuringMouseDown.current) {
-        onClickAnnotation(hoveringFeature, ev.shiftKey);
+        onClickAnnotation(hoveringFeature, ev.metaKey);
         clickedAnnotationCandidateDuringMouseDown.current = undefined;
         return;
       }
@@ -334,7 +345,26 @@ export const useController = ({
 
   const onMouseMove = debounce(onMouseMoveCb);
 
-  const onClick = () => {};
+  const onClick = (ev: MouseEvent) => {
+    if (ev.shiftKey) {
+      const start = circularSelection[0]?.start;
+      const end = getCaretPosition();
+      const isAntiClockwise = () => {
+        if (start === end) return undefined;
+        if (isCircularView) {
+          if (start > end) {
+            return start - end < len / 2;
+          } else {
+            return end - start > len / 2;
+          }
+        } else return start > end;
+      };
+      if (start !== undefined)
+        setCircularSelection(undefined, [
+          { start, end, antiClockwise: isAntiClockwise(), state: 'selecting' }
+        ]);
+    }
+  };
 
   useDOMListeners(buffer, onClick, _onStartDrag, _onEndDrag, onScroll, onMouseMove, onDblClick);
 
@@ -365,7 +395,8 @@ export const useController = ({
     clickedAnnotation,
     sequence,
     codons,
-    searchResults
+    searchResults,
+    filterChromOptions
   ]);
   React.useLayoutEffect(() => {
     renderRef.current();
@@ -412,12 +443,21 @@ export const useController = ({
     />
   );
 
+  const filterChromatogram = chromatogramData && FilterChromatogram && (
+    <FilterChromatogram
+      optionsToRender={filterChromOptions}
+      setOptionsToRender={(options: string[]) => setFilterChromOptions(options)}
+    />
+  );
+
   return {
     canvas,
     selectedAnnotations,
     circularSelection,
+    setCircularSelection,
     clickedAnnotation,
     search,
+    filterChromatogram,
     canvasRef,
     zoomToSearchResult,
     setSearchResults,

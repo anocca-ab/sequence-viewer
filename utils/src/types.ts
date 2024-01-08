@@ -86,6 +86,21 @@ export type RenderData = {
 };
 
 /**
+ * Chromatogram data
+ *
+ * @public
+ */
+export type ChromatogramData = {
+  aTrace: number[];
+  gTrace: number[];
+  cTrace: number[];
+  tTrace: number[];
+  phred: number[];
+  peakLocations: number[];
+  sequence: string;
+};
+
+/**
  * Annotation
  *
  * @public
@@ -176,6 +191,7 @@ export type DrawFunction = (props: {
     active: boolean;
     complement: boolean;
   }[];
+  filterChromOptions: string[];
   annotationLevels: Annotations[];
   renderStateRef: {
     clickedFeatures: string[];
@@ -185,6 +201,7 @@ export type DrawFunction = (props: {
     [k: string]: string;
   };
   isProtein: boolean;
+  chromatogramData?: ChromatogramData;
 }) => {
   clickedFeatures: string[];
   hoveringFeature: undefined | string;

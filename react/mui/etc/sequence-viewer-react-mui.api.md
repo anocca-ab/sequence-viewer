@@ -10,13 +10,20 @@ import { CircularSelection } from '@anocca/sequence-viewer-utils';
 import { SearchComponent } from '@anocca/sequence-viewer-react-shared';
 import { SeqAnnotationDirectionsEnum } from '@anocca/sequence-viewer-utils';
 
+// Warning: (ae-forgotten-export) The symbol "FilterChromatogramType" needs to be exported by the entry point index.d.ts
+//
+// @public
+export const FilterChromatogram: FilterChromatogramType;
+
 // @public
 export const Search: SearchComponent;
 
 // @public
-export const Toolbar: ({ selectedAnnotations, circularSelections, sequence, createAnnotation, onHide, onShow, onDelete, onCopySuccess, onCopyError }: {
+export const Toolbar: ({ selectedAnnotations, circularSelections, setCircularSelection, isCircularViewer, sequence, createAnnotation, onHide, onShow, onDelete, onCopySuccess, onCopyError }: {
     selectedAnnotations: string[];
     circularSelections: CircularSelection[];
+    setCircularSelection: (annotationId: string | undefined, cc: CircularSelection[]) => void;
+    isCircularViewer: boolean;
     sequence: string;
     createAnnotation: (locations: [number, number][], direction: SeqAnnotationDirectionsEnum) => void;
     onHide: (selectionAnnotations: string[]) => void;

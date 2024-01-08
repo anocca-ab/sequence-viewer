@@ -5,3 +5,4 @@
  */
 export * from './Search';
 export * from './Toolbar';
+export * from './FilterChromatogram'

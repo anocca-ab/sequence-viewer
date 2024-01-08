@@ -22,7 +22,8 @@ import {
   isSelectionOverOrigin,
   isRangeOverOrigin,
   annotationIsOverOrigin,
-  isRangeInSelection
+  isRangeInSelection,
+  ChromatogramData
 } from '@anocca/sequence-viewer-utils';
 import {
   getBaseColor,
@@ -37,6 +38,82 @@ import { baseHeight, yBase } from './constants';
 const topAreaHeight = 64;
 const carretHeight = 16;
 const carretFontSize = 16;
+
+const memoize = <T, U>(fn: (...args: T[]) => U) => {
+  let lastArgs: any[] = [];
+  let lastVal: any;
+  return (...args: T[]): U => {
+    if (!args.every((arg, i) => arg === lastArgs[i])) {
+      lastVal = fn(...args);
+      lastArgs = args;
+    }
+    return lastVal;
+  };
+};
+
+//#region Chromatogram functions
+const GRAPH_PADDING = 5;
+const NORMALIZATION_WINDOW = 4;
+
+const interpolatedXAxis = memoize((peakLocations: number[]) => {
+  const newAxis: [number, number][] = [];
+  for (let i = 0; i <= peakLocations.length; i++) {
+    const interval = i > 0 ? peakLocations[i] - peakLocations[i - 1] : peakLocations[i];
+    for (let iInt = 0; iInt < interval; iInt++) {
+      const increment = iInt / interval;
+      const newX = i + increment;
+      newAxis.push(tuple(newX, i));
+    }
+    if (i === peakLocations.length) newAxis.push(tuple(i, i));
+  }
+  return newAxis;
+});
+
+const mostRelevantMax = memoize((chromatogramData: ChromatogramData) => {
+  const maxPhred = Math.max(...chromatogramData.phred);
+  const maxReference = maxPhred - Math.sqrt(maxPhred);
+  const peaks = (traceData: number[]) =>
+    chromatogramData.peakLocations
+      .map((location) => traceData[location])
+      .filter((_, idx) => {
+        const phreds = chromatogramData.phred;
+        if (idx > NORMALIZATION_WINDOW || idx < phreds.length - NORMALIZATION_WINDOW) {
+          let sum = 0;
+          for (let i = idx - NORMALIZATION_WINDOW; i < idx + NORMALIZATION_WINDOW; i++) {
+            sum += phreds[i];
+          }
+          const average = sum / (2 * NORMALIZATION_WINDOW);
+          return average > maxReference;
+        }
+        return false;
+      });
+
+  const positionalCleaning = (traceData: number[]) =>
+    chromatogramData.peakLocations
+      .map((location) => traceData[location])
+      .filter((_, idx) => {
+        const phreds = chromatogramData.phred;
+        return idx > phreds.length / 3 && idx < (2 * phreds.length) / 3;
+      });
+
+  const cleanData = [
+    ...peaks(chromatogramData.aTrace),
+    ...peaks(chromatogramData.cTrace),
+    ...peaks(chromatogramData.gTrace),
+    ...peaks(chromatogramData.tTrace)
+  ];
+
+  /* Fallback for low overall phred (low quality) data */
+  const lessCleanData = [
+    ...positionalCleaning(chromatogramData.aTrace),
+    ...positionalCleaning(chromatogramData.cTrace),
+    ...positionalCleaning(chromatogramData.gTrace),
+    ...positionalCleaning(chromatogramData.tTrace)
+  ];
+
+  return cleanData.length > 0 ? Math.max(...cleanData) : Math.max(...lessCleanData);
+});
+//#endregion
 
 /**
  * Render a linear view of a sequence on a canvas.
@@ -55,7 +132,9 @@ export const drawLinear: DrawFunction = ({
   data,
   renderStateRef,
   searchResults,
+  filterChromOptions,
   isProtein,
+  chromatogramData,
   circularSelection,
   codons
 }) => {
@@ -178,6 +257,53 @@ export const drawLinear: DrawFunction = ({
       dynamicFontSize = 6;
     }
   }
+
+  //#region Chromatogram functions
+  const relativeHeight = (height: number, yInterval: number) => {
+    const topWithPadding = topAreaHeight - baseHeight / 2;
+    const y = topWithPadding * (1 - height / yInterval);
+    return y - topWithPadding;
+  };
+
+  const drawPhreds = ({ i, phred, yMax }: { i: number; phred: number; yMax: number }) => {
+    const xStart = getIndexBaseX(i);
+    if (!filterChromOptions.includes('phred')) return;
+    const top = topAreaHeight + dynamicFontSize - m.f;
+    const y = relativeHeight(phred, yMax);
+    c.lineWidth = 1;
+    c.strokeStyle = 'rgba(0, 0, 0, 0.075)';
+    c.strokeRect(transformX(xStart), transformY(top), baseWidth * m.a, y);
+  };
+
+  const drawChromatogram = ({
+    base,
+    iInterpol,
+    iNext,
+    value,
+    nextValue,
+    top,
+    yMax
+  }: {
+    base: string;
+    iInterpol: number;
+    iNext: number;
+    value: number;
+    nextValue: number;
+    top: number;
+    yMax: number;
+  }) => {
+    const padding = dynamicFontSize + GRAPH_PADDING;
+    const x = (ix: number) => getIndexBaseX(ix) - baseWidth / 2;
+    const y = (value: number) => (top - padding) * (1 - value / yMax) - m.f;
+    const color = getBaseColor(isProtein, base);
+    c.lineWidth = 1;
+    c.strokeStyle = color;
+    c.beginPath();
+    c.moveTo(transformX(x(iInterpol)), transformY(y(value)));
+    c.lineTo(transformX(x(iNext)), transformY(y(nextValue)));
+    c.stroke();
+  };
+  //#endregion
 
   const drawBase = ({
     base,
@@ -604,7 +730,7 @@ export const drawLinear: DrawFunction = ({
       continue;
     }
 
-    drawBase({ base: sequence[i], i, top: topAreaHeight + (isProtein ? 0 : dynamicFontSize) });
+    drawBase({ base: sequence[i], i, top: topAreaHeight - m.f + (isProtein ? 0 : dynamicFontSize) });
     const gap = 48 / (baseWidth * m.a);
 
     const numberOfIndicators = Math.floor(iLen / gap);
@@ -678,7 +804,7 @@ export const drawLinear: DrawFunction = ({
     if (circularSelection.antiClockwise === true) {
       lineLeftPx += arrowSize / m.a;
     }
-    let _top = top;
+    let _top = top - m.f;
     if (circularSelection.antiClockwise === true && !isProtein) {
       _top += dynamicFontSize;
     }
@@ -728,10 +854,10 @@ export const drawLinear: DrawFunction = ({
       if (circularSelection.antiClockwise === true) {
         for (let i = circularSelection.start; i >= circularSelection.end; i -= 1) {
           const complementBase = getNtComplement(sequence[i]);
-          drawBase({ base: complementBase, i, top });
+          drawBase({ base: complementBase, i, top: top - m.f });
           tripplet += complementBase;
           if (tripplet.length === 3) {
-            renderCodon(tripplet, i, dynamicFontSize);
+            renderCodon(tripplet, i, dynamicFontSize - m.f);
             tripplet = '';
           }
         }
@@ -739,7 +865,7 @@ export const drawLinear: DrawFunction = ({
         for (let i = circularSelection.start; i <= circularSelection.end; i += 1) {
           tripplet += sequence[i];
           if (tripplet.length === 3) {
-            renderCodon(tripplet, i - 2, -2 * dynamicFontSize - selectionLineMarginTop);
+            renderCodon(tripplet, i - 2, dynamicFontSize - m.f);
             tripplet = '';
           }
         }
@@ -748,24 +874,21 @@ export const drawLinear: DrawFunction = ({
 
     const { end, start, antiClockwise } = circularSelection;
 
-    const label = getSelectionLabel(circularSelection);
+    let label = getSelectionLabel(circularSelection, isProtein, sequence.length);
 
     c.font = getFont(16, 'bold');
     c.fillStyle = 'black';
     c.textBaseline = 'top';
 
     const caretMid = getIndexMid(start, end, len, antiClockwise);
-    let _yOffset = dynamicFontSize * 2;
-    if (antiClockwise) {
-      _yOffset = dynamicFontSize * 4;
-    }
+    let _yOffset = dynamicFontSize * 4;
     if (isProtein) {
       _yOffset = dynamicFontSize;
     }
     drawNonScaledText(
       label,
       caretMid * baseWidth + baseWidth / 2,
-      topAreaHeight + _yOffset + selectionLineWidth + selectionLineMarginTop,
+      topAreaHeight + _yOffset + selectionLineWidth + selectionLineMarginTop - m.f,
       'start',
       'center'
     );
@@ -795,8 +918,8 @@ export const drawLinear: DrawFunction = ({
     cc = base + dynamicFontSize + carretHeight;
   }
   c.beginPath();
-  c.moveTo(transformX(caretx), transformY(ca));
-  c.lineTo(transformX(caretx), transformY(cb));
+  c.moveTo(transformX(caretx), transformY(ca) - m.f);
+  c.lineTo(transformX(caretx), transformY(cb) - m.f);
   c.lineWidth = 3;
   c.strokeStyle = 'rgba(0, 0, 0, 0.5)';
   c.stroke();
@@ -804,7 +927,42 @@ export const drawLinear: DrawFunction = ({
   c.font = getFont(carretFontSize, 'bold');
   c.fillStyle = 'black';
 
-  drawNonScaledText(String(i + 1), caretx, cc, 'start', 'center');
+  drawNonScaledText(String(i + 1), caretx, cc - m.f, 'start', 'center');
+
+  if (chromatogramData) {
+    const peakLocations = chromatogramData.peakLocations;
+    const phreds = chromatogramData.phred;
+
+    for (let i = 0; i < phreds.length; i++) {
+      const yMax = Math.max(...phreds);
+      drawPhreds({ i, phred: phreds[i], yMax });
+    }
+
+    Object.entries(chromatogramData)
+      .filter(([key, _]) => key.includes('Trace') && filterChromOptions.includes(key.charAt(0).toUpperCase()))
+      .forEach(([key, data]) => {
+        if (typeof data === 'string' || !key.includes('Trace')) return;
+        const traceData = data;
+        const baseForPlot = key.charAt(0).toUpperCase();
+        const interpolAxis = interpolatedXAxis(peakLocations);
+        const yMax = mostRelevantMax(chromatogramData);
+        for (let i = 0; i < interpolAxis.length - 1; i++) {
+          if (interpolAxis[i][1] < windowStart || interpolAxis[i][1] > windowLen) {
+            continue;
+          }
+
+          drawChromatogram({
+            base: baseForPlot,
+            iInterpol: interpolAxis[i][0],
+            iNext: interpolAxis[i + 1][0],
+            value: traceData[i],
+            nextValue: traceData[i + 1],
+            top,
+            yMax
+          });
+        }
+      });
+  }
 
   //#endregion
 

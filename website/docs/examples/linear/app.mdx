@@ -5,7 +5,7 @@ sidebar_position: 1
 import { StaticLinear } from '../../../src/components/StaticLinear';
 import { tuple, SeqAnnotationDirectionsEnum, CircularCameraProgress, debounce, humanCodons, CircularSelection, Annotations } from '@anocca/sequence-viewer-utils';
 import { LinearApp } from '../../../src/components/LinearApp'
-
+import ab1 from '../../../static/example-data/ab1.json'
 
 # App
 
@@ -67,3 +67,6 @@ import { LinearApp } from '../../../src/components/LinearApp'
   ]}
 />
 
+## With Chromatogram
+
+<LinearApp codons={humanCodons} sequence={ab1.sequence} chromatogramData={ab1} isProtein={false} />

@@ -8,6 +8,7 @@
 
 import { Annotation } from '@anocca/sequence-viewer-utils';
 import { AnnotationFormProps } from '@anocca/sequence-viewer-utils';
+import { ChromatogramData } from '@anocca/sequence-viewer-utils';
 
 // @public
 export const SequenceViewerApp: (props: {
@@ -24,6 +25,7 @@ export const SequenceViewerApp: (props: {
     updateAnnotation: (annotation: Annotation) => void;
     isProtein?: boolean | undefined;
     renderLinearByDefault?: boolean | undefined;
+    chromatogramData?: ChromatogramData | undefined;
     AnnotationForm: (props: AnnotationFormProps) => JSX.Element;
 }) => JSX.Element;
 

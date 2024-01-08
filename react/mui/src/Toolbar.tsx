@@ -7,7 +7,7 @@ import {
   CircularSelection,
   getNtComplement
 } from '@anocca/sequence-viewer-utils';
-import { FaEye, FaEyeSlash, FaRegCopy, FaTrash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaRegCopy, FaTrash, FaRetweet } from 'react-icons/fa';
 
 const FabWrapper = ({ children }: { children: React.ReactNode }) => {
   return <div style={{ paddingRight: '8px' }}>{children}</div>;
@@ -25,6 +25,8 @@ const FabWrapper = ({ children }: { children: React.ReactNode }) => {
 export const Toolbar = ({
   selectedAnnotations,
   circularSelections,
+  setCircularSelection,
+  isCircularViewer,
   sequence,
   createAnnotation,
   onHide,
@@ -35,6 +37,8 @@ export const Toolbar = ({
 }: {
   selectedAnnotations: string[];
   circularSelections: CircularSelection[];
+  setCircularSelection: (annotationId: string | undefined, cc: CircularSelection[]) => void;
+  isCircularViewer: boolean;
   sequence: string;
   createAnnotation: (locations: [number, number][], direction: SeqAnnotationDirectionsEnum) => void;
   onHide: (selectionAnnotations: string[]) => void;
@@ -117,6 +121,32 @@ export const Toolbar = ({
       triggeredCopy.current = false;
     }
   };
+  const invalidSelection = (ac: boolean | undefined) => {
+    return circularSelections.find((selection) => {
+      return selection.antiClockwise !== ac;
+    });
+  };
+
+  const invertSelection = () => {
+    const ac = circularSelections[0].antiClockwise;
+    if (invalidSelection(ac)) {
+      alert('All selections must have the same direction when using this feature');
+      return;
+    }
+    const len = circularSelections.length;
+    if (len === 0) return;
+    setCircularSelection(
+      undefined,
+      circularSelections
+        .sort((a, b) => a.start - b.start)
+        .map((cs, idx, csArr) => {
+          const nextSelectionIdx = cs.antiClockwise ? (idx + 1) % len : (idx + len - 1) % len;
+          const tick = cs.antiClockwise ? -1 : 1;
+          const nextEnd = csArr[nextSelectionIdx].end + tick;
+          return { ...cs, start: cs.start - tick, end: nextEnd, antiClockwise: !cs.antiClockwise };
+        })
+    );
+  };
 
   const downRef = React.useRef(down);
   downRef.current = down;
@@ -147,10 +177,7 @@ export const Toolbar = ({
   };
   const onAdd = () => {
     const ac = circularSelections[0].antiClockwise;
-    const invalidSelection = circularSelections.find((selection) => {
-      return selection.antiClockwise !== ac;
-    });
-    if (invalidSelection) {
+    if (invalidSelection(ac)) {
       alert('All selections must have the same direction when creating a new annotation');
       return;
     }
@@ -200,6 +227,13 @@ export const Toolbar = ({
               <FaEye />
             </Fab>
           </FabWrapper>
+          {isCircularViewer && (
+            <FabWrapper>
+              <Fab size="small" onClick={invertSelection}>
+                <FaRetweet />
+              </Fab>
+            </FabWrapper>
+          )}
           <FabWrapper>
             <Fab
               size="small"
