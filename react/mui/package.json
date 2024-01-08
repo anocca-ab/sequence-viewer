@@ -1,6 +1,6 @@
 {
   "name": "@anocca/sequence-viewer-react-mui",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "description": "",
   "main": "lib-commonjs/index.js",
   "module": "lib/index.js",
@@ -28,9 +28,9 @@
     "@emotion/styled": "~11.8.1"
   },
   "dependencies": {
-    "@anocca/sequence-viewer-utils": "4.0.2",
-    "@anocca/sequence-viewer-render-circular": "4.0.2",
-    "@anocca/sequence-viewer-react-shared": "4.2.0"
+    "@anocca/sequence-viewer-utils": "4.1.0",
+    "@anocca/sequence-viewer-render-circular": "4.0.3",
+    "@anocca/sequence-viewer-react-shared": "4.2.1"
   },
   "peerDependencies": {
     "react-icons": "*",

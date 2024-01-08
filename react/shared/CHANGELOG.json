@@ -2,6 +2,18 @@
   "name": "@anocca/sequence-viewer-react-shared",
   "entries": [
     {
+      "version": "4.2.1",
+      "tag": "@anocca/sequence-viewer-react-shared_v4.2.1",
+      "date": "Mon, 08 Jan 2024 21:24:30 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `4.0.2` to `4.1.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "4.2.0",
       "tag": "@anocca/sequence-viewer-react-shared_v4.2.0",
       "date": "Mon, 08 Jan 2024 20:48:07 GMT",

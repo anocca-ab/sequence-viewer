@@ -2,6 +2,18 @@
   "name": "@anocca/sequence-viewer-render-circular",
   "entries": [
     {
+      "version": "4.0.3",
+      "tag": "@anocca/sequence-viewer-render-circular_v4.0.3",
+      "date": "Mon, 08 Jan 2024 21:24:30 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `4.0.2` to `4.1.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "4.0.2",
       "tag": "@anocca/sequence-viewer-render-circular_v4.0.2",
       "date": "Sat, 19 Nov 2022 09:05:26 GMT",

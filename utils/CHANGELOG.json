@@ -2,6 +2,18 @@
   "name": "@anocca/sequence-viewer-utils",
   "entries": [
     {
+      "version": "4.1.0",
+      "tag": "@anocca/sequence-viewer-utils_v4.1.0",
+      "date": "Mon, 08 Jan 2024 21:24:30 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "add chromatogram support"
+          }
+        ]
+      }
+    },
+    {
       "version": "4.0.2",
       "tag": "@anocca/sequence-viewer-utils_v4.0.2",
       "date": "Sat, 19 Nov 2022 09:05:26 GMT",

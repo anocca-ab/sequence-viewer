@@ -2,6 +2,18 @@
   "name": "@anocca/sequence-viewer-react-mui-formik-form",
   "entries": [
     {
+      "version": "5.0.3",
+      "tag": "@anocca/sequence-viewer-react-mui-formik-form_v5.0.3",
+      "date": "Mon, 08 Jan 2024 21:24:30 GMT",
+      "comments": {
+        "dependency": [
+          {
+            "comment": "Updating dependency \"@anocca/sequence-viewer-utils\" from `4.0.2` to `4.1.0`"
+          }
+        ]
+      }
+    },
+    {
       "version": "5.0.2",
       "tag": "@anocca/sequence-viewer-react-mui-formik-form_v5.0.2",
       "date": "Wed, 23 Aug 2023 14:55:39 GMT",

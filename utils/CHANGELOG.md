@@ -1,6 +1,13 @@
 # Change Log - @anocca/sequence-viewer-utils
 
-This log was last generated on Sat, 19 Nov 2022 09:05:26 GMT and should not be manually modified.
+This log was last generated on Mon, 08 Jan 2024 21:24:30 GMT and should not be manually modified.
+
+## 4.1.0
+Mon, 08 Jan 2024 21:24:30 GMT
+
+### Minor changes
+
+- add chromatogram support
 
 ## 4.0.2
 Sat, 19 Nov 2022 09:05:26 GMT

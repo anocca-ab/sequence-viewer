@@ -7,7 +7,7 @@ title: "ChromatogramData"
 
 
 
-Chromatogram data
+Chromatogram data to render the chromatogram
 
 **Signature:**
 

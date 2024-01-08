@@ -1,6 +1,11 @@
 # Change Log - @anocca/sequence-viewer-react-shared
 
-This log was last generated on Mon, 08 Jan 2024 20:48:07 GMT and should not be manually modified.
+This log was last generated on Mon, 08 Jan 2024 21:24:30 GMT and should not be manually modified.
+
+## 4.2.1
+Mon, 08 Jan 2024 21:24:30 GMT
+
+_Version update only_
 
 ## 4.2.0
 Mon, 08 Jan 2024 20:48:07 GMT

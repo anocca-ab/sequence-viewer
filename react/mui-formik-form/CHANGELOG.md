@@ -1,6 +1,11 @@
 # Change Log - @anocca/sequence-viewer-react-mui-formik-form
 
-This log was last generated on Wed, 23 Aug 2023 14:55:39 GMT and should not be manually modified.
+This log was last generated on Mon, 08 Jan 2024 21:24:30 GMT and should not be manually modified.
+
+## 5.0.3
+Mon, 08 Jan 2024 21:24:30 GMT
+
+_Version update only_
 
 ## 5.0.2
 Wed, 23 Aug 2023 14:55:39 GMT
