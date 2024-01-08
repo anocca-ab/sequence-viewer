@@ -21,13 +21,17 @@ export declare type ControllerProps = {
         [k: string]: string;
     };
     Search?: SearchComponent;
+    FilterChromatogram?: FilterChromatogramType;
     openAnnotationDialog?: (annotationId: string) => void;
     isProtein: boolean;
+    chromatogramData?: ChromatogramData;
     children?: (props: {
         canvas: React.ReactNode;
         search?: React.ReactNode;
+        filterChromatogram?: React.ReactNode;
         selectedAnnotations: string[];
         circularSelections: CircularSelection[];
+        setCircularSelection: (annotationId: string | undefined, cc: CircularSelection[]) => void;
         clickedAnnotation?: string;
         canvasRef: (buffer: HTMLCanvasElement | null) => void;
         zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
@@ -40,5 +44,5 @@ export declare type ControllerProps = {
     }) => React.ReactNode;
 };
 ```
-**References:** [Annotations](./sequence-viewer-utils.annotations.md), [SearchComponent](./sequence-viewer-react-shared.searchcomponent.md), [CircularSelection](./sequence-viewer-utils.circularselection.md), [SelectionRange](./sequence-viewer-utils.selectionrange.md)
+**References:** [Annotations](./sequence-viewer-utils.annotations.md), [SearchComponent](./sequence-viewer-react-shared.searchcomponent.md), [FilterChromatogramType](./sequence-viewer-react-shared.filterchromatogramtype.md), [ChromatogramData](./sequence-viewer-utils.chromatogramdata.md), [CircularSelection](./sequence-viewer-utils.circularselection.md), [SelectionRange](./sequence-viewer-utils.selectionrange.md)
 

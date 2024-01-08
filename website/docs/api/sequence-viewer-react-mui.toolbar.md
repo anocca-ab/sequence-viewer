@@ -14,9 +14,11 @@ See: [CircularSelection](./sequence-viewer-utils.circularselection.md), [SeqAnno
 **Signature:**
 
 ```typescript
-Toolbar: ({ selectedAnnotations, circularSelections, sequence, createAnnotation, onHide, onShow, onDelete, onCopySuccess, onCopyError }: {
+Toolbar: ({ selectedAnnotations, circularSelections, setCircularSelection, isCircularViewer, sequence, createAnnotation, onHide, onShow, onDelete, onCopySuccess, onCopyError }: {
     selectedAnnotations: string[];
     circularSelections: CircularSelection[];
+    setCircularSelection: (annotationId: string | undefined, cc: CircularSelection[]) => void;
+    isCircularViewer: boolean;
     sequence: string;
     createAnnotation: (locations: [number, number][], direction: SeqAnnotationDirectionsEnum) => void;
     onHide: (selectionAnnotations: string[]) => void;

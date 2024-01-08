@@ -13,6 +13,7 @@ Contains a few helpful react material UI components
 
 |  Variable | Description |
 |  --- | --- |
+|  [FilterChromatogram](./sequence-viewer-react-mui.filterchromatogram.md) | See [FilterChromatogramType](./sequence-viewer-react-shared.filterchromatogramtype.md) |
 |  [Search](./sequence-viewer-react-mui.search.md) | See [SearchComponent](./sequence-viewer-react-shared.searchcomponent.md) |
 |  [Toolbar](./sequence-viewer-react-mui.toolbar.md) | <p>A toolbar component.</p><p>See: [CircularSelection](./sequence-viewer-utils.circularselection.md), [SeqAnnotationDirectionsEnum](./sequence-viewer-utils.seqannotationdirectionsenum.md)</p> |
 

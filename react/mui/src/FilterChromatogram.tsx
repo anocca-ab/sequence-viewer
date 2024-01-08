@@ -29,7 +29,7 @@ const CheckboxComponent = ({ base, checked }: { base: string; checked: boolean }
   );
 };
 /**
- * See {@link @anocca/sequence-viewer-react-shared#FilterChromatogram | FilterChromatogram}
+ * See {@link @anocca/sequence-viewer-react-shared#FilterChromatogramType | FilterChromatogramType}
  *
  * @public
  */

@@ -20,5 +20,6 @@ Contains a few types and utilities for using the react circular controller
 |  Type Alias | Description |
 |  --- | --- |
 |  [ControllerProps](./sequence-viewer-react-shared.controllerprops.md) | Props for the CircularController and the LinearController component |
+|  [FilterChromatogramType](./sequence-viewer-react-shared.filterchromatogramtype.md) | <p>Filter options to be shown on chromatogram</p><p>See: [ChromatogramData](./sequence-viewer-utils.chromatogramdata.md)</p> |
 |  [SearchComponent](./sequence-viewer-react-shared.searchcomponent.md) | <p>Search component that can be passed to the circular controller.</p><p>See: [SearchResult](./sequence-viewer-utils.searchresult.md)</p> |
 

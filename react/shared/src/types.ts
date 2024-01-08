@@ -8,7 +8,7 @@ import {
 /**
  * Filter options to be shown on chromatogram
  *
- * See: {@link @anocca/sequence-viewer-utils#FilterChromatogram | FilterChromatogram}
+ * See: {@link @anocca/sequence-viewer-utils#ChromatogramData | ChromatogramData}
  *
  * @public
  */

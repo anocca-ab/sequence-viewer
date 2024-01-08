@@ -14,7 +14,7 @@ See: [SequenceControllerRef](./sequence-viewer-utils.sequencecontrollerref.md), 
 **Signature:**
 
 ```typescript
-useController: ({ isProtein, clickedAnnotation, renderData, circularSelection, setCircularSelection, getCaretPosition, updateScroll, resetAngularScroll, zoomToSearchResult, draw, ref, width, height, sequence, allAnnotations, codons, Search, openAnnotationDialog }: {
+useController: ({ isProtein, chromatogramData, clickedAnnotation, renderData, circularSelection, setCircularSelection, getCaretPosition, updateScroll, resetAngularScroll, zoomToSearchResult, draw, ref, width, height, sequence, allAnnotations, codons, Search, FilterChromatogram, openAnnotationDialog, isCircularView }: {
     ref: React.ForwardedRef<SequenceControllerRef>;
     width: number;
     height: number;
@@ -24,6 +24,7 @@ useController: ({ isProtein, clickedAnnotation, renderData, circularSelection, s
         [k: string]: string;
     };
     Search?: SearchComponent | undefined;
+    FilterChromatogram?: FilterChromatogramType | undefined;
     openAnnotationDialog?: ((annotationId: string) => void) | undefined;
     draw: DrawFunction;
     zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
@@ -35,12 +36,16 @@ useController: ({ isProtein, clickedAnnotation, renderData, circularSelection, s
     setCircularSelection: (annotationId: undefined | string, cc: CircularSelection[]) => void;
     clickedAnnotation: string | undefined;
     isProtein: boolean;
+    chromatogramData?: ChromatogramData | undefined;
+    isCircularView: boolean;
 }) => {
     canvas: JSX.Element;
     selectedAnnotations: string[];
     circularSelection: CircularSelection[];
+    setCircularSelection: (annotationId: undefined | string, cc: CircularSelection[]) => void;
     clickedAnnotation: string | undefined;
     search: JSX.Element | undefined;
+    filterChromatogram: JSX.Element | undefined;
     canvasRef: (buffer: HTMLCanvasElement | null) => void;
     zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
     setSearchResults: React.Dispatch<React.SetStateAction<SearchResult[]>>;

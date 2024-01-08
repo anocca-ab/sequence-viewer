@@ -26,6 +26,7 @@ export declare type DrawFunction = (props: {
         active: boolean;
         complement: boolean;
     }[];
+    filterChromOptions: string[];
     annotationLevels: Annotations[];
     renderStateRef: {
         clickedFeatures: string[];
@@ -35,10 +36,11 @@ export declare type DrawFunction = (props: {
         [k: string]: string;
     };
     isProtein: boolean;
+    chromatogramData?: ChromatogramData;
 }) => {
     clickedFeatures: string[];
     hoveringFeature: undefined | string;
 };
 ```
-**References:** [RenderData](./sequence-viewer-utils.renderdata.md), [CircularSelection](./sequence-viewer-utils.circularselection.md), [Annotations](./sequence-viewer-utils.annotations.md)
+**References:** [RenderData](./sequence-viewer-utils.renderdata.md), [CircularSelection](./sequence-viewer-utils.circularselection.md), [Annotations](./sequence-viewer-utils.annotations.md), [ChromatogramData](./sequence-viewer-utils.chromatogramdata.md)
 

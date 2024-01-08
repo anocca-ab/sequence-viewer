@@ -7,11 +7,10 @@
 /// <reference types="react" />
 
 import { CircularSelection } from '@anocca/sequence-viewer-utils';
+import { FilterChromatogramType } from '@anocca/sequence-viewer-react-shared';
 import { SearchComponent } from '@anocca/sequence-viewer-react-shared';
 import { SeqAnnotationDirectionsEnum } from '@anocca/sequence-viewer-utils';
 
-// Warning: (ae-forgotten-export) The symbol "FilterChromatogramType" needs to be exported by the entry point index.d.ts
-//
 // @public
 export const FilterChromatogram: FilterChromatogramType;
 

@@ -28,6 +28,7 @@ SequenceViewerApp: (props: {
     updateAnnotation: (annotation: Annotation) => void;
     isProtein?: boolean | undefined;
     renderLinearByDefault?: boolean | undefined;
+    chromatogramData?: ChromatogramData | undefined;
     AnnotationForm: (props: AnnotationFormProps) => JSX.Element;
 }) => JSX.Element
 ```

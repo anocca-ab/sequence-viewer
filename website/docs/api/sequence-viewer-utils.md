@@ -30,6 +30,7 @@ Contains utilities, types and constants used by all @anocca/sequence-viewer- pac
 |  [Annotation](./sequence-viewer-utils.annotation.md) | Annotation |
 |  [AnnotationFormProps](./sequence-viewer-utils.annotationformprops.md) | Props for an AnnotationForm component |
 |  [Annotations](./sequence-viewer-utils.annotations.md) | List of annotations |
+|  [ChromatogramData](./sequence-viewer-utils.chromatogramdata.md) | Chromatogram data |
 |  [CircularCameraProgress](./sequence-viewer-utils.circularcameraprogress.md) | The progress on zoom, angle and radius between 0 and 1 inclusive |
 |  [CircularSelection](./sequence-viewer-utils.circularselection.md) | <p>Sequence selection defines <code>[start, end]</code> where start is the tail and end is the head.</p><p>lets say we have sequence of length 3000 and annotation of 4 bp length locations:</p><p><code>reverse: [10 - 6], antiClockwise: true</code>,</p><p><code>reverse(over the origin): [2 - 2998], antiClockwise: true</code>,</p><p><code>forward: [6 - 10], antiClockwise: false</code>,</p><p><code>forward(over the origin): [2998 - 2], antiClockwise: false</code></p> |
 |  [DrawFunction](./sequence-viewer-utils.drawfunction.md) | The draw function, e.g. drawLinear or drawCircular that paints the canvas element |
