@@ -1,6 +1,11 @@
 # Change Log - @anocca/sequence-viewer-app
 
-This log was last generated on Fri, 15 Dec 2023 17:05:02 GMT and should not be manually modified.
+This log was last generated on Mon, 08 Jan 2024 20:48:07 GMT and should not be manually modified.
+
+## 6.0.4
+Mon, 08 Jan 2024 20:48:07 GMT
+
+_Version update only_
 
 ## 6.0.3
 Fri, 15 Dec 2023 17:05:02 GMT

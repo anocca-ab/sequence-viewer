@@ -2,6 +2,18 @@
   "name": "@anocca/sequence-viewer-react-shared",
   "entries": [
     {
+      "version": "4.2.0",
+      "tag": "@anocca/sequence-viewer-react-shared_v4.2.0",
+      "date": "Mon, 08 Jan 2024 20:48:07 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add support for chromatogram"
+          }
+        ]
+      }
+    },
+    {
       "version": "4.1.0",
       "tag": "@anocca/sequence-viewer-react-shared_v4.1.0",
       "date": "Fri, 15 Dec 2023 17:05:02 GMT",

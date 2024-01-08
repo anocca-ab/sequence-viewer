@@ -1,6 +1,6 @@
 {
   "name": "@anocca/sequence-viewer-react-circular",
-  "version": "5.0.4",
+  "version": "5.0.5",
   "description": "Renders interactive circular viewer",
   "main": "lib-commonjs/index.js",
   "module": "lib/index.js",
@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@anocca/sequence-viewer-utils": "4.0.2",
-    "@anocca/sequence-viewer-react-shared": "4.1.0",
+    "@anocca/sequence-viewer-react-shared": "4.2.0",
     "@anocca/sequence-viewer-render-circular": "4.0.2"
   },
   "peerDependencies": {
