@@ -39,6 +39,82 @@ const topAreaHeight = 64;
 const carretHeight = 16;
 const carretFontSize = 16;
 
+const memoize = <T, U>(fn: (...args: T[]) => U) => {
+  let lastArgs: any[] = [];
+  let lastVal: any;
+  return (...args: T[]): U => {
+    if (!args.every((arg, i) => arg === lastArgs[i])) {
+      lastVal = fn(...args);
+      lastArgs = args;
+    }
+    return lastVal;
+  };
+};
+
+//#region Chromatogram functions
+const GRAPH_PADDING = 5;
+const NORMALIZATION_WINDOW = 4;
+
+const interpolatedXAxis = memoize((peakLocations: number[]) => {
+  const newAxis: [number, number][] = [];
+  for (let i = 0; i <= peakLocations.length; i++) {
+    const interval = i > 0 ? peakLocations[i] - peakLocations[i - 1] : peakLocations[i];
+    for (let iInt = 0; iInt < interval; iInt++) {
+      const increment = iInt / interval;
+      const newX = i + increment;
+      newAxis.push(tuple(newX, i));
+    }
+    if (i === peakLocations.length) newAxis.push(tuple(i, i));
+  }
+  return newAxis;
+});
+
+const mostRelevantMax = memoize((chromatogramData: ChromatogramData) => {
+  const maxPhred = Math.max(...chromatogramData.phred);
+  const maxReference = maxPhred - Math.sqrt(maxPhred);
+  const peaks = (traceData: number[]) =>
+    chromatogramData.peakLocations
+      .map((location) => traceData[location])
+      .filter((_, idx) => {
+        const phreds = chromatogramData.phred;
+        if (idx > NORMALIZATION_WINDOW || idx < phreds.length - NORMALIZATION_WINDOW) {
+          let sum = 0;
+          for (let i = idx - NORMALIZATION_WINDOW; i < idx + NORMALIZATION_WINDOW; i++) {
+            sum += phreds[i];
+          }
+          const average = sum / (2 * NORMALIZATION_WINDOW);
+          return average > maxReference;
+        }
+        return false;
+      });
+
+  const positionalCleaning = (traceData: number[]) =>
+    chromatogramData.peakLocations
+      .map((location) => traceData[location])
+      .filter((_, idx) => {
+        const phreds = chromatogramData.phred;
+        return idx > phreds.length / 3 && idx < (2 * phreds.length) / 3;
+      });
+
+  const cleanData = [
+    ...peaks(chromatogramData.aTrace),
+    ...peaks(chromatogramData.cTrace),
+    ...peaks(chromatogramData.gTrace),
+    ...peaks(chromatogramData.tTrace)
+  ];
+
+  /* Fallback for low overall phred (low quality) data */
+  const lessCleanData = [
+    ...positionalCleaning(chromatogramData.aTrace),
+    ...positionalCleaning(chromatogramData.cTrace),
+    ...positionalCleaning(chromatogramData.gTrace),
+    ...positionalCleaning(chromatogramData.tTrace)
+  ];
+
+  return cleanData.length > 0 ? Math.max(...cleanData) : Math.max(...lessCleanData);
+});
+//#endregion
+
 /**
  * Render a linear view of a sequence on a canvas.
  *
@@ -182,72 +258,11 @@ export const drawLinear: DrawFunction = ({
     }
   }
 
-  // Chromatogram functions
-  const GRAPH_PADDING = 5;
-  const NORMALIZATION_WINDOW = 4;
+  //#region Chromatogram functions
   const relativeHeight = (height: number, yInterval: number) => {
     const topWithPadding = topAreaHeight - baseHeight / 2;
     const y = topWithPadding * (1 - height / yInterval);
     return y - topWithPadding;
-  };
-
-  const interpolatedXAxis = (peakLocations: number[]) => {
-    const newAxis = [];
-    for (let i = 0; i <= peakLocations.length; i++) {
-      const interval = i > 0 ? peakLocations[i] - peakLocations[i - 1] : peakLocations[i];
-      for (let iInt = 0; iInt < interval; iInt++) {
-        const increment = iInt / interval;
-        const newX = i + increment;
-        newAxis.push(newX);
-      }
-      if (i === peakLocations.length) newAxis.push(i);
-    }
-    return newAxis;
-  };
-
-  const mostRelevantMax = (chromatogramData: ChromatogramData) => {
-    const maxPhred = Math.max(...chromatogramData.phred);
-    const maxReference = maxPhred - Math.sqrt(maxPhred);
-    const peaks = (traceData: number[]) =>
-      chromatogramData.peakLocations
-        .map((location) => traceData[location])
-        .filter((_, idx) => {
-          const phreds = chromatogramData.phred;
-          if (idx > NORMALIZATION_WINDOW || idx < phreds.length - NORMALIZATION_WINDOW) {
-            let sum = 0;
-            for (let i = idx - NORMALIZATION_WINDOW; i < idx + NORMALIZATION_WINDOW; i++) {
-              sum += phreds[i];
-            }
-            const average = sum / (2 * NORMALIZATION_WINDOW);
-            return average > maxReference;
-          }
-          return false;
-        });
-
-    const positionalCleaning = (traceData: number[]) =>
-      chromatogramData.peakLocations
-        .map((location) => traceData[location])
-        .filter((_, idx) => {
-          const phreds = chromatogramData.phred;
-          return idx > phreds.length / 3 && idx < (2 * phreds.length) / 3;
-        });
-
-    const cleanData = [
-      ...peaks(chromatogramData.aTrace),
-      ...peaks(chromatogramData.cTrace),
-      ...peaks(chromatogramData.gTrace),
-      ...peaks(chromatogramData.tTrace)
-    ];
-
-    /* Fallback for low overall phred (low quality) data */
-    const lessCleanData = [
-      ...positionalCleaning(chromatogramData.aTrace),
-      ...positionalCleaning(chromatogramData.cTrace),
-      ...positionalCleaning(chromatogramData.gTrace),
-      ...positionalCleaning(chromatogramData.tTrace)
-    ];
-
-    return cleanData.length > 0 ? Math.max(...cleanData) : Math.max(...lessCleanData);
   };
 
   const drawPhreds = ({ i, phred, yMax }: { i: number; phred: number; yMax: number }) => {
@@ -288,6 +303,7 @@ export const drawLinear: DrawFunction = ({
     c.lineTo(transformX(x(iNext)), transformY(y(nextValue)));
     c.stroke();
   };
+  //#endregion
 
   const drawBase = ({
     base,
@@ -930,11 +946,15 @@ export const drawLinear: DrawFunction = ({
         const baseForPlot = key.charAt(0).toUpperCase();
         const interpolAxis = interpolatedXAxis(peakLocations);
         const yMax = mostRelevantMax(chromatogramData);
-        for (let i = 0; i < interpolAxis.length; i++) {
+        for (let i = 0; i < interpolAxis.length - 1; i++) {
+          if (interpolAxis[i][1] < windowStart || interpolAxis[i][1] > windowLen) {
+            continue;
+          }
+
           drawChromatogram({
             base: baseForPlot,
-            iInterpol: interpolAxis[i],
-            iNext: interpolAxis[i + 1],
+            iInterpol: interpolAxis[i][0],
+            iNext: interpolAxis[i + 1][0],
             value: traceData[i],
             nextValue: traceData[i + 1],
             top,

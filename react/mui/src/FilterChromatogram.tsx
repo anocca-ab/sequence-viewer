@@ -1,12 +1,12 @@
 import React from 'react';
-import { FilterChromatogramType } from '../../shared/lib';
+import { FilterChromatogramType } from '@anocca/sequence-viewer-react-shared';
 import { Box, FormControl, FormGroup, Checkbox } from '@mui/material';
-import { dnaColors } from '../../../utils/lib';
+import { dnaColors } from '@anocca/sequence-viewer-utils';
 
 const options = ['A', 'C', 'G', 'T', 'phred'];
 
 const getBaseColor = (ntOrAa: string) => {
-  if (ntOrAa === 'phred') return 'rgba(0,0,0,0.2)';
+  if (ntOrAa === 'phred') return '#1976d2';
   return dnaColors[ntOrAa];
 };
 
@@ -47,6 +47,7 @@ export const FilterChromatogram: FilterChromatogramType = ({ optionsToRender, se
     <Box sx={{ display: 'flex' }}>
       {options.map((option) => (
         <Checkbox
+          sx={{ px: 0.5 }}
           key={option}
           size="small"
           icon={<CheckboxComponent base={option} checked={false} />}
