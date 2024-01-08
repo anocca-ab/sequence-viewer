@@ -86,7 +86,7 @@ export type RenderData = {
 };
 
 /**
- * Chromatogram data
+ * Chromatogram data to render the chromatogram
  *
  * @public
  */
