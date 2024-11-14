@@ -1,6 +1,7 @@
 import React from 'react';
 import { CircularController } from '@anocca/sequence-viewer-react-circular';
 import { LinearController } from '@anocca/sequence-viewer-react-linear';
+import { PixiRenderer } from '@anocca/sequence-viewer-react-pixi';
 import {
   Annotation,
   humanCodons,
@@ -61,6 +62,8 @@ export const SequenceViewerApp = (props: {
   const [isCircularViewer, setIsCircularViewer] = React.useState(
     props.renderLinearByDefault ? false : !props.isProtein
   );
+
+  const [isPixi, setPixi] = React.useState(true);
 
   const Component = isCircularViewer ? CircularController : LinearController;
 
@@ -177,7 +180,7 @@ export const SequenceViewerApp = (props: {
               </Flex>
             </Flex>
             <div style={{ position: 'relative' }}>
-              {canvas}
+              {isPixi ? <PixiRenderer /> : canvas}
               {!props.isProtein && (
                 <div style={{ position: 'absolute', right: '80px', bottom: '160px' }}>
                   <Typography component="div">
@@ -193,6 +196,19 @@ export const SequenceViewerApp = (props: {
                         />
                       </Grid>
                       <Grid item>Circular</Grid>
+                    </Grid>
+                    <Grid component="label" container alignItems="center" spacing={1}>
+                      <Grid item>Canvas</Grid>
+                      <Grid item>
+                        <Switch
+                          checked={isPixi}
+                          onChange={(ev: any) => {
+                            setPixi(ev.target.checked);
+                          }}
+                          name="pixiSwitch"
+                        />
+                      </Grid>
+                      <Grid item>Pixi</Grid>
                     </Grid>
                   </Typography>
                 </div>

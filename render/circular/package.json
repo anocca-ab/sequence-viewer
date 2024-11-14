@@ -11,7 +11,8 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./node_modules/.bin/heft build"
+    "build": "./node_modules/.bin/heft build",
+    "build:watch": "./node_modules/.bin/heft build"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +20,7 @@
   "devDependencies": {
     "@rushstack/heft": "^0.35.0",
     "@anocca/sequence-viewer-common-rig": "1.0.0",
-    "typescript": "4.3.5"
+    "typescript": "5.2.2"
   },
   "dependencies": {
     "@anocca/sequence-viewer-utils": "4.1.0"

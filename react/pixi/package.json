@@ -1,0 +1,36 @@
+{
+  "name": "@anocca/sequence-viewer-react-pixi",
+  "version": "1.0.0",
+  "description": "Renders interactive viewer using PixiJS",
+  "main": "lib-commonjs/index.js",
+  "module": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "files": [
+    "lib",
+    "lib-commonjs"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/.bin/heft build",
+    "build:watch": "./node_modules/.bin/heft build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@rushstack/heft": "^0.35.0",
+    "typescript": "5.2.2",
+    "@anocca/sequence-viewer-common-rig": "1.0.0",
+    "react": "18.3.1",
+    "@types/react": "^18.2.29",
+    "pixi.js": "8.2.6",
+    "@pixi/react": "8.0.0-beta.14"
+  },
+  "dependencies": {
+    "@anocca/sequence-viewer-react-shared": "4.2.1",
+    "@anocca/sequence-viewer-render-circular": "4.0.3"
+  },
+  "peerDependencies": {
+    "react": "*"
+  }
+}

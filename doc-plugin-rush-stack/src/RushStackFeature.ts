@@ -45,7 +45,22 @@ export class RushStackFeature extends MarkdownDocumenterFeature {
     eventArgs.pageContent = eventArgs.pageContent.replace(/##\s[^\n]+/, '');
     eventArgs.pageContent = eventArgs.pageContent.replace(/<!-- -->/gm, '');
     eventArgs.pageContent = eventArgs.pageContent.replace('<b>References:</b>', '<b>References:</b>\n\n');
-    eventArgs.pageContent = eventArgs.pageContent.replace(/\\\*/mgi, '*');
+    eventArgs.pageContent = eventArgs.pageContent.replace(/\\\*/gim, '*');
+    eventArgs.pageContent = eventArgs.pageContent.replace('**Returns:**', '**Returns:**\n```ts');
+    if (eventArgs.pageContent.includes('**Returns:**')) {
+      eventArgs.pageContent = eventArgs.pageContent + '```\n';
+    }
+    const lines = eventArgs.pageContent.split('\n');
+    const returnsStart = lines.findIndex((line) => line.includes('**Returns:**'));
+    lines.splice(returnsStart + 2, 1);
+    for (let i = returnsStart + 2; i < lines.length; i++) {
+      if (lines[i].includes('```')) {
+        lines.splice(i - 1, 1);
+        break;
+      }
+    }
+
+    eventArgs.pageContent = lines.join('\n');
 
     this._apiItemsWithPages.add(eventArgs.apiItem);
   }
