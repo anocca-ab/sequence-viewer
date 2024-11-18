@@ -1,9 +1,7 @@
 {
   "extends": "./node_modules/config/tsconfig-base.json",
   "compilerOptions": {
-    "types": [
-      "@types/react"
-    ],
+    "types": ["node"],
     "skipLibCheck": true
   }
 }

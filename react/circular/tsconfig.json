@@ -1,5 +1,5 @@
 {
-  "extends": "./node_modules/@anocca/sequence-viewer-common-rig/profiles/library/tsconfig-base.json",
+  "extends": "./node_modules/config/tsconfig-base.json",
   "compilerOptions": {
     "types": []
   }

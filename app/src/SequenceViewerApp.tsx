@@ -65,7 +65,7 @@ export const SequenceViewerApp = (props: {
 
   const [isPixi, setPixi] = React.useState(true);
 
-  const Component = isCircularViewer ? CircularController : LinearController;
+  const Component = isPixi ? PixiRenderer : isCircularViewer ? CircularController : LinearController;
 
   const AnnotationForm = props.AnnotationForm;
 
@@ -180,7 +180,6 @@ export const SequenceViewerApp = (props: {
               </Flex>
             </Flex>
             <div style={{ position: 'relative' }}>
-              {isPixi ? <PixiRenderer /> : canvas}
               {!props.isProtein && (
                 <div style={{ position: 'absolute', right: '80px', bottom: '160px' }}>
                   <Typography component="div">
