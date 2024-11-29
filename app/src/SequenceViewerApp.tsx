@@ -126,6 +126,7 @@ export const SequenceViewerApp = (props: {
       <Component
         width={props.width}
         height={props.height}
+        layout={isCircularViewer ? 'circular' : 'linear'}
         isProtein={!!props.isProtein}
         chromatogramData={props.chromatogramData}
         annotations={props.annotations}
@@ -179,7 +180,8 @@ export const SequenceViewerApp = (props: {
                 {search}
               </Flex>
             </Flex>
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative', height: props.height, width: props.width }}>
+              {canvas}
               {!props.isProtein && (
                 <div style={{ position: 'absolute', right: '80px', bottom: '160px' }}>
                   <Typography component="div">

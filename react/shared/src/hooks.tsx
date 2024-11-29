@@ -23,7 +23,7 @@ export const useCanvas = () => {
  * @internal
  */
 export const useDOMListeners = (
-  buffer: HTMLCanvasElement | null,
+  buffer: HTMLElement | null,
   onClick: (ev: any) => void,
   onStartDrag: (ev: MouseEvent) => void,
   onEndDrag: (ev: any) => void,

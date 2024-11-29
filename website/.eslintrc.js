@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['config/eslint'],
+  extends: ['custom/library'],
   parserOptions: { tsconfigRootDir: __dirname },
   settings: {
     react: {

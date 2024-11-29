@@ -7,3 +7,5 @@ packages:
   - "utils"
   - "website"
   - "config"
+  - "eslint-config-custom"
+  - "pixi-react"

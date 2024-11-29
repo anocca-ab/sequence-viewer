@@ -1,18 +1,62 @@
-import React from 'react';
-import { Application, extend, useApplication } from '@pixi/react';
-import { ControllerProps } from '@anocca/sequence-viewer-react-shared';
+import { CircularController } from '@anocca/sequence-viewer-react-circular';
+import { LinearController } from '@anocca/sequence-viewer-react-linear';
+import type { ControllerProps, RenderProps } from '@anocca/sequence-viewer-react-shared';
+import {
+  getAaColor,
+  getFont,
+  getIndexMid,
+  getNtColor,
+  getNtComplement,
+  getSelectionLabel,
+  getSelectionOver,
+  isSelectionOverOrigin,
+  shouldInvertColor,
+  tuple,
+  type CircularSelection,
+  type UpdateProps
+} from '@anocca/sequence-viewer-utils';
+import { Application, extend, useApplication, useTick } from '@pixi/react';
+import isEqual from 'lodash.isequal';
+import React, { useCallback, useMemo, useState } from 'react';
 // import { DrawCallback } from "@pixi/react/src/typedefs/DrawCallback";
-import { Text, Container, Graphics, Rectangle, EventSystem } from 'pixi.js';
+import type { CircularProperties } from '@anocca/sequence-viewer-render-circular';
+import { getCircleProperties } from '@anocca/sequence-viewer-render-circular';
+import type { TextStyleOptions } from 'pixi.js';
+import {
+  AlphaFilter,
+  CanvasTextMetrics,
+  Container,
+  Graphics,
+  MeshRope,
+  MeshSimple,
+  Point,
+  Rectangle,
+  RopeGeometry,
+  Text,
+  TextStyle
+} from 'pixi.js';
+import { useGetCoordinates } from './use-get-coordinates';
+import { Sequence, useArrowHeight } from './sequence';
+import { RenderDataContext, useRenderData } from './context';
+import { minFontSize, renderAngleOffset } from './constants';
+import { useFontSize } from './use-font-size';
+import { useBaseAngle } from './use-base-angle';
+import { CircularText } from './circular-text';
+import { Codons } from './codons';
+import { SelectionText } from './selection-text';
 // import { Viewport, Wheel } from "pixi-viewport";
 
 extend({
   Container,
   Graphics,
-  Text
+  Text,
+  MeshRope,
+  MeshSimple,
+  RopeGeometry
 });
 
 const INTERFACE_WIDTH = 800;
-const INTERFACE_HEIGHT = 600;
+const INTERFACE_HEIGHT = 640;
 
 type BaseSequenceType =
   | {
@@ -28,25 +72,25 @@ type BaseSequenceType =
     };
 
 type AgkContextType = {
-  sequences: BaseSequenceType[];
+  updatePropsRef: React.MutableRefObject<UpdateProps | undefined>;
 };
 
 const AgkContext = React.createContext<undefined | AgkContextType>(undefined);
 
 const AgkProvider = ({
-  sequences,
-  children
+  children,
+  ...props
 }: {
-  sequences: BaseSequenceType[];
+  updatePropsRef: React.MutableRefObject<UpdateProps | undefined>;
   children?: React.ReactNode;
 }) => {
-  return <AgkContext.Provider value={{ sequences }}>{children}</AgkContext.Provider>;
+  return <AgkContext.Provider value={props}>{children}</AgkContext.Provider>;
 };
 
-const useAkg = () => {
+const useAgk = () => {
   const ctx = React.useContext(AgkContext);
   if (!ctx) {
-    throw new Error('You must wrap your component in <AgkProvider> to use useAkg()');
+    throw new Error('You must wrap your component in <AgkProvider> to use useAgk()');
   }
   return ctx;
 };
@@ -64,52 +108,103 @@ type AppState = {
 
 const AppStateContext = React.createContext<undefined | AppState>(undefined);
 
-const useAppState = () => {
-  const ctx = React.useContext(AppStateContext);
+const BridgeContext = React.createContext<
+  | undefined
+  | {
+      props: ControllerProps & { layout: 'linear' | 'circular' };
+      renderProps: RenderProps;
+      updatePropsRef: React.MutableRefObject<UpdateProps | undefined>;
+    }
+>(undefined);
+
+const useBridge = () => {
+  const ctx = React.useContext(BridgeContext);
   if (!ctx) {
-    throw new Error('You must wrap your component in <AppStateProvider> to use useAppState()');
+    throw new Error('You must wrap your component in <BridgeProvider> to use useBridge()');
   }
   return ctx;
 };
-
-function AppStateProvider({ children }: { children?: React.ReactNode }) {
-  const agk = useAkg();
-  const [sequences, setSequences] = React.useState(
-    agk.sequences.map((sequence) => ({
-      ...sequence,
-      id: Math.random().toString(36).substring(7)
-    }))
-  );
-  const [rotation, setRotation] = React.useState(0);
-  const appState = React.useMemo((): AppState => {
-    return {
-      sequences,
-      rotation,
-      updateRotation: setRotation,
-      updateSequence: (id: string, update: (sequence: Sequence) => Sequence) => {
-        setSequences((sequences) =>
-          sequences.map((sequence) => (sequence.id === id ? update(sequence) : sequence))
-        );
-      }
-    };
-  }, [sequences, rotation]);
-
-  return <AppStateContext.Provider value={appState}>{children}</AppStateContext.Provider>;
-}
 
 /**
  * Renders the sequence viewer in our pixi renderer
  * @public
  */
-export function PixiRenderer(props: ControllerProps) {
-  const [wrapperRef, setWrapperRef] = React.useState<HTMLDivElement | null>(null);
+export function PixiRenderer(
+  props: ControllerProps & {
+    layout: 'linear' | 'circular';
+  }
+) {
+  const renderLayout = props.children;
+  const Component = props.layout === 'circular' ? CircularController : LinearController;
+  const [interactiveElement, setInteractiveElement] = React.useState<HTMLElement | null>(null);
+  const updatePropsRef = React.useRef<UpdateProps | undefined>();
 
+  return (
+    <Component
+      {...props}
+      onUpdate={(update) => {
+        updatePropsRef.current = update;
+      }}
+      interactiveElement={interactiveElement ?? undefined}
+    >
+      {(renderProps) => {
+        return (
+          <BridgeContext.Provider value={{ props, renderProps, updatePropsRef }}>
+            {renderLayout ? (
+              renderLayout({
+                ...renderProps,
+                canvas: (
+                  <Bridge
+                    interactiveElement={interactiveElement}
+                    setInteractiveElement={setInteractiveElement}
+                  />
+                )
+              })
+            ) : renderProps.search ? (
+              <div>
+                <div>{renderProps.search}</div>
+                <div>
+                  <Bridge
+                    interactiveElement={interactiveElement}
+                    setInteractiveElement={setInteractiveElement}
+                  />
+                </div>
+              </div>
+            ) : (
+              <Bridge interactiveElement={interactiveElement} setInteractiveElement={setInteractiveElement} />
+            )}
+          </BridgeContext.Provider>
+        );
+      }}
+    </Component>
+  );
+}
+
+function Bridge({
+  interactiveElement,
+  setInteractiveElement
+}: {
+  interactiveElement: HTMLElement | null;
+  setInteractiveElement: (el: HTMLElement | null) => void;
+}) {
+  return (
+    <>
+      <div ref={setInteractiveElement} style={{ width: INTERFACE_WIDTH, height: INTERFACE_HEIGHT }}>
+        {interactiveElement && <CanvasWrapper />}
+      </div>
+    </>
+  );
+}
+
+function CanvasWrapper() {
+  const [wrapperRef, setWrapperRef] = React.useState<HTMLDivElement | null>(null);
+  const { props } = useBridge();
   return (
     <div
       ref={setWrapperRef}
       style={{
         width: '100%',
-        aspectRatio: 1
+        height: '100%'
       }}
     >
       {wrapperRef && (
@@ -127,87 +222,88 @@ export function PixiRenderer(props: ControllerProps) {
 }
 
 function App({ wrapper, sequences }: { wrapper: HTMLDivElement; sequences: BaseSequenceType[] }) {
+  const { props, updatePropsRef } = useBridge();
   return (
-    <Application background={'orange'} resizeTo={wrapper} antialias autoDensity resolution={2}>
-      <AgkProvider sequences={sequences}>
-        <AppStateProvider>
-          <Canvas />
-        </AppStateProvider>
+    <Application background={'white'} resizeTo={wrapper} antialias autoDensity resolution={2}>
+      <AgkProvider updatePropsRef={updatePropsRef}>
+        <Canvas />
       </AgkProvider>
     </Application>
   );
 }
 
 function Canvas() {
-  const [rotation, setRotation] = React.useState(0);
-  const [scale, setZoom] = React.useState(1);
+  const [rotation, setRotation] = useState(0);
+  const [scale, setZoom] = useState(1);
 
   const { app } = useApplication();
-
-  const drawCallback = React.useCallback((graphics: Graphics) => {
-    graphics.clear();
-    graphics.setFillStyle({ color: 'red' });
-    graphics.rect(0, 0, INTERFACE_WIDTH, INTERFACE_HEIGHT);
-    graphics.fill();
-    graphics.stroke({
-      width: 10,
-      color: 0x000000
-    });
-  }, []);
 
   const appWidth = app.screen.width;
   const appHeight = app.screen.width;
 
-  const rect = React.useMemo(() => new Rectangle(0, 0, appWidth, appHeight), [appWidth, appHeight]);
+  const rect = useMemo(() => new Rectangle(0, 0, appWidth, appHeight), [appWidth, appHeight]);
 
-  const { sequences } = useAppState();
+  const { updatePropsRef } = useAgk();
 
-  const rows = Math.ceil(Math.sqrt(sequences.length));
-  const cols = rows;
+  const [updateProps, setUpdateProps] = useState<UpdateProps | undefined>(undefined);
+
+  const tick = useCallback(() => {
+    const props = updatePropsRef.current;
+    if (!props) {
+      return;
+    }
+    setUpdateProps((currentProps) => {
+      return isEqual(currentProps, props) ? currentProps : structuredClone(props);
+    });
+  }, [updatePropsRef]);
+
+  useTick(tick);
+
+  const pivot = React.useMemo(() => ({ x: INTERFACE_WIDTH / 2, y: INTERFACE_HEIGHT / 2 }), []);
+
+  const circularProperties = React.useMemo(
+    () => (updateProps ? getCircleProperties(updateProps) : undefined),
+    [updateProps]
+  );
+  const renderData = React.useMemo(() => {
+    if (!circularProperties || !updateProps) {
+      return;
+    }
+    return { updateProps, circularProps: circularProperties };
+  }, [circularProperties, updateProps]);
+
+  if (!renderData) {
+    return null;
+  }
 
   return (
     <container x={0} y={0} width={appWidth} height={appHeight} hitArea={rect} eventMode="dynamic" interactive>
-      {sequences.map((seq, index) => {
-        const row = 1 + Math.floor(index / cols);
-        const col = 1 + (index % cols);
-
-        return (
-          <container
-            key={seq.id}
-            rotation={rotation}
-            scale={scale}
-            width={INTERFACE_WIDTH}
-            height={INTERFACE_HEIGHT}
-            pivot={{ x: INTERFACE_WIDTH / 2, y: INTERFACE_HEIGHT / 2 }}
-            x={(col * appWidth) / 2}
-            y={(row * appHeight) / 2}
-          >
-            {/* <graphics draw={drawCallback} /> */}
-            {seq.sequence.split('').map((base, i) => {
-              const angle = (i / seq.sequence.length) * Math.PI * 2 - Math.PI / 2;
-              const r = INTERFACE_HEIGHT / 2;
-              const x = Math.cos(angle) * r + INTERFACE_WIDTH / 2;
-              const y = Math.sin(angle) * r + INTERFACE_HEIGHT / 2;
-              return (
-                <pixiText
-                  key={i}
-                  text={base}
-                  x={x}
-                  y={y}
-                  anchor={{ x: 0.5, y: 0.5 }}
-                  rotation={angle + Math.PI / 2}
-                  style={{
-                    align: 'center',
-                    fill: i < 4 ? 'black' : '0xffffff',
-                    fontSize: 12,
-                    letterSpacing: 0
-                  }}
-                ></pixiText>
-              );
-            })}
-          </container>
-        );
-      })}
+      <container
+        rotation={rotation}
+        scale={scale}
+        width={INTERFACE_WIDTH}
+        height={INTERFACE_HEIGHT}
+        pivot={pivot}
+        x={appWidth / 2}
+        y={appHeight / 2}
+      >
+        <RenderDataContext.Provider value={renderData}>
+          <CircularSequence />
+        </RenderDataContext.Provider>
+      </container>
     </container>
+  );
+}
+
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const c: CanvasRenderingContext2D = document.createElement('canvas').getContext('2d')!;
+
+function CircularSequence() {
+  return (
+    <>
+      <Codons />
+      <Sequence />
+      <SelectionText />
+    </>
   );
 }

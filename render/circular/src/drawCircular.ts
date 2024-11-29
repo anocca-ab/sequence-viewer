@@ -687,59 +687,60 @@ export const drawCircular: DrawFunction = ({
     /* END @search */
   }
 
+  /* @CODONS */
+  /* codon stuff 1 */
+
+  const renderCodon = (iMid: number, codonNt: string, isComplement: boolean) => {
+    if (fontSize <= minFontSize) {
+      return;
+    }
+    c.lineWidth = 1;
+    const aa = codons[codonNt] || 'X';
+    const color = getAaColor(aa);
+    const { a0: a0 } = getBaseAngle(iMid - 1);
+    const { a1: a1 } = getBaseAngle(iMid + 1);
+    const codonRadius = radius - (isComplement ? 2.6 : -1.5) * dynamicCircleHeight;
+
+    c.beginPath();
+    const o = renderAngleOffset;
+    c.arc(xStart, circleY, codonRadius, a0 + o, a1 + o, false);
+    c.arc(xStart, circleY, codonRadius - dynamicCircleHeight, a1 + o, a0 + o, true);
+    c.closePath();
+    c.fillStyle = color;
+    c.strokeStyle = 'black';
+    c.fill();
+    c.stroke();
+
+    c.font = getFont(fontSize, 'bold');
+    c.fillStyle = shouldInvertColor(aa) ? '#c8d9fa' : '#282c34';
+    c.textBaseline = 'top';
+    const { aMid } = getBaseAngle(iMid);
+    if (fontSize > minFontSize) {
+      drawText(aa, codonRadius, aMid);
+    }
+  };
+
+  /* codon stuff 2 */
+  const inScreen = Math.floor(w / minFontSize);
+  const factor = Math.ceil(inScreen / len);
+  let triplet = '';
+  const addToTriplet = (i: number, circularSelection: CircularSelection) => {
+    triplet += circularSelection.antiClockwise ? getNtComplement(sequence[i] as any) : sequence[i];
+    if (triplet.length === 3) {
+      let midIndex = i + (circularSelection.antiClockwise ? 1 : -1);
+      if (midIndex === -1) {
+        midIndex = iLen;
+      }
+      renderCodon(midIndex, triplet, !!circularSelection.antiClockwise);
+      triplet = '';
+    }
+  };
+
+  /* render the sequence */
   {
-    /* @CODONS */
-    /* codon stuff 1 */
-
-    const renderCodon = (iMid: number, codonNt: string, isComplement: boolean) => {
-      if (fontSize <= minFontSize) {
-        return;
-      }
-      c.lineWidth = 1;
-      const aa = codons[codonNt] || 'X';
-      const color = getAaColor(aa);
-      const { a0: a0 } = getBaseAngle(iMid - 1);
-      const { a1: a1 } = getBaseAngle(iMid + 1);
-      const codonRadius = radius - (isComplement ? 2.6 : -1.5) * dynamicCircleHeight;
-
-      c.beginPath();
-      const o = renderAngleOffset;
-      c.arc(xStart, circleY, codonRadius, a0 + o, a1 + o, false);
-      c.arc(xStart, circleY, codonRadius - dynamicCircleHeight, a1 + o, a0 + o, true);
-      c.closePath();
-      c.fillStyle = color;
-      c.strokeStyle = 'black';
-      c.fill();
-      c.stroke();
-
-      c.font = getFont(fontSize, 'bold');
-      c.fillStyle = shouldInvertColor(aa) ? '#c8d9fa' : '#282c34';
-      c.textBaseline = 'top';
-      const { aMid } = getBaseAngle(iMid);
-      if (fontSize > minFontSize) {
-        drawText(aa, codonRadius, aMid);
-      }
-    };
-
-    /* codon stuff 2 */
-    const inScreen = Math.floor(w / minFontSize);
-    const factor = Math.ceil(inScreen / len);
-    let triplet = '';
-    const addToTriplet = (i: number, circularSelection: CircularSelection) => {
-      triplet += circularSelection.antiClockwise ? getNtComplement(sequence[i] as any) : sequence[i];
-      if (triplet.length === 3) {
-        let midIndex = i + (circularSelection.antiClockwise ? 1 : -1);
-        if (midIndex === -1) {
-          midIndex = iLen;
-        }
-        renderCodon(midIndex, triplet, !!circularSelection.antiClockwise);
-        triplet = '';
-      }
-    };
-
     /* loop throu the circle */
     if ((2 * radius * Math.PI) / len > minFontSize) {
-      /* reduced when zoomed in */
+      // when zoomed out
       const start = hoveringCaretPosition - inScreen;
       const end = hoveringCaretPosition + inScreen;
 
@@ -749,12 +750,14 @@ export const drawCircular: DrawFunction = ({
         drawArc(index, selection?.antiClockwise === true);
       }
     } else {
+      // when zoomed in
       for (let i = 0; i < len; i += 1) {
         const selection = getSelectionOver(i, circularSelection);
         drawArc(i, selection?.antiClockwise === true);
       }
     }
 
+    //#region selection
     circularSelection.forEach((circularSelection) => {
       triplet = '';
       if (isSelectionOverOrigin(circularSelection)) {
@@ -785,7 +788,7 @@ export const drawCircular: DrawFunction = ({
         }
       }
     });
-    /* END @CODONS */
+    //#endregion
   }
 
   {

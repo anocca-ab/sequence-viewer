@@ -32,7 +32,9 @@ export const LinearController = React.forwardRef<SequenceControllerRef, Controll
       children: renderLayout,
       openAnnotationDialog,
       isProtein,
-      chromatogramData
+      chromatogramData,
+      interactiveElement,
+      onUpdate
     },
     ref
   ) => {
@@ -46,7 +48,8 @@ export const LinearController = React.forwardRef<SequenceControllerRef, Controll
       canvasRef,
       zoomToSearchResult,
       setCircularSelection,
-      setSearchResults
+      setSearchResults,
+      buffer
     } = useLinearController({
       ref,
       width,
@@ -58,7 +61,9 @@ export const LinearController = React.forwardRef<SequenceControllerRef, Controll
       FilterChromatogram,
       openAnnotationDialog,
       isProtein,
-      chromatogramData
+      chromatogramData,
+      interactiveElement,
+      onUpdate
     });
 
     return (
@@ -74,7 +79,8 @@ export const LinearController = React.forwardRef<SequenceControllerRef, Controll
             filterChromatogram,
             canvasRef,
             zoomToSearchResult,
-            setSearchResults
+            setSearchResults,
+            buffer
           })
         ) : search ? (
           <div>

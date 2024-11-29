@@ -2,8 +2,10 @@ import {
   Annotations,
   ChromatogramData,
   CircularSelection,
+  DrawFunction,
   SearchResult,
-  SelectionRange
+  SelectionRange,
+  UpdateProps
 } from '@anocca/sequence-viewer-utils';
 /**
  * Filter options to be shown on chromatogram
@@ -57,25 +59,36 @@ export type ControllerProps = {
   openAnnotationDialog?: (annotationId: string) => void;
   isProtein: boolean;
   chromatogramData?: ChromatogramData;
-  children?: (props: {
-    canvas: React.ReactNode;
-    search?: React.ReactNode;
-    filterChromatogram?: React.ReactNode;
-    selectedAnnotations: string[];
-    circularSelections: CircularSelection[];
-    setCircularSelection: (annotationId: string | undefined, cc: CircularSelection[]) => void;
-    clickedAnnotation?: string;
-    canvasRef: (buffer: HTMLCanvasElement | null) => void;
-    zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
-    setSearchResults: (
-      value: React.SetStateAction<
-        {
-          start: number;
-          end: number;
-          active: boolean;
-          complement: boolean;
-        }[]
-      >
-    ) => void;
-  }) => React.ReactNode;
+  draw?: DrawFunction;
+  children?: (props: RenderProps) => React.ReactNode;
+  interactiveElement?: HTMLElement;
+  onUpdate?: (props: UpdateProps) => void;
+};
+
+/**
+ * When providing a custom layout to the CircularController or LinearController, this is the props that will be passed to the layout.
+ *
+ * @public
+ */
+export type RenderProps = {
+  canvas: React.ReactNode;
+  search?: React.ReactNode;
+  buffer: HTMLCanvasElement | null;
+  filterChromatogram?: React.ReactNode;
+  selectedAnnotations: string[];
+  circularSelections: CircularSelection[];
+  setCircularSelection: (annotationId: string | undefined, cc: CircularSelection[]) => void;
+  clickedAnnotation?: string;
+  canvasRef: (buffer: HTMLCanvasElement | null) => void;
+  zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
+  setSearchResults: (
+    value: React.SetStateAction<
+      {
+        start: number;
+        end: number;
+        active: boolean;
+        complement: boolean;
+      }[]
+    >
+  ) => void;
 };

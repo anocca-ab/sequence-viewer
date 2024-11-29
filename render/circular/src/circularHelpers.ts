@@ -231,7 +231,7 @@ export const getCircleProperties = ({
       (Math.ceil(Math.abs(hoveringCaretPosition) / len) * len + hoveringCaretPosition) % len;
   }
 
-  return {
+  const circProps: CircularProperties = {
     circleY,
     angleDelta,
     angleOffset,
@@ -242,4 +242,17 @@ export const getCircleProperties = ({
     hoveringCaretPosition,
     mouseRadius
   };
+  return circProps;
+};
+
+export type CircularProperties = {
+  circleY: number;
+  angleDelta: number;
+  angleOffset: number;
+  radius: number;
+  len: number;
+  iLen: number;
+  mouseAngle: number;
+  hoveringCaretPosition: number;
+  mouseRadius: number;
 };
