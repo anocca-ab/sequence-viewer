@@ -2,14 +2,20 @@ import { CircularController } from '@anocca/sequence-viewer-react-circular';
 import { LinearController } from '@anocca/sequence-viewer-react-linear';
 import type { ControllerProps, RenderProps } from '@anocca/sequence-viewer-react-shared';
 import {
+  Annotation,
   getAaColor,
   getFont,
   getIndexMid,
   getNtColor,
   getNtComplement,
+  getSelectionDeltaAngle,
   getSelectionLabel,
   getSelectionOver,
+  getTextColor,
   isSelectionOverOrigin,
+  maybeRenderOligo,
+  renderSequenceInSelectionRange,
+  SeqAnnotationDirectionsEnum,
   shouldInvertColor,
   tuple,
   type CircularSelection,
@@ -36,7 +42,7 @@ import {
   TextStyle
 } from 'pixi.js';
 import { useGetCoordinates } from './use-get-coordinates';
-import { Sequence, useArrowHeight } from './sequence';
+import { Arc, Base, Sequence, useArrowHeight } from './sequence';
 import { RenderDataContext, useRenderData } from './context';
 import { minFontSize, renderAngleOffset } from './constants';
 import { useFontSize } from './use-font-size';
@@ -44,6 +50,7 @@ import { useBaseAngle } from './use-base-angle';
 import { CircularText } from './circular-text';
 import { Codons } from './codons';
 import { SelectionText } from './selection-text';
+import { Features } from './features';
 // import { Viewport, Wheel } from "pixi-viewport";
 
 extend({
@@ -283,9 +290,8 @@ function Canvas() {
         scale={scale}
         width={INTERFACE_WIDTH}
         height={INTERFACE_HEIGHT}
-        pivot={pivot}
-        x={appWidth / 2}
-        y={appHeight / 2}
+        x={0}
+        y={0}
       >
         <RenderDataContext.Provider value={renderData}>
           <CircularSequence />
@@ -304,6 +310,7 @@ function CircularSequence() {
       <Codons />
       <Sequence />
       <SelectionText />
+      <Features />
     </>
   );
 }

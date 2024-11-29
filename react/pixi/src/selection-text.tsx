@@ -51,14 +51,10 @@ export const SelectionText = React.memo(function SelectionText() {
       }
 
       components.push(
-        <CircularText
-          key={`selection-text-${caretMid}`}
-          text={label}
-          radius={r}
-          angle={angle}
-          fontSize={constrainedFontSize}
-          style={style}
-        />
+        <React.Fragment key={`selection-text-${caretMid}`}>
+          {/* <graphics ></graphics> */}
+          <CircularText text={label} radius={r} angle={angle} fontSize={constrainedFontSize} style={style} />
+        </React.Fragment>
       );
     });
   }
