@@ -1,11 +1,10 @@
 import { tuple } from '@anocca/sequence-viewer-utils';
 import { renderAngleOffset } from './constants';
-import { useRenderData } from './context';
+import { useAgk } from './context';
 
 export const useGetCoordinates = () => {
-  const { updateProps, circularProps } = useRenderData();
-  const { w, circularSelection, sequence } = updateProps;
-  const { len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProps;
+  const { w, circularProperties } = useAgk();
+  const { len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
 
   const xStart = w / 2;
   const getCoordinates = (radius: number, angle: number) => {

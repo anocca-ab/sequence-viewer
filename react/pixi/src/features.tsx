@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import type { Graphics } from 'pixi.js';
 import { CircularText } from './circular-text';
 import { minFontSize, renderAngleOffset } from './constants';
-import { useRenderData } from './context';
+import { useAgk } from './context';
 import { Arc, Base, useBasePairMarkerRadius } from './sequence';
 import { useBaseAngle } from './use-base-angle';
 import { useFontSize } from './use-font-size';
@@ -32,15 +32,12 @@ export const Features = React.memo(function Features() {
   const fixedComplements: [number, number][] = [];
   const components: JSX.Element[] = [];
 
-  const { updateProps, circularProps } = useRenderData();
-  // circularProps.clickedFeatures;
+  const { w, circularSelection, sequence, annotationLevels, circularProperties, circluarCamera } = useAgk();
 
-  const { w, circularSelection, sequence, annotationLevels, renderStateRef } = updateProps;
-  const data = updateProps.data;
+  const { zoom: zoomProgress, radius: radiusProgress } = circluarCamera.value;
 
-  const { zoom: zoomProgress, radius: radiusProgress } = data.circluarCamera.value;
-
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, mouseRadius } = circularProps;
+  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, mouseRadius } =
+    circularProperties;
 
   const inScreen = Math.floor(w / minFontSize);
 
@@ -74,19 +71,10 @@ export const Features = React.memo(function Features() {
     levelRadius += height + margin;
     level.forEach((feature) => {
       components.push(
-        <Feature
-          key={feature.id}
-          feature={feature}
-          height={height}
-          innerRadius={innerRadius}
-          setHoveringFeature={(id) => {
-            hoveringFeature = id;
-          }}
-        />
+        <Feature key={feature.id} feature={feature} height={height} innerRadius={innerRadius} />
       );
     });
   });
-  renderStateRef.hoveringFeature = hoveringFeature;
   /* END @features */
 
   return <>{components}</>;
@@ -95,26 +83,20 @@ export const Features = React.memo(function Features() {
 const Feature = React.memo(function Feature({
   feature,
   height,
-  innerRadius,
-  setHoveringFeature
+  innerRadius
 }: {
   feature: Annotation;
   innerRadius: number;
   height: number;
-  setHoveringFeature: (featureId: string) => void;
 }) {
   const fixedComplements: [number, number][] = [];
   const components: JSX.Element[] = [];
+  const [state, setState] = React.useState<'normal' | 'hovering' | 'clicked'>('normal');
 
-  const { updateProps, circularProps } = useRenderData();
-  // circularProps.clickedFeatures;
+  const { circularProperties, w } = useAgk();
 
-  const { w, circularSelection, sequence, annotationLevels, renderStateRef } = updateProps;
-  const data = updateProps.data;
-
-  const { zoom: zoomProgress, radius: radiusProgress } = data.circluarCamera.value;
-
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, mouseRadius } = circularProps;
+  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, mouseRadius } =
+    circularProperties;
 
   const inScreen = Math.floor(w / minFontSize);
 
@@ -165,8 +147,6 @@ const Feature = React.memo(function Feature({
   const outerRadius = innerRadius + height;
 
   locs.forEach((location, index) => {
-    let state: 'normal' | 'hovering' | 'clicked' = 'normal';
-
     components.push(
       <MainFeatureLabel
         key={`feature-${feature.id}-${index}`}
@@ -174,10 +154,8 @@ const Feature = React.memo(function Feature({
         innerRadius={innerRadius}
         height={height}
         feature={feature}
-        setHoveringFeature={setHoveringFeature}
-        setState={(newState) => {
-          state = newState;
-        }}
+        state={state}
+        setState={(state) => setState(state)}
       />
     );
     const text = String(feature.displayLabel || feature.label);
@@ -326,29 +304,24 @@ function MainFeatureLabel({
   location,
   innerRadius,
   height,
-  setHoveringFeature,
-  setState
+  setState,
+  state
 }: {
   feature: Annotation;
   location: [number, number];
   innerRadius: number;
   height: number;
-  setHoveringFeature: (featureId: string) => void;
   setState: (state: 'normal' | 'hovering' | 'clicked') => void;
+  state: 'normal' | 'hovering' | 'clicked';
 }) {
   const components: JSX.Element[] = [];
 
-  const { updateProps, circularProps } = useRenderData();
-  // circularProps.clickedFeatures;
-
-  const { w, circularSelection, sequence, annotationLevels, renderStateRef } = updateProps;
-  const data = updateProps.data;
-
-  const { zoom: zoomProgress, radius: radiusProgress } = data.circluarCamera.value;
+  const { circularProperties, w } = useAgk();
 
   const xStart = w / 2;
 
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, mouseRadius } = circularProps;
+  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, mouseRadius } =
+    circularProperties;
 
   const text = String(feature.displayLabel || feature.label);
   const startBase = location[0];
@@ -360,19 +333,18 @@ function MainFeatureLabel({
 
   const getCoordinates = useGetCoordinates();
 
-  let state: 'normal' | 'hovering' | 'clicked' = 'normal';
   const outerRadius = innerRadius + height;
-  if (
-    mouseRadius <= outerRadius &&
-    mouseRadius >= innerRadius &&
-    isAngleInRange(hoveringCaretPosition, Math.min(start, end), Math.max(start, end), end < start)
-  ) {
-    state = 'hovering';
-    setHoveringFeature(feature.id);
-  }
-  if (renderStateRef.clickedFeatures.includes(feature.id)) {
-    state = 'clicked';
-  }
+  // if (
+  //   mouseRadius <= outerRadius &&
+  //   mouseRadius >= innerRadius &&
+  //   isAngleInRange(hoveringCaretPosition, Math.min(start, end), Math.max(start, end), end < start)
+  // ) {
+  //   state = 'hovering';
+  //   setHoveringFeature(feature.id);
+  // }
+  // if (renderStateRef.clickedFeatures.includes(feature.id)) {
+  //   state = 'clicked';
+  // }
   const backgroundColor = feature.color;
   let borderColor = 'rgb(0, 0, 0, 0.25)';
   if (state === 'hovering' || state === 'clicked') {

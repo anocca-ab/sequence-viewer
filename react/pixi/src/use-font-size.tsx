@@ -1,11 +1,11 @@
 import { tuple } from '@anocca/sequence-viewer-utils';
 import { minFontSize } from './constants';
-import { useRenderData } from './context';
+import { useAgk } from './context';
 
 export const useFontSize = () => {
-  const { circularProps } = useRenderData();
+  const { circularProperties } = useAgk();
 
-  const { radius, len } = circularProps;
+  const { radius, len } = circularProperties;
 
   const fontSize = Math.max(Math.min((2 * radius * Math.PI) / len, 16), 0);
 

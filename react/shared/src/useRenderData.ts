@@ -9,7 +9,7 @@ import {
   proteinBaseWidth
 } from '@anocca/sequence-viewer-utils';
 
-const getInitialTransformMatrix = (w: number, sequenceLength: number, isProtein: boolean): Matrix => {
+export const getInitialTransformMatrix = (w: number, sequenceLength: number, isProtein: boolean): Matrix => {
   const baseWidth = isProtein ? proteinBaseWidth : dnaBaseWidth;
 
   const scale = (w - 96) / (sequenceLength * baseWidth);

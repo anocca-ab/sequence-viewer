@@ -23,7 +23,7 @@ export const useCanvas = () => {
  * @internal
  */
 export const useDOMListeners = (
-  buffer: HTMLElement | null,
+  buffer: Pick<HTMLElement, 'addEventListener' | 'removeEventListener'> | null,
   onClick: (ev: any) => void,
   onStartDrag: (ev: MouseEvent) => void,
   onEndDrag: (ev: any) => void,
@@ -81,15 +81,14 @@ export const useDOMListeners = (
         evsRef.current.onDblClick(ev);
       };
 
-      const opts = { passive: true };
+      const opts = { passive: false };
 
       buffer.addEventListener('click', onInnerClick, opts);
-      buffer.addEventListener('mousedown', onInnerMousedown);
-      window.addEventListener('mouseup', onInnerMouseup);
-      buffer.addEventListener('mouseup', onInnerMouseup);
+      buffer.addEventListener('mousedown', onInnerMousedown, opts);
+      window.addEventListener('mouseup', onInnerMouseup, opts);
       window.addEventListener('mouseleave', onInnerMouseleave, opts);
       buffer.addEventListener('mouseleave', onInnerMouseleave, opts);
-      buffer.addEventListener('wheel', onInnerWheel);
+      buffer.addEventListener('wheel', onInnerWheel, opts);
       buffer.addEventListener('mousemove', onInnerMousemove, opts);
       buffer.addEventListener('dblclick', onDblClick, opts);
 
@@ -97,7 +96,6 @@ export const useDOMListeners = (
         buffer.removeEventListener('click', onInnerClick);
         buffer.removeEventListener('mousedown', onInnerMousedown);
         window.removeEventListener('mouseup', onInnerMouseup);
-        buffer.removeEventListener('mouseup', onInnerMouseup);
         window.removeEventListener('mouseleave', onInnerMouseleave);
         buffer.removeEventListener('mouseleave', onInnerMouseleave);
         buffer.removeEventListener('wheel', onInnerWheel);

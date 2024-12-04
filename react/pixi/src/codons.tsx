@@ -8,21 +8,16 @@ import {
 import React from 'react';
 import { CircularText } from './circular-text';
 import { minFontSize, renderAngleOffset } from './constants';
-import { useRenderData } from './context';
+import { useAgk } from './context';
 import { useBaseAngle } from './use-base-angle';
 import { useFontSize } from './use-font-size';
 
 export const Codons = React.memo(function Codons() {
   const components: JSX.Element[] = [];
 
-  const { updateProps, circularProps } = useRenderData();
+  const { w, circularSelection, sequence, codons, circularProperties, circluarCamera } = useAgk();
 
-  const { w, circularSelection, sequence, codons } = updateProps;
-  const data = updateProps.data;
-
-  const { zoom: zoomProgress, radius: radiusProgress } = data.circluarCamera.value;
-
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, iLen } = circularProps;
+  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, iLen } = circularProperties;
 
   const [fontSize, constrainedFontSize] = useFontSize();
 
@@ -90,14 +85,10 @@ const Codon = React.memo(function Codon({
   codonNt: string;
   isComplement: boolean;
 }) {
-  const { updateProps, circularProps } = useRenderData();
+  const { circularProperties, w, circularSelection, sequence, codons, circluarCamera } = useAgk();
+  const { zoom: zoomProgress, radius: radiusProgress } = circluarCamera.value;
 
-  const { w, circularSelection, sequence, codons } = updateProps;
-  const data = updateProps.data;
-
-  const { zoom: zoomProgress, radius: radiusProgress } = data.circluarCamera.value;
-
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, iLen } = circularProps;
+  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, iLen } = circularProperties;
   const [fontSize, constrainedFontSize] = useFontSize();
 
   const xStart = w / 2;

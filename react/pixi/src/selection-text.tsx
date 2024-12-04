@@ -4,7 +4,7 @@ import type { TextStyleOptions } from 'pixi.js';
 import { CanvasTextMetrics, TextStyle } from 'pixi.js';
 import { CircularText } from './circular-text';
 import { minFontSize } from './constants';
-import { useRenderData } from './context';
+import { useAgk } from './context';
 import { useArrowHeight } from './sequence';
 import { useBaseAngle } from './use-base-angle';
 import { useFontSize } from './use-font-size';
@@ -16,11 +16,9 @@ import { useGetCoordinates } from './use-get-coordinates';
 export const SelectionText = React.memo(function SelectionText() {
   const components: JSX.Element[] = [];
 
-  const { updateProps, circularProps } = useRenderData();
+  const { w, circularSelection, sequence, circularProperties } = useAgk();
 
-  const { w, circularSelection, sequence } = updateProps;
-
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProps;
+  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
 
   const [fontSize, constrainedFontSize] = useFontSize();
 

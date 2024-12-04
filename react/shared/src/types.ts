@@ -79,8 +79,6 @@ export type RenderProps = {
   circularSelections: CircularSelection[];
   setCircularSelection: (annotationId: string | undefined, cc: CircularSelection[]) => void;
   clickedAnnotation?: string;
-  canvasRef: (buffer: HTMLCanvasElement | null) => void;
-  zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
   setSearchResults: (
     value: React.SetStateAction<
       {

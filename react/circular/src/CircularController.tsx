@@ -73,10 +73,8 @@ export const CircularController = React.forwardRef<SequenceControllerRef, Contro
             setCircularSelection,
             clickedAnnotation,
             search,
-            canvasRef,
-            zoomToSearchResult,
             setSearchResults,
-            buffer
+            buffer,
           })
         ) : search ? (
           <div>

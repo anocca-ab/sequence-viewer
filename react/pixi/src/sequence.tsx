@@ -10,7 +10,7 @@ import React, { useCallback } from 'react';
 import type { TextStyleOptions, Container, Graphics } from 'pixi.js';
 import { CanvasTextMetrics, TextStyle } from 'pixi.js';
 import { minFontSize, renderAngleOffset } from './constants';
-import { useRenderData } from './context';
+import { useAgk } from './context';
 import { useGetCoordinates } from './use-get-coordinates';
 import { useFontSize } from './use-font-size';
 import { useBaseAngle } from './use-base-angle';
@@ -19,14 +19,9 @@ import { CircularText } from './circular-text';
 export const Sequence = React.memo(function Sequence() {
   const components: JSX.Element[] = [];
 
-  const { updateProps, circularProps } = useRenderData();
+  const { w, circularSelection, sequence, circularProperties } = useAgk();
 
-  const { w, circularSelection, sequence } = updateProps;
-  const data = updateProps.data;
-
-  const { zoom: zoomProgress, radius: radiusProgress } = data.circluarCamera.value;
-
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProps;
+  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
 
   const inScreen = Math.floor(w / minFontSize);
 
@@ -40,14 +35,12 @@ export const Sequence = React.memo(function Sequence() {
     for (let i = start; i < end; i += 1) {
       const index = (i + len * factor) % len;
       const selection = getSelectionOver(index, circularSelection);
-      // drawArc(index, selection?.antiClockwise === true);
       components.push(<Arc key={`arc-${index}`} complement={selection?.antiClockwise === true} i={index} />);
     }
   } else {
     // when zoomed in
     for (let i = 0; i < len; i += 1) {
       const selection = getSelectionOver(i, circularSelection);
-      // drawArc(i, selection?.antiClockwise === true);
       components.push(<Arc key={`arc-${i}`} complement={selection?.antiClockwise === true} i={i} />);
     }
   }
@@ -58,14 +51,11 @@ export const Sequence = React.memo(function Sequence() {
 export const Arc = React.memo(function Sequence({ i, complement }: { i: number; complement?: boolean }) {
   const components: JSX.Element[] = [];
 
-  const { updateProps, circularProps } = useRenderData();
+  const { w, circularSelection, sequence, circularProperties, circluarCamera } = useAgk();
 
-  const { w, circularSelection, sequence } = updateProps;
-  const data = updateProps.data;
+  const { zoom: zoomProgress, radius: radiusProgress } = circluarCamera.value;
 
-  const { zoom: zoomProgress, radius: radiusProgress } = data.circluarCamera.value;
-
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProps;
+  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
 
   const inScreen = Math.floor(w / minFontSize);
 
@@ -146,9 +136,8 @@ const SquareBase = React.memo(function SquareBase({
     },
     [color, x1, x2, x3, x4, y1, y2, y3, y4]
   );
-  const [container, setContainer] = React.useState<Container | null>(null);
 
-  return <graphics draw={draw} ref={setContainer} />;
+  return <graphics draw={draw} />;
 });
 
 export const Base = React.memo(function Base({
@@ -162,7 +151,7 @@ export const Base = React.memo(function Base({
   complement?: boolean;
   base?: string;
 }) {
-  const { sequence } = useRenderData().updateProps;
+  const { sequence, circularProperties } = useAgk();
 
   const getBaseAngle = useBaseAngle();
 
@@ -173,6 +162,7 @@ export const Base = React.memo(function Base({
   const [fontSize, constrainedFontSize] = useFontSize();
   const getCoordinates = useGetCoordinates();
   const { a0, a1 } = getBaseAngle(i);
+  const { len, hoveringCaretPosition, angleDelta, angleOffset, circleY, iLen } = circularProperties;
 
   let _radius = radius;
 
@@ -224,10 +214,6 @@ export const Base = React.memo(function Base({
 export const useArrowHeight = () => {
   const [fontSize, constrainedFontSize] = useFontSize();
 
-  const { updateProps, circularProps } = useRenderData();
-
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProps;
-
   /* black line of selection under the letter in the circle */
   const arrowHeight = Math.max(constrainedFontSize * 0.5, 8);
   return arrowHeight;
@@ -245,9 +231,9 @@ const SelectionLine = React.memo(function SelectionLine({
   const arrowHeight = useArrowHeight();
   const [fontSize, constrainedFontSize] = useFontSize();
 
-  const { updateProps, circularProps } = useRenderData();
+  const { circularProperties, w } = useAgk();
 
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProps;
+  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
 
   /* black line of selection under the letter in the circle */
 
@@ -259,8 +245,6 @@ const SelectionLine = React.memo(function SelectionLine({
   }
 
   const getCoordinates = useGetCoordinates();
-
-  const { w, circularSelection, sequence } = updateProps;
 
   const xStart = w / 2;
 
@@ -311,14 +295,9 @@ const SelectionLine = React.memo(function SelectionLine({
 });
 
 export const useBasePairMarkerRadius = () => {
-  const { updateProps, circularProps } = useRenderData();
+  const { circularProperties } = useAgk();
 
-  const { w, circularSelection, sequence } = updateProps;
-  const data = updateProps.data;
-
-  const { zoom: zoomProgress, radius: radiusProgress } = data.circluarCamera.value;
-
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProps;
+  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
 
   const [fontSize] = useFontSize();
   const components: JSX.Element[] = [];
@@ -339,14 +318,9 @@ export const useBasePairMarkerRadius = () => {
 
 /* draw base pair indicator, like 1, 1500, 3000, 4500 in a 6000 bp sequence */
 const BasePairMarker = React.memo(function BasePairMarker({ aMid, i }: { aMid: number; i: number }) {
-  const { updateProps, circularProps } = useRenderData();
+  const { circularProperties } = useAgk();
 
-  const { w, circularSelection, sequence } = updateProps;
-  const data = updateProps.data;
-
-  const { zoom: zoomProgress, radius: radiusProgress } = data.circluarCamera.value;
-
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProps;
+  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
 
   const [fontSize] = useFontSize();
   const components: JSX.Element[] = [];
