@@ -500,7 +500,6 @@ function Canvas({
       ref={setContainerRef}
     >
       <InTunnel tunnel={searchComponentTunnel}>
-        <Component />
         {search}
       </InTunnel>
       <container
