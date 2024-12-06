@@ -15,7 +15,7 @@ import { useFontSize } from './use-font-size';
 export const Codons = React.memo(function Codons() {
   const components: JSX.Element[] = [];
 
-  const { w, circularSelections: circularSelection, sequence, codons, circularProperties, circularCamera } = useAgk();
+  const { w, circularSelections, sequence, codons, circularProperties, circularCamera } = useAgk();
 
   const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, iLen } = circularProperties;
 
@@ -44,7 +44,7 @@ export const Codons = React.memo(function Codons() {
     }
   };
 
-  circularSelection.forEach((circularSelection) => {
+  circularSelections.forEach((circularSelection) => {
     triplet = '';
     if (isSelectionOverOrigin(circularSelection)) {
       if (circularSelection.antiClockwise) {

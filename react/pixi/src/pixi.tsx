@@ -231,28 +231,12 @@ function Canvas({
   setSearchResults,
   searchResults
 }: BridgeType & { wrapper: HTMLDivElement }) {
-  const [rotation, setRotation] = useState(0);
-  const [scale, setZoom] = useState(1);
-
   const { app } = useApplication();
 
   const appWidth = app.screen.width;
   const appHeight = app.screen.width;
 
   const rect = useMemo(() => new Rectangle(0, 0, appWidth, appHeight), [appWidth, appHeight]);
-
-  // const tick = useCallback(() => {
-  //   const props = updatePropsRef.current;
-  //   if (!props) {
-  //     return;
-  //   }
-  //     return isEqual(currentProps, props) ? currentProps : structuredClone(props);
-  //   });
-  // }, []);
-
-  // useTick(tick);
-
-  const pivot = React.useMemo(() => ({ x: INTERFACE_WIDTH / 2, y: INTERFACE_HEIGHT / 2 }), []);
 
   const annotations = React.useMemo(() => props.annotations.filter((a) => !a.hidden), [props.annotations]);
 
@@ -267,21 +251,10 @@ function Canvas({
     y: 0
   });
 
-  const [staticCircularProperties] = React.useState(
-    getCircleProperties({
-      circularCamera: circularCamera,
-      circularSelections,
-      h: props.height,
-      w: props.width,
-      mouse,
-      sequence: props.sequence
-    })
-  );
-
   const circularProperties = React.useMemo(
     () =>
       getCircleProperties({
-        circularCamera: circularCamera,
+        circularCamera,
         circularSelections,
         h: props.height,
         w: props.width,
@@ -489,7 +462,6 @@ function Canvas({
     const onInnerMouseup = (ev: MouseEvent) => {
       ev.stopPropagation();
       onMouseUpOrLeave(ev);
-      console.log('mouseup');
     };
     const onInnerMouseleave = (ev: MouseEvent) => {
       onMouseUpOrLeave(ev);
@@ -589,14 +561,7 @@ function Canvas({
       ref={setContainerRef}
     >
       <InTunnel tunnel={searchComponentTunnel}>{search}</InTunnel>
-      <container
-        rotation={rotation}
-        scale={scale}
-        width={INTERFACE_WIDTH}
-        height={INTERFACE_HEIGHT}
-        x={0}
-        y={0}
-      >
+      <container width={INTERFACE_WIDTH} height={INTERFACE_HEIGHT} x={0} y={0}>
         <AgkProvider
           circularProperties={circularProperties}
           w={props.width}

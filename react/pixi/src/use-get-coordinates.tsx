@@ -4,7 +4,7 @@ import { useAgk } from './context';
 
 export const useGetCoordinates = () => {
   const { w, circularProperties } = useAgk();
-  const { len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
+  const { circleY } = circularProperties;
 
   const xStart = w / 2;
   const getCoordinates = (radius: number, angle: number) => {

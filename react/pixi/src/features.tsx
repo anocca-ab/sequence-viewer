@@ -8,13 +8,8 @@ import {
   SeqAnnotationDirectionsEnum
 } from '@anocca/sequence-viewer-utils';
 import React, { useState } from 'react';
-import {
-  CanvasTextMetrics,
-  TextStyle,
-  TextStyleOptions,
-  type FederatedPointerEvent,
-  type Graphics
-} from 'pixi.js';
+import { CanvasTextMetrics, TextStyle } from 'pixi.js';
+import type { TextStyleOptions, FederatedPointerEvent, Graphics } from 'pixi.js';
 import { DropShadowFilter } from 'pixi-filters';
 import { CircularText } from './circular-text';
 import { minFontSize, renderAngleOffset } from './constants';
@@ -26,7 +21,6 @@ import { useGetCoordinates } from './use-get-coordinates';
 import { useBasePairMarkerRadius } from './base-pair-markers';
 import { resetAngularScroll } from './circular-helpers';
 import { useArrowHeight } from './selection';
-
 
 function useRenderAsSequence() {
   const [fontSize, constrainedFontSize] = useFontSize();
@@ -612,8 +606,6 @@ function MainFeatureLabel({
 
     const seqToAngle = (n: number) => n + angleOffset - angleDelta / 2;
 
-    // c.font = getFont(12, 'bold');
-    // c.textBaseline = 'middle';
     components.push(
       <container mask={mask} key={`feature-label-${feature.id}`} interactive={false} eventMode="none">
         <graphics ref={setMask} draw={draw} />
@@ -626,7 +618,6 @@ function MainFeatureLabel({
         />
       </container>
     );
-    // drawText(text, outerRadius - height / 2, seqToAngle(textMid));
   };
   if (!renderAsSequence(feature) && radians >= 16) {
     drawFeatureLabel(radius > w / 2);
