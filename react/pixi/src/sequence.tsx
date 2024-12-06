@@ -1,25 +1,18 @@
-import {
-  getNtColor,
-  getNtComplement,
-  getSelectionOver,
-  tuple,
-  type CircularSelection
-} from '@anocca/sequence-viewer-utils';
+import { getNtColor, getNtComplement, getSelectionOver, tuple } from '@anocca/sequence-viewer-utils';
+import type { Graphics } from 'pixi.js';
 import React, { useCallback } from 'react';
-// import { DrawCallback } from "@pixi/react/src/typedefs/DrawCallback";
-import type { TextStyleOptions, Container, Graphics } from 'pixi.js';
-import { CanvasTextMetrics, TextStyle } from 'pixi.js';
-import { minFontSize, renderAngleOffset } from './constants';
-import { useAgk } from './context';
-import { useGetCoordinates } from './use-get-coordinates';
-import { useFontSize } from './use-font-size';
-import { useBaseAngle } from './use-base-angle';
 import { CircularText } from './circular-text';
+import { minFontSize } from './constants';
+import { useAgk } from './context';
+import { useArrowHeight } from './selection';
+import { useBaseAngle } from './use-base-angle';
+import { useFontSize } from './use-font-size';
+import { useGetCoordinates } from './use-get-coordinates';
 
 export const Sequence = React.memo(function Sequence() {
   const components: JSX.Element[] = [];
 
-  const { w, circularSelection, sequence, circularProperties } = useAgk();
+  const { w, circularSelections: circularSelection, sequence, circularProperties } = useAgk();
 
   const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
 
@@ -28,20 +21,20 @@ export const Sequence = React.memo(function Sequence() {
   const factor = Math.ceil(inScreen / len);
 
   if ((2 * radius * Math.PI) / len > minFontSize) {
-    // when zoomed out
+    // when zoomed in
     const start = hoveringCaretPosition - inScreen;
     const end = hoveringCaretPosition + inScreen;
 
     for (let i = start; i < end; i += 1) {
       const index = (i + len * factor) % len;
       const selection = getSelectionOver(index, circularSelection);
-      components.push(<Arc key={`arc-${index}`} complement={selection?.antiClockwise === true} i={index} />);
+      components.push(<Arc key={`arc-zoomed-in-${i}`} complement={selection?.antiClockwise === true} i={index} />);
     }
   } else {
-    // when zoomed in
+    // when zoomed out
     for (let i = 0; i < len; i += 1) {
       const selection = getSelectionOver(i, circularSelection);
-      components.push(<Arc key={`arc-${i}`} complement={selection?.antiClockwise === true} i={i} />);
+      components.push(<Arc key={`arc-zoomed-out-${i}`} complement={selection?.antiClockwise === true} i={i} />);
     }
   }
 
@@ -51,44 +44,9 @@ export const Sequence = React.memo(function Sequence() {
 export const Arc = React.memo(function Sequence({ i, complement }: { i: number; complement?: boolean }) {
   const components: JSX.Element[] = [];
 
-  const { w, circularSelection, sequence, circularProperties, circluarCamera } = useAgk();
+  const { circularProperties } = useAgk();
 
-  const { zoom: zoomProgress, radius: radiusProgress } = circluarCamera.value;
-
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
-
-  const inScreen = Math.floor(w / minFontSize);
-
-  const factor = Math.ceil(inScreen / len);
-
-  const xStart = w / 2;
-
-  const getCoordinates = useGetCoordinates();
-
-  const getBaseAngle = useBaseAngle();
-
-  const [fontSize, constrainedFontSize] = useFontSize();
-
-  const { a0, a1, aMid } = getBaseAngle(i);
-
-  const selection = getSelectionOver(i, circularSelection);
-  if (selection) {
-    components.push(
-      <SelectionLine key={`selection-line-${i}`} selection={selection} complement={complement} i={i} />
-    );
-  }
-
-  let interval = Math.floor(len / 4);
-  if (zoomProgress > 0.25) {
-    interval = Math.floor(len / 8);
-  }
-  if (radiusProgress > 0) {
-    interval = Math.floor(len / 16);
-  }
-  const mod = i % interval;
-  if (mod === 0 && (i + interval / 2) % len >= interval / 2) {
-    components.push(<BasePairMarker key={`base-pair-marker-${i}`} aMid={aMid} i={i} />);
-  }
+  const { radius } = circularProperties;
 
   components.push(<Base key={`base-${i}`} i={i} radius={radius} complement={false} />);
   if (complement) {
@@ -202,168 +160,12 @@ export const Base = React.memo(function Base({
         fill: color,
         fontFamily: 'sans-serif',
         fontWeight: 'bold',
-        textBaseline: 'bottom'
+        textBaseline: 'bottom',
+        align: 'center'
       }}
       text={base}
       radius={_radius}
       angle={aMid}
     />
   );
-});
-
-export const useArrowHeight = () => {
-  const [fontSize, constrainedFontSize] = useFontSize();
-
-  /* black line of selection under the letter in the circle */
-  const arrowHeight = Math.max(constrainedFontSize * 0.5, 8);
-  return arrowHeight;
-};
-
-const SelectionLine = React.memo(function SelectionLine({
-  selection,
-  complement,
-  i
-}: {
-  selection: CircularSelection;
-  i: number;
-  complement?: boolean;
-}) {
-  const arrowHeight = useArrowHeight();
-  const [fontSize, constrainedFontSize] = useFontSize();
-
-  const { circularProperties, w } = useAgk();
-
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
-
-  /* black line of selection under the letter in the circle */
-
-  let arrowRadius = radius;
-  if (complement) {
-    arrowRadius = radius + constrainedFontSize + arrowHeight / 2;
-  } else {
-    arrowRadius = radius - arrowHeight / 2;
-  }
-
-  const getCoordinates = useGetCoordinates();
-
-  const xStart = w / 2;
-
-  const getBaseAngle = useBaseAngle();
-
-  const { a0, a1, aMid } = getBaseAngle(i);
-
-  return (
-    <graphics
-      draw={(g) => {
-        g.clear();
-        g.setStrokeStyle({
-          color: 'red',
-          width: Math.max(arrowHeight * 0.1, 2)
-        });
-        g.beginPath();
-        g.arc(xStart, circleY, arrowRadius, a0 + renderAngleOffset, a1 + renderAngleOffset, false);
-        g.stroke();
-        g.closePath();
-        if (i === selection.end && selection.antiClockwise !== undefined) {
-          // Draw the triangle at the end of the arrow
-          g.beginPath();
-          if (selection.antiClockwise) {
-            const [x1, y1] = getCoordinates(arrowRadius - arrowHeight / 2, a0);
-            const [x2, y2] = getCoordinates(arrowRadius, a0 - arrowHeight / (2 * radius));
-            const [x3, y3] = getCoordinates(arrowRadius + arrowHeight / 2, a0);
-
-            g.moveTo(x1, y1); /* top */
-            g.lineTo(x2, y2); /* point */
-            g.lineTo(x3, y3); /* bottom */
-          }
-          if (!selection.antiClockwise) {
-            const [x1, y1] = getCoordinates(arrowRadius - arrowHeight / 2, a1);
-            const [x2, y2] = getCoordinates(arrowRadius, a1 + arrowHeight / (2 * radius));
-            const [x3, y3] = getCoordinates(arrowRadius + arrowHeight / 2, a1);
-
-            g.moveTo(x1, y1); /* top */
-            g.lineTo(x2, y2); /* point */
-            g.lineTo(x3, y3); /* bottom */
-          }
-          g.closePath();
-          g.fillStyle = 'black';
-          g.fill();
-        }
-      }}
-    />
-  );
-});
-
-export const useBasePairMarkerRadius = () => {
-  const { circularProperties } = useAgk();
-
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
-
-  const [fontSize] = useFontSize();
-  const components: JSX.Element[] = [];
-  const getCoordinates = useGetCoordinates();
-  const getVerticalLine = (radius1: number, radius2: number, angle: number) => {
-    const [x1, y1] = getCoordinates(radius1, angle);
-    const [x2, y2] = getCoordinates(radius2, angle);
-    return tuple(x1, y1, x2, y2);
-  };
-  const arrowHeight = useArrowHeight();
-  const lineOuterRadius = radius + fontSize + 2 + (fontSize < minFontSize ? 0 : fontSize) + arrowHeight;
-  return {
-    lineInnerRadius: radius + fontSize + arrowHeight / 2,
-    lineOuterRadius,
-    outerRadius: lineOuterRadius + 16
-  };
-};
-
-/* draw base pair indicator, like 1, 1500, 3000, 4500 in a 6000 bp sequence */
-const BasePairMarker = React.memo(function BasePairMarker({ aMid, i }: { aMid: number; i: number }) {
-  const { circularProperties } = useAgk();
-
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
-
-  const [fontSize] = useFontSize();
-  const components: JSX.Element[] = [];
-  const getCoordinates = useGetCoordinates();
-  const getVerticalLine = (radius1: number, radius2: number, angle: number) => {
-    const [x1, y1] = getCoordinates(radius1, angle);
-    const [x2, y2] = getCoordinates(radius2, angle);
-    return tuple(x1, y1, x2, y2);
-  };
-  const arrowHeight = useArrowHeight();
-  const { lineInnerRadius, lineOuterRadius, outerRadius } = useBasePairMarkerRadius();
-  const topCaret = getVerticalLine(lineInnerRadius, lineOuterRadius, aMid);
-  components.push(
-    <graphics
-      key={`base-pair-marker-line-${i}`}
-      draw={(g) => {
-        g.clear();
-        g.setStrokeStyle({
-          width: 1,
-          color: 'black'
-        });
-        g.beginPath();
-        g.moveTo(topCaret[0], topCaret[1]);
-        g.lineTo(topCaret[2], topCaret[3]);
-        g.closePath();
-        g.stroke();
-      }}
-    />
-  );
-
-  components.push(
-    <CircularText
-      key={`base-pair-marker-num-${i}`}
-      fontSize={16}
-      style={{
-        fontFamily: 'sans-serif',
-        fontWeight: 'normal',
-        textBaseline: 'bottom'
-      }}
-      text={String(i + 1)}
-      radius={lineOuterRadius}
-      angle={aMid}
-    />
-  );
-  return <>{components}</>;
 });

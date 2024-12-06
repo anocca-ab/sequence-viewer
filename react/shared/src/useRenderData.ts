@@ -32,7 +32,7 @@ export const useRenderData = (width: number, sequence: string, isProtein: boolea
       mouseX: 0,
       mouseY: 0,
       matrix: getInitialTransformMatrix(width, sequence.length, isProtein),
-      circluarCamera: {
+      circularCamera: {
         angleOffset: 0,
         scrollOffsetZoomed: 0,
         scrollOffsetZooming: 0,

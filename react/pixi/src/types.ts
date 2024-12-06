@@ -12,7 +12,7 @@ export type PixiUpdateProps = {
     x: number;
     y: number;
   };
-  circluarCamera: CircularCamera;
+  circularCamera: CircularCamera;
   sequence: string;
   circularSelection: CircularSelection[];
   searchResults: {

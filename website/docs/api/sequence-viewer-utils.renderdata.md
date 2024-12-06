@@ -13,7 +13,7 @@ Frequently updated data for drawCircular and drawLinear
 export declare type RenderData = {
     mouseX: number;
     mouseY: number;
-    circluarCamera: {
+    circularCamera: {
         angleOffset: number;
         scrollOffsetZoomed: number;
         scrollOffsetZooming: number;

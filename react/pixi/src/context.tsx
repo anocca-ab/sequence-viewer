@@ -1,17 +1,30 @@
 import React from 'react';
 import type { CircularProperties } from '@anocca/sequence-viewer-render-circular';
-import type { Annotations, CircularCamera, CircularSelection } from '@anocca/sequence-viewer-utils';
+import type {
+  Annotations,
+  CircularCamera,
+  CircularSelection,
+  SearchResult
+} from '@anocca/sequence-viewer-utils';
 import type { PixiUpdateProps } from './types';
 
 type AgkContextType = {
   circularProperties: CircularProperties;
   w: number;
   h: number;
-  circularSelection: CircularSelection[];
+  circularSelections: CircularSelection[];
   sequence: string;
   codons: Record<string, string>;
-  circluarCamera: CircularCamera;
+  circularCamera: CircularCamera;
   annotationLevels: Annotations[];
+  searchResults: SearchResult[];
+  openAnnotationDialog: undefined | ((annotationId: string) => void);
+  annotations: Annotations;
+  setCircularSelections: React.Dispatch<React.SetStateAction<CircularSelection[]>>;
+  setClickedAnnotation: React.Dispatch<React.SetStateAction<string | undefined>>;
+  clickedAnnotation: string | undefined;
+  selectedAnnotations: string[];
+  setCircluarCamera: React.Dispatch<React.SetStateAction<CircularCamera>>;
 };
 
 const AgkContext = React.createContext<undefined | AgkContextType>(undefined);

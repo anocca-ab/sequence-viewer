@@ -69,7 +69,7 @@ export const drawCircular: DrawFunction = ({
 
   const xStart = w / 2;
 
-  const { zoom: zoomProgress, radius: radiusProgress } = data.circluarCamera.value;
+  const { zoom: zoomProgress, radius: radiusProgress } = data.circularCamera.value;
 
   const renderAngleOffset = -Math.PI / 2;
 

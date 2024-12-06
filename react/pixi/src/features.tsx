@@ -8,22 +8,30 @@ import {
   SeqAnnotationDirectionsEnum
 } from '@anocca/sequence-viewer-utils';
 import React, { useState } from 'react';
-import type { Graphics } from 'pixi.js';
+import {
+  CanvasTextMetrics,
+  TextStyle,
+  TextStyleOptions,
+  type FederatedPointerEvent,
+  type Graphics
+} from 'pixi.js';
+import { DropShadowFilter } from 'pixi-filters';
 import { CircularText } from './circular-text';
 import { minFontSize, renderAngleOffset } from './constants';
 import { useAgk } from './context';
-import { Arc, Base, useBasePairMarkerRadius } from './sequence';
+import { Arc, Base } from './sequence';
 import { useBaseAngle } from './use-base-angle';
 import { useFontSize } from './use-font-size';
 import { useGetCoordinates } from './use-get-coordinates';
+import { useBasePairMarkerRadius } from './base-pair-markers';
+import { resetAngularScroll } from './circular-helpers';
+import { useArrowHeight } from './selection';
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const c: CanvasRenderingContext2D = document.createElement('canvas').getContext('2d')!;
 
 function useRenderAsSequence() {
   const [fontSize, constrainedFontSize] = useFontSize();
   const renderAsSequence = (feature: Annotation) => {
-    return fontSize > 5 && feature.displayAsSequence;
+    return fontSize >= minFontSize && feature.displayAsSequence;
   };
   return renderAsSequence;
 }
@@ -32,9 +40,17 @@ export const Features = React.memo(function Features() {
   const fixedComplements: [number, number][] = [];
   const components: JSX.Element[] = [];
 
-  const { w, circularSelection, sequence, annotationLevels, circularProperties, circluarCamera } = useAgk();
+  const {
+    w,
+    circularSelections: circularSelection,
+    sequence,
+    annotationLevels,
+    circularProperties,
+    circularCamera,
+    setCircluarCamera
+  } = useAgk();
 
-  const { zoom: zoomProgress, radius: radiusProgress } = circluarCamera.value;
+  const { zoom: zoomProgress, radius: radiusProgress } = circularCamera.value;
 
   const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, mouseRadius } =
     circularProperties;
@@ -91,9 +107,29 @@ const Feature = React.memo(function Feature({
 }) {
   const fixedComplements: [number, number][] = [];
   const components: JSX.Element[] = [];
-  const [state, setState] = React.useState<'normal' | 'hovering' | 'clicked'>('normal');
 
-  const { circularProperties, w } = useAgk();
+  const {
+    circularProperties,
+    w,
+    annotations,
+    setCircularSelections,
+    setClickedAnnotation,
+    clickedAnnotation,
+    selectedAnnotations,
+    setCircluarCamera
+  } = useAgk();
+
+  const [hovering, setHovering] = useState(false);
+
+  let state: 'normal' | 'hovering' | 'clicked' | 'selected' = 'normal';
+
+  if (hovering) {
+    state = 'hovering';
+  } else if (clickedAnnotation === feature.id) {
+    state = 'clicked';
+  } else if (selectedAnnotations.includes(feature.id)) {
+    state = 'selected';
+  }
 
   const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, mouseRadius } =
     circularProperties;
@@ -146,16 +182,53 @@ const Feature = React.memo(function Feature({
 
   const outerRadius = innerRadius + height;
 
+  const arrowHeight = useArrowHeight();
+
   locs.forEach((location, index) => {
     components.push(
       <MainFeatureLabel
-        key={`feature-${feature.id}-${index}`}
+        key={`feature-${feature.id}-${index}-[${location[0]}-${location[1]}]`}
         location={location}
         innerRadius={innerRadius}
         height={height}
         feature={feature}
         state={state}
-        setState={(state) => setState(state)}
+        onClick={(ev: FederatedPointerEvent) => {
+          ev.stopPropagation();
+          ev.preventDefault();
+          const id = feature.id;
+          const append = ev.metaKey;
+          const nextSelections = annotations
+            .filter((annotation) => annotation.id === id)
+            .flatMap((a) => {
+              const antiClockwise = a.direction === SeqAnnotationDirectionsEnum.REVERSE;
+
+              return a.locations.map((location) => {
+                const range = {
+                  start: location[antiClockwise ? 1 : 0] - 1,
+                  end: location[antiClockwise ? 0 : 1] - 1
+                };
+                return {
+                  state: 'selected' as const,
+                  antiClockwise,
+                  ...range
+                };
+              });
+            });
+          if (append) {
+            setCircularSelections((cc) => [...cc, ...nextSelections]);
+          } else {
+            setCircularSelections(nextSelections);
+          }
+          setClickedAnnotation(id);
+          setCircluarCamera(resetAngularScroll(circularProperties.angleOffset));
+        }}
+        onMouseOver={() => {
+          setHovering(true);
+        }}
+        onMouseLeave={() => {
+          setHovering(false);
+        }}
       />
     );
     const text = String(feature.displayLabel || feature.label);
@@ -166,7 +239,7 @@ const Feature = React.memo(function Feature({
     const a0 = start * angleDelta + angleOffset;
     const a1 = end * angleDelta + angleOffset;
 
-    const featureOrbitSequenceRadius = (outerRadius + innerRadius) / 2 + constrainedFontSize / 2;
+    const featureOrbitSequenceRadius = (outerRadius + innerRadius) / 2 - fontSize / 2;
     const renderSequnceInFeatureOrbit = ({
       startIndex,
       endIndex,
@@ -210,24 +283,19 @@ const Feature = React.memo(function Feature({
     if (tag) {
       components.push(
         <CircularText
+          key={`feature-tag-${feature.id}-${index}-[${location[0]}-${location[1]}]`}
           text={tag}
           radius={outerRadius - height / 2}
           angle={a1 + o + Math.PI / 2}
-          style={{ textBaseline: 'middle', fontWeight: 'bold', fill: 'black' }}
+          style={{ textBaseline: 'middle', fontWeight: 'bold', fill: 'black', align: 'left' }}
           fontSize={12}
         />
       );
-      // drawText(String(tag), outerRadius - height / 2, a1 + o + Math.PI / 2, 'right');
     }
     maybeRenderOligo(feature, location, len, (i: number, base: string) => {
       components.push(
         <Base i={i} radius={featureOrbitSequenceRadius} base={base} key={`feature-orbit-base-${i}`} />
       );
-      // drawBase({
-      //   i,
-      //   radius: featureOrbitSequenceRadius,
-      //   base
-      // });
     });
     if (feature.type === 'DNA_RE_NUC') {
       const reverse = feature.direction === SeqAnnotationDirectionsEnum.REVERSE;
@@ -250,48 +318,56 @@ const Feature = React.memo(function Feature({
         if (index < 0) {
           index = len + i;
         }
-        components.push(<Arc key={`arc-${index}`} i={index} />);
-        // drawArc(index, true);
+        components.push(<Arc key={`restriction-arc-${index}`} i={index} complement />);
       }
       sites.forEach((site) => {
-        const [forwardCut, reverseCut] = site;
-        const lStart = reverse ? end - reverseCut : start + forwardCut;
-        const { a0: la0, a1 } = getBaseAngle(lStart);
-        c.strokeStyle = state === 'hovering' || state === 'clicked' ? 'red' : 'black';
-        c.lineWidth = 3;
-        c.beginPath();
-        if (forwardCut > reverseCut) {
-          const [lx1, ly1] = getCoordinates(radius, la0);
-          c.lineTo(lx1, ly1);
-          const [lx2, ly2] = getCoordinates(radius - constrainedFontSize, la0);
-          c.lineTo(lx2, ly2);
-        } else {
-          const [lx1, ly1] = getCoordinates(radius, la0);
-          c.lineTo(lx1, ly1);
-          const [lx2, ly2] = getCoordinates(radius - constrainedFontSize, la0);
-          c.lineTo(lx2, ly2);
-        }
+        components.push(
+          <graphics
+            key={`restriction-arc-${feature.id}-[${location[0]}, ${location[1]}]-${site[0]}-${site[1]}`}
+            draw={(c) => {
+              c.clear();
+              const [forwardCut, reverseCut] = site;
+              const lStart = reverse ? end - reverseCut : start + forwardCut;
+              const { a0: la0, a1 } = getBaseAngle(lStart);
+              c.setStrokeStyle({
+                color: state === 'hovering' || state === 'clicked' ? 'red' : 'black',
+                width: 2
+              });
+              const r = radius + fontSize + arrowHeight / 2;
+              c.beginPath();
+              if (forwardCut > reverseCut) {
+                const [lx1, ly1] = getCoordinates(r, la0);
+                c.moveTo(lx1, ly1);
+                const [lx2, ly2] = getCoordinates(r - constrainedFontSize, la0);
+                c.lineTo(lx2, ly2);
+              } else {
+                const [lx1, ly1] = getCoordinates(r, la0);
+                c.moveTo(lx1, ly1);
+                const [lx2, ly2] = getCoordinates(r - constrainedFontSize, la0);
+                c.lineTo(lx2, ly2);
+              }
 
-        const rStart = reverse ? end - forwardCut : start + reverseCut;
-        const { a0: ra0 } = getBaseAngle(rStart);
-        c.arc(
-          xStart,
-          circleY,
-          radius - constrainedFontSize * 1.125 - 1.5,
-          la0 + renderAngleOffset,
-          ra0 + renderAngleOffset,
-          forwardCut > reverseCut
+              const rStart = reverse ? end - forwardCut : start + reverseCut;
+              const { a0: ra0 } = getBaseAngle(rStart);
+              c.arc(
+                xStart,
+                circleY,
+                r - constrainedFontSize - arrowHeight / 2,
+                la0 + renderAngleOffset,
+                ra0 + renderAngleOffset,
+                forwardCut > reverseCut
+              );
+              if (forwardCut > reverseCut) {
+                const [x3, y3] = getCoordinates(r - constrainedFontSize * 2.5, ra0);
+                c.lineTo(x3, y3);
+              } else {
+                const [x3, y3] = getCoordinates(r - constrainedFontSize * 2.5, ra0);
+                c.lineTo(x3, y3);
+              }
+              c.stroke();
+            }}
+          />
         );
-        if (forwardCut > reverseCut) {
-          const [x3, y3] = getCoordinates(radius - constrainedFontSize * 2.5, ra0);
-          c.lineTo(x3, y3);
-        } else {
-          const [x3, y3] = getCoordinates(radius - constrainedFontSize * 2.5, ra0);
-          c.lineTo(x3, y3);
-        }
-        c.strokeStyle = state === 'hovering' || state === 'clicked' ? 'red' : 'black';
-        c.stroke();
-        c.closePath();
       });
     }
   });
@@ -304,19 +380,23 @@ function MainFeatureLabel({
   location,
   innerRadius,
   height,
-  setState,
+  onClick,
+  onMouseOver,
+  onMouseLeave,
   state
 }: {
   feature: Annotation;
   location: [number, number];
   innerRadius: number;
   height: number;
-  setState: (state: 'normal' | 'hovering' | 'clicked') => void;
-  state: 'normal' | 'hovering' | 'clicked';
+  onClick: (ev: FederatedPointerEvent) => void;
+  onMouseOver: () => void;
+  onMouseLeave: () => void;
+  state: 'normal' | 'hovering' | 'clicked' | 'selected';
 }) {
   const components: JSX.Element[] = [];
 
-  const { circularProperties, w } = useAgk();
+  const { circularProperties, w, openAnnotationDialog } = useAgk();
 
   const xStart = w / 2;
 
@@ -334,20 +414,12 @@ function MainFeatureLabel({
   const getCoordinates = useGetCoordinates();
 
   const outerRadius = innerRadius + height;
-  // if (
-  //   mouseRadius <= outerRadius &&
-  //   mouseRadius >= innerRadius &&
-  //   isAngleInRange(hoveringCaretPosition, Math.min(start, end), Math.max(start, end), end < start)
-  // ) {
-  //   state = 'hovering';
-  //   setHoveringFeature(feature.id);
-  // }
-  // if (renderStateRef.clickedFeatures.includes(feature.id)) {
-  //   state = 'clicked';
-  // }
+
   const backgroundColor = feature.color;
-  let borderColor = 'rgb(0, 0, 0, 0.25)';
+  let borderColor = 'rgb(0, 0, 0, 0.25)'; // normal
   if (state === 'hovering' || state === 'clicked') {
+    borderColor = 'rgb(0, 0, 240)';
+  } else if (state === 'selected') {
     borderColor = 'rgb(0, 0, 0)';
   }
 
@@ -359,7 +431,6 @@ function MainFeatureLabel({
 
   const draw = (g: Graphics) => {
     g.clear();
-    g.save();
     g.fillStyle = backgroundColor;
     g.setStrokeStyle({ color: borderColor, width: 1 });
     g.beginPath();
@@ -407,8 +478,61 @@ function MainFeatureLabel({
     g.stroke();
   };
 
-  // components.push(<graphics key={`feature-${feature.id}-mask`} ref={setMask} draw={draw} />);
-  components.push(<graphics key={`feature-${feature.id}`} draw={draw} />);
+  const glowFilter = new DropShadowFilter({
+    offset: { x: 1, y: 1 },
+    blur: 2
+  });
+
+  const t = React.useRef<number | undefined>(undefined);
+  const handleClick = (ev: FederatedPointerEvent) => {
+    onClick(ev);
+    if (openAnnotationDialog) {
+      clearTimeout(t.current);
+      if (t.current !== undefined) {
+        t.current = undefined;
+        openAnnotationDialog(feature.id);
+      } else {
+        t.current = setTimeout(() => {
+          t.current = undefined;
+        }, 200);
+      }
+    }
+  };
+  React.useEffect(() => () => clearTimeout(t.current), []);
+  React.useEffect(() => {
+    const onSelect = (ev: Event) => {
+      ev.preventDefault();
+    };
+    window.addEventListener('selectstart', onSelect);
+    return () => {
+      window.removeEventListener('selectstart', onSelect);
+    };
+  }, []);
+
+  components.push(
+    <graphics
+      key={`feature-${feature.id}`}
+      draw={draw}
+      onClick={handleClick}
+      cursor="pointer"
+      eventMode="dynamic"
+      onPointerDown={(ev: FederatedPointerEvent) => {
+        ev.stopPropagation();
+        ev.preventDefault();
+      }}
+      onPointerUp={(ev: FederatedPointerEvent) => {
+        ev.stopPropagation();
+        ev.preventDefault();
+      }}
+      onPointerOver={(ev: FederatedPointerEvent) => {
+        onMouseOver();
+      }}
+      onPointerLeave={(ev: FederatedPointerEvent) => {
+        onMouseLeave();
+      }}
+      interactive
+    />
+  );
 
   const textColor = getTextColor(backgroundColor);
   const mid = getIndexMid(Math.min(start, end), Math.max(start, end), len, end < start) * angleDelta;
@@ -421,7 +545,13 @@ function MainFeatureLabel({
   const startSequence = (sequenceMid - visibleSequence / 2 + lastIndex + angleDelta) % lastIndex;
   const endSequence = (sequenceMid + visibleSequence / 2 + lastIndex) % lastIndex;
   const drawFeatureLabel = (zoomed = false) => {
-    const textWidth = c.measureText(text).width;
+    const textStyle: TextStyleOptions = {
+      fontWeight: 'bold',
+      textBaseline: 'middle',
+      fill: textColor,
+      align: 'center'
+    };
+    const textWidth = CanvasTextMetrics.measureText(text, new TextStyle(textStyle)).width;
     const spanningAngle = textWidth / (outerRadius - height / 2);
     let textMid = mid;
     if (zoomed) {
@@ -485,18 +615,13 @@ function MainFeatureLabel({
     // c.font = getFont(12, 'bold');
     // c.textBaseline = 'middle';
     components.push(
-      <container mask={mask} key={`feature-label-${feature.id}`}>
-        <graphics key={`feature-${feature.id}-mask`} ref={setMask} draw={draw} />
+      <container mask={mask} key={`feature-label-${feature.id}`} interactive={false} eventMode="none">
+        <graphics ref={setMask} draw={draw} />
         <CircularText
-          key={`feature-label-${feature.id}`}
           text={text}
           radius={outerRadius - height / 2}
           angle={seqToAngle(textMid)}
-          style={{
-            fontWeight: 'bold',
-            textBaseline: 'middle',
-            fill: textColor
-          }}
+          style={textStyle}
           fontSize={12}
         />
       </container>

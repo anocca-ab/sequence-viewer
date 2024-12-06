@@ -72,7 +72,7 @@ export type RenderData = {
   /**
    * Used in the circular viewer
    */
-  circluarCamera: CircularCamera;
+  circularCamera: CircularCamera;
   /**
    * Used in the linear viewer
    */

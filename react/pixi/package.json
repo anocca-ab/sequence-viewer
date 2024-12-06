@@ -34,7 +34,8 @@
     "eslint-config-custom": "workspace:*",
     "lodash.isequal": "^4.5.0",
     "@ricsam/react-tunnel": "0.0.3",
-    "@anocca/sequence-viewer-react-mui": "workspace:*"
+    "@anocca/sequence-viewer-react-mui": "workspace:*",
+    "pixi-filters": "^6.0.5"
   },
   "peerDependencies": {
     "react": "*"

@@ -67,9 +67,11 @@ const BentText = React.memo(function BentText({
   angle: number;
   fontSize: number;
 }) {
+  const align = style.align ?? 'left';
   const _radius = useTextRadius(radius, fontSize, style.textBaseline);
 
-  const textStyle = new TextStyle({ ...style, fontSize });
+  // because it is just rendering one letter at a time we have align center
+  const textStyle = new TextStyle({ ...style, fontSize, align: 'center' });
 
   const getCoordinates = useGetCoordinates();
 
@@ -85,11 +87,22 @@ const BentText = React.memo(function BentText({
   // [x, y, rotation]
   const positions: [number, number, number, string][] = [];
 
-  let a = angle - totalAngle / 2 + widths[0] / _radius / 2;
+  // align center
+  let a = angle - totalAngle / 2;
+  if (align === 'left') {
+    a += totalAngle / 2;
+  } else if (align === 'right') {
+    a -= totalAngle / 2;
+  }
+
+  // because we have anchor 0.5 we need to move the letters 50% to the right
+  a += widths[0] / _radius / 2;
+
   positions.push([...getCoordinates(_radius, a), a, text[0]]);
 
   for (let i = 1; i < text.length; i++) {
-    a += widths[i - 1] / _radius;
+    a += widths[i - 1] / _radius / 2;
+    a += widths[i] / _radius / 2;
     positions.push([...getCoordinates(_radius, a), a, text[i]]);
   }
 

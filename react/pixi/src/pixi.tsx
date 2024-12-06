@@ -1,6 +1,8 @@
 import { useDOMListeners, type ControllerProps } from '@anocca/sequence-viewer-react-shared';
 import type {
+  Annotations,
   CircularCamera,
+  CircularCameraProgress,
   CircularSelection,
   SearchResult,
   SelectionRange
@@ -8,14 +10,24 @@ import type {
 import {
   getSelectionDeltaAngle,
   getSelectionOver,
+  humanCodons,
   isInSelection,
   isRangeInSelection,
   packAnnotations
 } from '@anocca/sequence-viewer-utils';
 import { Application, extend, useApplication } from '@pixi/react';
-import React, { useCallback, useMemo, useState } from 'react';
 import { createTunnel, InTunnel, OutTunnel } from '@ricsam/react-tunnel';
-import { Container, Graphics, MeshRope, MeshSimple, Rectangle, RopeGeometry, Text } from 'pixi.js';
+import {
+  BitmapText,
+  Container,
+  Graphics,
+  MeshRope,
+  MeshSimple,
+  Rectangle,
+  RopeGeometry,
+  Text
+} from 'pixi.js';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   bindValue,
   getCircleProperties,
@@ -24,11 +36,14 @@ import {
   resetAngularScroll
 } from './circular-helpers';
 import { Codons } from './codons';
-import { initialCircularCamera } from './constants';
+import { initialCircularCamera, minFontSize, renderAngleOffset } from './constants';
 import { AgkProvider, useAgk } from './context';
 import { Features } from './features';
-import { SelectionText } from './selection-text';
-import { Sequence } from './sequence';
+import { Selections } from './selection';
+import { Arc, Sequence } from './sequence';
+import { useFontSize } from './use-font-size';
+import { SearchResults } from './search-results';
+import { BasePairMarkers } from './base-pair-markers';
 
 extend({
   Container,
@@ -36,7 +51,8 @@ extend({
   Text,
   MeshRope,
   MeshSimple,
-  RopeGeometry
+  RopeGeometry,
+  BitmapText
 });
 
 const INTERFACE_WIDTH = 800;
@@ -62,12 +78,12 @@ type Sequence = BaseSequenceType & {
 type BridgeType = {
   props: ControllerProps & { layout: 'linear' | 'circular' };
   clickedAnnotation: string | undefined;
-  setClickedAnnotation: (annotationId: string | undefined) => void;
+  setClickedAnnotation: React.Dispatch<React.SetStateAction<string | undefined>>;
   circularSelections: CircularSelection[];
-  setCircularSelections: (cc: CircularSelection[]) => void;
+  setCircularSelections: React.Dispatch<React.SetStateAction<CircularSelection[]>>;
   selectedAnnotations: string[];
   searchResults: SearchResult[];
-  setSearchResults: (results: SearchResult[]) => void;
+  setSearchResults: React.Dispatch<React.SetStateAction<SearchResult[]>>;
 };
 
 const BridgeContext = React.createContext<undefined | BridgeType>(undefined);
@@ -212,7 +228,8 @@ function Canvas({
   setCircularSelections,
   selectedAnnotations,
   wrapper,
-  setSearchResults
+  setSearchResults,
+  searchResults
 }: BridgeType & { wrapper: HTMLDivElement }) {
   const [rotation, setRotation] = useState(0);
   const [scale, setZoom] = useState(1);
@@ -238,22 +255,12 @@ function Canvas({
   const pivot = React.useMemo(() => ({ x: INTERFACE_WIDTH / 2, y: INTERFACE_HEIGHT / 2 }), []);
 
   const annotations = React.useMemo(() => props.annotations.filter((a) => !a.hidden), [props.annotations]);
-  const [circularSelection, setCircularSelection] = React.useState<CircularSelection[]>([
-    {
-      state: 'selected',
-      start: 0,
-      end: 0,
-      antiClockwise: undefined
-    }
-  ]);
-  const [clickedAnnotations, setClickedAnnotations] = React.useState<string[]>([]);
-  const [hoveredAnonotation, setHoveredAnnotation] = React.useState<string | undefined>(undefined);
 
   const len = props.sequence.length;
 
   const annotationLevels = React.useMemo(() => packAnnotations(annotations, len), [annotations, len]);
 
-  const [circluarCamera, setCircluarCamera] = React.useState<CircularCamera>(initialCircularCamera);
+  const [circularCamera, setCircluarCamera] = React.useState<CircularCamera>(initialCircularCamera);
 
   const [mouse, setMouse] = React.useState({
     x: props.width / 2,
@@ -262,8 +269,8 @@ function Canvas({
 
   const [staticCircularProperties] = React.useState(
     getCircleProperties({
-      circluarCamera,
-      circularSelection,
+      circularCamera: circularCamera,
+      circularSelections,
       h: props.height,
       w: props.width,
       mouse,
@@ -274,22 +281,22 @@ function Canvas({
   const circularProperties = React.useMemo(
     () =>
       getCircleProperties({
-        circluarCamera,
-        circularSelection,
+        circularCamera: circularCamera,
+        circularSelections,
         h: props.height,
         w: props.width,
         mouse,
         sequence: props.sequence
       }),
-    [circluarCamera, circularSelection, mouse, props.height, props.sequence, props.width]
+    [circularCamera, circularSelections, mouse, props.height, props.sequence, props.width]
   );
 
   const circularScroll = useCallback(
     (deltaX: number, deltaY: number) => {
-      setCircluarCamera((circluarCamera) => {
+      setCircluarCamera((circularCamera) => {
         const zoomDelta = Math.abs(deltaX) > Math.abs(deltaY) ? 0 : -deltaY / 7500;
         const scrollDelta = Math.abs(deltaX) > Math.abs(deltaY) ? -deltaX / 1000 : 0;
-        const newValue = increase(zoomDelta, circluarCamera.value, circluarCamera.target);
+        const newValue = increase(zoomDelta, circularCamera.value, circularCamera.target);
 
         const { radius } = circularProperties;
 
@@ -297,7 +304,7 @@ function Canvas({
 
         const scrollFactor = scrollDelta * (horizontalScrollSpeed / radius);
 
-        const newCamera = { ...circluarCamera };
+        const newCamera = { ...circularCamera };
 
         if (newCamera.value.angle === 1) {
           newCamera.scrollOffsetZoomed += scrollFactor;
@@ -323,7 +330,7 @@ function Canvas({
 
   const [containerRef, setContainerRef] = React.useState<Container | null>(null);
 
-  const selecting = Boolean(circularSelection.find((s) => s.state === 'selecting'));
+  const selecting = Boolean(circularSelections.find((s) => s.state === 'selecting'));
 
   const getCaretPosition = () => {
     const { hoveringCaretPosition } = circularProperties;
@@ -335,7 +342,7 @@ function Canvas({
   };
   const onStartDrag = (ev: MouseEvent) => {
     const caretPosition = getCaretPosition();
-    let cs = [...circularSelection];
+    let cs = [...circularSelections];
     if (!ev.metaKey && !ev.shiftKey) {
       // just drag a new selection
       cs = [
@@ -385,13 +392,13 @@ function Canvas({
       }
     }
     setClickedAnnotation(undefined);
-    setCircularSelection(cs);
+    setCircularSelections(cs);
     setCircluarCamera(resetAngularScroll(circularProperties.angleOffset));
   };
   const onEndDrag = (ev: MouseEvent) => {
     if (selecting) {
       setClickedAnnotation(undefined);
-      setCircularSelection(circularSelection.map((cs) => ({ ...cs, state: 'selected' })));
+      setCircularSelections(circularSelections.map((cs) => ({ ...cs, state: 'selected' })));
     }
   };
   const onScroll = (ev: WheelEvent) => {
@@ -403,11 +410,11 @@ function Canvas({
     const caretPosition = getCaretPosition();
 
     if (ev.buttons === 1) {
-      const _circularSelection = [...circularSelection];
-      const csi = _circularSelection.findIndex((cs) => cs.state === 'selecting');
+      const _circularSelections = [...circularSelections];
+      const csi = _circularSelections.findIndex((cs) => cs.state === 'selecting');
       if (csi !== -1) {
-        const cs = { ...circularSelection[csi] };
-        _circularSelection[csi] = cs;
+        const cs = { ...circularSelections[csi] };
+        _circularSelections[csi] = cs;
 
         if (typeof cs.antiClockwise === 'undefined') {
           if (cs.start !== caretPosition) {
@@ -426,28 +433,110 @@ function Canvas({
           }
         }
         cs.end = caretPosition;
-        const toBeMerged = _circularSelection.filter(
+        const toBeMerged = _circularSelections.filter(
           (c) => c !== cs && (isInSelection(c.start, cs) || isInSelection(c.end, cs))
         );
         if (toBeMerged.length > 0) {
           toBeMerged.forEach((m) => {
-            _circularSelection.splice(_circularSelection.indexOf(m), 1);
+            _circularSelections.splice(_circularSelections.indexOf(m), 1);
           });
         }
         setClickedAnnotation(undefined);
-        setCircularSelection(_circularSelection);
+        setCircularSelections(_circularSelections);
       }
+    } else if (ev.buttons === 0) {
+      onEndDrag(ev);
     }
   };
   const onDblClick = (ev: MouseEvent) => {
     //
   };
 
-  useDOMListeners(wrapper, onClick, onStartDrag, onEndDrag, onScroll, onMouseMove, onDblClick);
+  const evsRef = React.useRef({
+    onClick,
+    onEndDrag,
+    onMouseMove,
+    onScroll,
+    onStartDrag,
+    onDblClick
+  });
+  evsRef.current = {
+    onClick,
+    onEndDrag,
+    onMouseMove,
+    onScroll,
+    onStartDrag,
+    onDblClick
+  };
+
+  React.useEffect(() => {
+    if (!containerRef) {
+      return;
+    }
+    const onMouseDown = (ev: MouseEvent) => {
+      evsRef.current.onStartDrag(ev);
+    };
+    const onMouseUpOrLeave = (ev: MouseEvent) => {
+      evsRef.current.onEndDrag(ev);
+    };
+    const onInnerClick = (ev: MouseEvent) => {
+      evsRef.current.onClick(ev);
+    };
+    const onInnerMousedown = (ev: MouseEvent) => {
+      ev.stopPropagation();
+      onMouseDown(ev);
+    };
+    const onInnerMouseup = (ev: MouseEvent) => {
+      ev.stopPropagation();
+      onMouseUpOrLeave(ev);
+      console.log('mouseup');
+    };
+    const onInnerMouseleave = (ev: MouseEvent) => {
+      onMouseUpOrLeave(ev);
+    };
+    const onInnerWheel = (ev: WheelEvent) => {
+      evsRef.current.onScroll(ev);
+      ev.preventDefault();
+      ev.stopPropagation();
+    };
+    const onInnerMousemove = (ev: MouseEvent) => {
+      evsRef.current.onMouseMove(ev);
+    };
+    const onDblClick = (ev: MouseEvent) => {
+      evsRef.current.onDblClick(ev);
+    };
+
+    const opts = { passive: false };
+
+    // mouse up
+    containerRef.addEventListener('pointerup', onInnerMouseup, opts);
+    containerRef.addEventListener('pointerleave', onInnerMouseleave, opts);
+
+    // wheel is passive when using pixi so we listen to the DOM wrapper instead.
+    wrapper.addEventListener('wheel', onInnerWheel, opts);
+
+    containerRef.addEventListener('pointerdown', onInnerMousedown, opts);
+    containerRef.addEventListener('pointerleave', onInnerMouseleave, opts);
+    wrapper.addEventListener('mousemove', onInnerMousemove, opts);
+    // wrapper.addEventListener('dblclick', onDblClick, opts);
+
+    return () => {
+      containerRef.removeEventListener('pointerup', onInnerMouseup);
+      containerRef.removeEventListener('pointerleave', onInnerMouseleave);
+
+      wrapper.removeEventListener('wheel', onInnerWheel);
+
+      containerRef.removeEventListener('pointerdown', onInnerMousedown);
+      containerRef.removeEventListener('pointerleave', onInnerMouseleave);
+      wrapper.removeEventListener('mousemove', onInnerMousemove);
+
+      // wrapper.removeEventListener('dblclick', onDblClick);
+    };
+  }, [wrapper, containerRef]);
 
   const zoomToSearchResult = (nextViewRange: SelectionRange, zoom: boolean) => {
-    setCircluarCamera((circluarCamera) => {
-      const newCamera = resetAngularScroll(circularProperties.angleOffset)(circluarCamera);
+    setCircluarCamera((circularCamera) => {
+      const newCamera = resetAngularScroll(circularProperties.angleOffset)(circularCamera);
       newCamera.value = {
         zoom: zoom ? 1 : newCamera.value.zoom,
         angle: 1,
@@ -462,7 +551,7 @@ function Canvas({
   const _zoomTo = (nextViewRange: SearchResult, zoom: boolean) => {
     zoomToSearchResult(nextViewRange, zoom);
     setClickedAnnotation(undefined);
-    setCircularSelection([
+    setCircularSelections([
       {
         state: 'selected',
         start: nextViewRange.complement ? nextViewRange.end - 1 : nextViewRange.start,
@@ -499,9 +588,7 @@ function Canvas({
       interactive
       ref={setContainerRef}
     >
-      <InTunnel tunnel={searchComponentTunnel}>
-        {search}
-      </InTunnel>
+      <InTunnel tunnel={searchComponentTunnel}>{search}</InTunnel>
       <container
         rotation={rotation}
         scale={scale}
@@ -514,11 +601,19 @@ function Canvas({
           circularProperties={circularProperties}
           w={props.width}
           h={props.height}
-          circularSelection={circularSelection}
+          circularSelections={circularSelections}
           sequence={props.sequence}
           codons={props.codons}
-          circluarCamera={circluarCamera}
+          circularCamera={circularCamera}
           annotationLevels={annotationLevels}
+          searchResults={searchResults}
+          openAnnotationDialog={props.openAnnotationDialog}
+          annotations={props.annotations}
+          setCircularSelections={setCircularSelections}
+          setClickedAnnotation={setClickedAnnotation}
+          clickedAnnotation={clickedAnnotation}
+          selectedAnnotations={selectedAnnotations}
+          setCircluarCamera={setCircluarCamera}
         >
           <CircularSequence />
         </AgkProvider>
@@ -527,19 +622,137 @@ function Canvas({
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const c: CanvasRenderingContext2D = document.createElement('canvas').getContext('2d')!;
+export function StaticSequence({
+  searchResults = [],
+  p = 55,
+  w,
+  h,
+  len,
+  circularSelections,
+  annotationLevels,
+  mouseX = 0,
+  mouseY = h
+}: {
+  circularSelections: CircularSelection[];
+  annotationLevels: Annotations[];
+  len: number;
+  w: number;
+  h: number;
+  p?: number;
+  mouseX?: number;
+  mouseY?: number;
+  searchResults?: {
+    start: number;
+    end: number;
+    active: boolean;
+    complement: boolean;
+  }[];
+}) {
+  const [wrapperRef, setWrapperRef] = React.useState<HTMLDivElement | null>(null);
+
+  const circularCameraProgress = React.useMemo(() => {
+    const angleProgress = Math.min(p, 50) / 50;
+    const radiusProgress = Math.max(0, p - 50) / 50;
+    const circularCamera = {
+      zoom: 1,
+      angle: angleProgress,
+      radius: radiusProgress
+    };
+    return circularCamera;
+  }, [p]);
+
+  const circularCamera = React.useMemo(
+    (): CircularCamera => ({
+      angleOffset: 0,
+      scrollOffsetZoomed: 0,
+      scrollOffsetZooming: 0,
+      value: circularCameraProgress,
+      target: {
+        zoom: 1,
+        angle: 1,
+        radius: 1
+      }
+    }),
+    [circularCameraProgress]
+  );
+
+  const sequence =
+    'TCCTCGCATAGGGCGGATCGGTATTCATGGGACGCCACACAACTCTTAGATTGATTGTCGCTTTCAGGCGTGTCATCCTGCGCCCCGGCACGAGCTCGTCCGGCGGTATAGTCGTATGTGCTTATACACATCAAAGCTAACAAATCTTTCTGCGGGCGGTCGTCACGACACACGTTCTTACG'.slice(
+      0,
+      len
+    );
+
+  const circularProperties = React.useMemo(
+    () =>
+      getCircleProperties({
+        circularSelections,
+        h,
+        w,
+        mouse: { x: mouseX, y: mouseY },
+        sequence,
+        circularCamera
+      }),
+    [circularCamera, circularSelections, h, mouseX, mouseY, sequence, w]
+  );
+
+  return (
+    <div
+      ref={setWrapperRef}
+      style={{
+        width: '100%',
+        height: '100%'
+      }}
+    >
+      {wrapperRef && (
+        <Application background={'white'} resizeTo={wrapperRef} antialias autoDensity resolution={2}>
+          <container width={INTERFACE_WIDTH} height={INTERFACE_HEIGHT} x={0} y={0}>
+            <AgkProvider
+              circularProperties={circularProperties}
+              w={w}
+              h={h}
+              circularSelections={circularSelections}
+              sequence={sequence}
+              codons={humanCodons}
+              circularCamera={circularCamera}
+              annotationLevels={annotationLevels}
+              searchResults={searchResults}
+              openAnnotationDialog={() => {
+                //
+              }}
+              annotations={annotationLevels.flat()}
+              setCircularSelections={() => {
+                //
+              }}
+              setClickedAnnotation={() => {
+                //
+              }}
+              clickedAnnotation={undefined}
+              selectedAnnotations={[]}
+              setCircluarCamera={() => {
+                //
+              }}
+            >
+              <CircularSequence />
+            </AgkProvider>
+          </container>
+        </Application>
+      )}
+    </div>
+  );
+}
 
 function CircularSequence() {
-  const { circularProperties, circularSelection } = useAgk();
+  const { circularProperties, circularSelections: circularSelection } = useAgk();
   const { radius, len, hoveringCaretPosition, circleY, iLen } = circularProperties;
 
   return (
     <>
       <Codons />
       <Sequence />
-      <SelectionText />
       <Features />
+      <SearchResults />
+      <Selections />
+      <BasePairMarkers />
     </>
   );
 }

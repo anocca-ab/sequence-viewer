@@ -161,21 +161,21 @@ export const getCircleProperties = ({
   const flatRadius = getFlatRadius(len);
   const startRadius = getStartRadius(w, h);
 
-  const radiusTransition1 = getRadiusTransition1(w, h, data.circluarCamera.value.zoom);
+  const radiusTransition1 = getRadiusTransition1(w, h, data.circularCamera.value.zoom);
   const radiusTransition2 =
-    data.circluarCamera.value.radius * (flatRadius - radiusTransition1) + radiusTransition1;
+    data.circularCamera.value.radius * (flatRadius - radiusTransition1) + radiusTransition1;
 
   const radius = Math.max(radiusTransition2, startRadius);
 
-  const yOffset = getYOffset(data.circluarCamera.value.radius, flatRadius);
+  const yOffset = getYOffset(data.circularCamera.value.radius, flatRadius);
 
   // const circleY =
   //   yStart +
   //   yOffset +
-  //   data.circluarCamera.value.zoom *
+  //   data.circularCamera.value.zoom *
   //     data.levels.length *
   //     16 *
-  //     (1 - data.circluarCamera.value.radius);
+  //     (1 - data.circularCamera.value.radius);
   const circleY = yStart + yOffset;
 
   const angleDelta = (Math.PI * 2) / len;
@@ -187,10 +187,10 @@ export const getCircleProperties = ({
     antiClockwise: undefined
   };
   const lastCaretMid = getIndexMid(start, end, len, antiClockwise);
-  const a = addAngles(data.circluarCamera.angleOffset, data.circluarCamera.scrollOffsetZooming);
+  const a = addAngles(data.circularCamera.angleOffset, data.circularCamera.scrollOffsetZooming);
   const b = lastCaretMid * angleDelta;
 
-  const p = data.circluarCamera.value.angle;
+  const p = data.circularCamera.value.angle;
 
   const u = addAngles(a, b);
   const v = addAngles(Math.PI * 2, -u);
@@ -204,11 +204,11 @@ export const getCircleProperties = ({
     // left side, ie scroll clockwise
     angleOffset = addAngles(a, v * p);
   }
-  angleOffset = addAngles(angleOffset, data.circluarCamera.scrollOffsetZoomed);
+  angleOffset = addAngles(angleOffset, data.circularCamera.scrollOffsetZoomed);
   // const angleOffset = addAngles(
-  //   data.circluarCamera.angleOffset,
-  //   data.circluarCamera.scrollOffsetZooming,
-  //   data.circluarCamera.scrollOffsetZoomed,
+  //   data.circularCamera.angleOffset,
+  //   data.circularCamera.scrollOffsetZooming,
+  //   data.circularCamera.scrollOffsetZoomed,
   //   b,
   // );
 

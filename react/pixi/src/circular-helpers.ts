@@ -144,15 +144,15 @@ export const getCircleProperties = ({
   h,
   mouse,
   sequence,
-  circularSelection,
-  circluarCamera
+  circularSelections: circularSelection,
+  circularCamera,
 }: {
   sequence: string;
   w: number;
   h: number;
   mouse: { x: number; y: number };
-  circularSelection: CircularSelection[];
-  circluarCamera: CircularCamera;
+  circularSelections: CircularSelection[];
+  circularCamera: CircularCamera;
 }) => {
   const yStart = h / 2;
   const xStart = w / 2;
@@ -164,21 +164,21 @@ export const getCircleProperties = ({
   const flatRadius = getFlatRadius(len);
   const startRadius = getStartRadius(w, h);
 
-  const radiusTransition1 = getRadiusTransition1(w, h, circluarCamera.value.zoom);
+  const radiusTransition1 = getRadiusTransition1(w, h, circularCamera.value.zoom);
   const radiusTransition2 =
-    circluarCamera.value.radius * (flatRadius - radiusTransition1) + radiusTransition1;
+    circularCamera.value.radius * (flatRadius - radiusTransition1) + radiusTransition1;
 
   const radius = Math.max(radiusTransition2, startRadius);
 
-  const yOffset = getYOffset(circluarCamera.value.radius, flatRadius);
+  const yOffset = getYOffset(circularCamera.value.radius, flatRadius);
 
   // const circleY =
   //   yStart +
   //   yOffset +
-  //   data.circluarCamera.value.zoom *
+  //   data.circularCamera.value.zoom *
   //     data.levels.length *
   //     16 *
-  //     (1 - data.circluarCamera.value.radius);
+  //     (1 - data.circularCamera.value.radius);
   const circleY = yStart + yOffset;
 
   const angleDelta = (Math.PI * 2) / len;
@@ -190,10 +190,10 @@ export const getCircleProperties = ({
     antiClockwise: undefined
   };
   const lastCaretMid = getIndexMid(start, end, len, antiClockwise);
-  const a = addAngles(circluarCamera.angleOffset, circluarCamera.scrollOffsetZooming);
+  const a = addAngles(circularCamera.angleOffset, circularCamera.scrollOffsetZooming);
   const b = lastCaretMid * angleDelta;
 
-  const p = circluarCamera.value.angle;
+  const p = circularCamera.value.angle;
 
   const u = addAngles(a, b);
   const v = addAngles(Math.PI * 2, -u);
@@ -207,11 +207,11 @@ export const getCircleProperties = ({
     // left side, ie scroll clockwise
     angleOffset = addAngles(a, v * p);
   }
-  angleOffset = addAngles(angleOffset, circluarCamera.scrollOffsetZoomed);
+  angleOffset = addAngles(angleOffset, circularCamera.scrollOffsetZoomed);
   // const angleOffset = addAngles(
-  //   data.circluarCamera.angleOffset,
-  //   data.circluarCamera.scrollOffsetZooming,
-  //   data.circluarCamera.scrollOffsetZoomed,
+  //   data.circularCamera.angleOffset,
+  //   data.circularCamera.scrollOffsetZooming,
+  //   data.circularCamera.scrollOffsetZoomed,
   //   b,
   // );
 
@@ -267,8 +267,8 @@ export type CircularProperties = {
  */
 export const resetAngularScroll =
   (angleOffset: number) =>
-  (circluarCamera: CircularCamera): CircularCamera => {
-    const newCamera: CircularCamera = { ...circluarCamera };
+  (circularCamera: CircularCamera): CircularCamera => {
+    const newCamera: CircularCamera = { ...circularCamera };
 
     newCamera.value.angle = 0;
     newCamera.angleOffset = angleOffset;

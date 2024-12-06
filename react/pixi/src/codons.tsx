@@ -15,7 +15,7 @@ import { useFontSize } from './use-font-size';
 export const Codons = React.memo(function Codons() {
   const components: JSX.Element[] = [];
 
-  const { w, circularSelection, sequence, codons, circularProperties, circluarCamera } = useAgk();
+  const { w, circularSelections: circularSelection, sequence, codons, circularProperties, circularCamera } = useAgk();
 
   const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, iLen } = circularProperties;
 
@@ -85,8 +85,8 @@ const Codon = React.memo(function Codon({
   codonNt: string;
   isComplement: boolean;
 }) {
-  const { circularProperties, w, circularSelection, sequence, codons, circluarCamera } = useAgk();
-  const { zoom: zoomProgress, radius: radiusProgress } = circluarCamera.value;
+  const { circularProperties, w, circularSelections: circularSelection, sequence, codons, circularCamera } = useAgk();
+  const { zoom: zoomProgress, radius: radiusProgress } = circularCamera.value;
 
   const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, iLen } = circularProperties;
   const [fontSize, constrainedFontSize] = useFontSize();
@@ -138,7 +138,8 @@ const Codon = React.memo(function Codon({
             fontFamily: 'sans-serif',
             fontWeight: 'bold',
             textBaseline: 'top',
-            fill: shouldInvertColor(aa) ? '#c8d9fa' : '#282c34'
+            fill: shouldInvertColor(aa) ? '#c8d9fa' : '#282c34',
+            align: 'center'
           }}
           text={aa}
           radius={codonRadius}

@@ -36,6 +36,7 @@
     "@anocca/sequence-viewer-react-linear": "workspace:*",
     "@anocca/sequence-viewer-app": "workspace:*",
     "@anocca/sequence-viewer-backend-react-state": "workspace:*",
+    "@anocca/sequence-viewer-react-pixi": "workspace:*",
     "formik": "~2.2.9",
     "react-icons": "3.11.0",
     "@docusaurus/theme-live-codeblock": "3.6.1",
