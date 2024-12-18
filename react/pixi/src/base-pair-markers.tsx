@@ -14,15 +14,8 @@ export const useBasePairMarkerRadius = () => {
   const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
 
   const [fontSize] = useFontSize();
-  const components: JSX.Element[] = [];
-  const getCoordinates = useGetCoordinates();
-  const getVerticalLine = (radius1: number, radius2: number, angle: number) => {
-    const [x1, y1] = getCoordinates(radius1, angle);
-    const [x2, y2] = getCoordinates(radius2, angle);
-    return tuple(x1, y1, x2, y2);
-  };
   const arrowHeight = useArrowHeight();
-  const lineOuterRadius = radius + fontSize + 2 + (fontSize < minFontSize ? 0 : fontSize) + arrowHeight;
+  const lineOuterRadius = radius + fontSize + 2 + fontSize + arrowHeight;
   return {
     lineInnerRadius: radius + fontSize + arrowHeight / 2,
     lineOuterRadius,

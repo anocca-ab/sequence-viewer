@@ -35,10 +35,25 @@ export const Sequence = React.memo(function Sequence() {
 
 const AllBases = React.memo(function AllBases({ start, end }: { start: number; end: number }) {
   const [fontSize, constrainedFontSize] = useFontSize();
+
+  if (fontSize < minFontSize) {
+    return <OptmizedCircleOfSquareBases start={start} end={end} />;
+  }
+
+  return <TextBaseCircle start={start} end={end} />;
+});
+
+const OptmizedCircleOfSquareBases = React.memo(function CircleOfSquareBases({
+  start,
+  end
+}: {
+  start: number;
+  end: number;
+}) {
+  const [fontSize, constrainedFontSize] = useFontSize();
   const { w, h, circularSelections: circularSelection, sequence, circularProperties } = useAgk();
 
   const { radius, angleDelta, angleOffset } = circularProperties;
-
   const initialCircularProps = React.useMemo(() => {
     return getCircleProperties({
       w,
@@ -50,20 +65,21 @@ const AllBases = React.memo(function AllBases({ start, end }: { start: number; e
     });
   }, [h, sequence, w]);
 
+  const scale = radius / initialCircularProps.radius;
   const rotation = angleOffset;
-
-  if (fontSize < minFontSize) {
-    const scale = radius / initialCircularProps.radius;
-    return (
-      <container
-        rotation={rotation}
-        pivot={{ x: w / 2, y: h / 2 }}
-        width={w}
-        height={h}
-        x={w / 2}
-        y={circularProperties.circleY}
-        scale={scale}
-      >
+  const [mask, setMask] = React.useState<Graphics | null>(null);
+  return (
+    <container
+      rotation={rotation}
+      pivot={{ x: w / 2, y: h / 2 }}
+      width={w}
+      height={h}
+      x={w / 2}
+      y={circularProperties.circleY}
+      scale={scale}
+      mask={mask}
+    >
+      {mask && (
         <SquareBaseCircle
           start={start}
           end={end}
@@ -71,10 +87,21 @@ const AllBases = React.memo(function AllBases({ start, end }: { start: number; e
           radius={initialCircularProps.radius}
           circleY={initialCircularProps.circleY}
         />
-      </container>
-    );
-  }
-  return <TextBaseCircle start={start} end={end} />;
+      )}
+      <graphics
+        ref={setMask}
+        draw={(g) => {
+          g.clear();
+          g.setStrokeStyle({
+            width: (minFontSize + 2) / scale,
+            color: 'black'
+          });
+          g.circle(w / 2, initialCircularProps.circleY, initialCircularProps.radius);
+          g.stroke();
+        }}
+      />
+    </container>
+  );
 });
 
 const useRenderAllBases = (
@@ -87,20 +114,11 @@ const useRenderAllBases = (
 
   const { w, circularSelections: circularSelection, sequence, circularProperties } = useAgk();
 
-  const { len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
-
-  const [fontSize, constrainedFontSize] = useFontSize();
+  const { len } = circularProperties;
 
   for (let i = start; i < end; i += 1) {
     const index = (i + len) % len;
-    const selection = getSelectionOver(index, circularSelection);
-
-    const complement = selection?.antiClockwise === true;
-
     components.push(callback(index, inRadius, false));
-    if (complement) {
-      components.push(callback(index, inRadius - constrainedFontSize - 1, true));
-    }
   }
 
   return <>{components}</>;
@@ -161,16 +179,6 @@ export const Arc = React.memo(function Sequence({ i, complement }: { i: number; 
   const rotation = angleOffset;
 
   if (fontSize < minFontSize) {
-    components.push(
-      <SquareBase
-        rotation={rotation}
-        key={`base-${i}`}
-        i={i}
-        radius={radius}
-        complement={false}
-        circleY={circleY}
-      />
-    );
     if (complement) {
       components.push(
         <SquareBase
@@ -182,9 +190,19 @@ export const Arc = React.memo(function Sequence({ i, complement }: { i: number; 
           circleY={circleY}
         />
       );
+    } else {
+      components.push(
+        <SquareBase
+          rotation={rotation}
+          key={`base-${i}`}
+          i={i}
+          radius={radius}
+          complement={false}
+          circleY={circleY}
+        />
+      );
     }
   } else {
-    components.push(<TextBase key={`base-${i}`} i={i} radius={radius} complement={false} />);
     if (complement) {
       components.push(
         <TextBase
@@ -194,6 +212,8 @@ export const Arc = React.memo(function Sequence({ i, complement }: { i: number; 
           complement={true}
         />
       );
+    } else {
+      components.push(<TextBase key={`base-${i}`} i={i} radius={radius} complement={false} />);
     }
   }
 

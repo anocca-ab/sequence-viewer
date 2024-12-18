@@ -9,6 +9,7 @@ import { useAgk } from './context';
 import { useBaseAngle } from './use-base-angle';
 import { useFontSize } from './use-font-size';
 import { useGetCoordinates } from './use-get-coordinates';
+import { Arc } from './sequence';
 
 export const useArrowHeight = () => {
   const [fontSize, constrainedFontSize] = useFontSize();
@@ -17,81 +18,6 @@ export const useArrowHeight = () => {
   const arrowHeight = Math.max(constrainedFontSize * 0.5, 8);
   return arrowHeight;
 };
-
-export const SelectionLine = React.memo(function SelectionLine({
-  selection,
-  complement,
-  i
-}: {
-  selection: CircularSelection;
-  i: number;
-  complement?: boolean;
-}) {
-  const arrowHeight = useArrowHeight();
-  const [fontSize, constrainedFontSize] = useFontSize();
-
-  const { circularProperties, w } = useAgk();
-
-  const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY } = circularProperties;
-
-  /* black line of selection under the letter in the circle */
-
-  let arrowRadius = radius;
-  if (complement) {
-    arrowRadius = radius + constrainedFontSize + arrowHeight / 2;
-  } else {
-    arrowRadius = radius - arrowHeight / 2;
-  }
-
-  const getCoordinates = useGetCoordinates();
-
-  const xStart = w / 2;
-
-  const getBaseAngle = useBaseAngle();
-
-  const { a0, a1, aMid } = getBaseAngle(i);
-
-  return (
-    <graphics
-      draw={(g) => {
-        g.clear();
-        g.setStrokeStyle({
-          color: 'red',
-          width: Math.max(arrowHeight * 0.1, 2)
-        });
-        g.beginPath();
-        g.arc(xStart, circleY, arrowRadius, a0 + renderAngleOffset, a1 + renderAngleOffset, false);
-        g.stroke();
-        g.closePath();
-        if (i === selection.end && selection.antiClockwise !== undefined) {
-          // Draw the triangle at the end of the arrow
-          g.beginPath();
-          if (selection.antiClockwise) {
-            const [x1, y1] = getCoordinates(arrowRadius - arrowHeight / 2, a0);
-            const [x2, y2] = getCoordinates(arrowRadius, a0 - arrowHeight / (2 * radius));
-            const [x3, y3] = getCoordinates(arrowRadius + arrowHeight / 2, a0);
-
-            g.moveTo(x1, y1); /* top */
-            g.lineTo(x2, y2); /* point */
-            g.lineTo(x3, y3); /* bottom */
-          }
-          if (!selection.antiClockwise) {
-            const [x1, y1] = getCoordinates(arrowRadius - arrowHeight / 2, a1);
-            const [x2, y2] = getCoordinates(arrowRadius, a1 + arrowHeight / (2 * radius));
-            const [x3, y3] = getCoordinates(arrowRadius + arrowHeight / 2, a1);
-
-            g.moveTo(x1, y1); /* top */
-            g.lineTo(x2, y2); /* point */
-            g.lineTo(x3, y3); /* bottom */
-          }
-          g.closePath();
-          g.fillStyle = 'black';
-          g.fill();
-        }
-      }}
-    />
-  );
-});
 
 export const Selections = React.memo(function Selections() {
   const { w, circularSelections: circularSelection, sequence, circularProperties, circularCamera } = useAgk();
@@ -165,6 +91,24 @@ export const Selections = React.memo(function Selections() {
         }}
       />
     );
+
+    if (selection.antiClockwise) {
+      if (selection.start < selection.end) {
+        for (let i = len - 1; i >= selection.end; i -= 1) {
+          const index = (i + len) % len;
+          components.push(<Arc key={`selection-arc-${index}`} i={index} complement />);
+        }
+        for (let i = selection.start; i >= 0; i -= 1) {
+          const index = (i + len) % len;
+          components.push(<Arc key={`selection-arc-${index}`} i={index} complement />);
+        }
+      } else {
+        for (let i = selection.start; i >= selection.end; i -= 1) {
+          const index = (i + len) % len;
+          components.push(<Arc key={`selection-arc-${index}`} i={index} complement />);
+        }
+      }
+    }
   });
   return (
     <>
