@@ -76,6 +76,17 @@ export const Codons = React.memo(function Codons() {
   return <>{components}</>;
 });
 
+export const useCodonMargin = () => {
+  const [fontSize, constrainedFontSize] = useFontSize();
+
+  return (isComplement: boolean) => {
+    if (isComplement) {
+      return Math.min(constrainedFontSize - (minFontSize - 2), 4);
+    }
+    return Math.min(constrainedFontSize - (minFontSize - 1), 4);
+  };
+};
+
 const Codon = React.memo(function Codon({
   iMid,
   codonNt,
@@ -85,7 +96,14 @@ const Codon = React.memo(function Codon({
   codonNt: string;
   isComplement: boolean;
 }) {
-  const { circularProperties, w, circularSelections: circularSelection, sequence, codons, circularCamera } = useAgk();
+  const {
+    circularProperties,
+    w,
+    circularSelections: circularSelection,
+    sequence,
+    codons,
+    circularCamera
+  } = useAgk();
   const { zoom: zoomProgress, radius: radiusProgress } = circularCamera.value;
 
   const { radius, len, hoveringCaretPosition, angleDelta, angleOffset, circleY, iLen } = circularProperties;
@@ -101,11 +119,13 @@ const Codon = React.memo(function Codon({
   const { a0 } = getBaseAngle(iMid - 1);
   const { a1 } = getBaseAngle(iMid + 1);
 
+  const margin = useCodonMargin()(isComplement);
+
   let codonRadius = radius;
   if (isComplement) {
-    codonRadius -= constrainedFontSize + Math.min(constrainedFontSize - (minFontSize - 2), 4);
+    codonRadius -= constrainedFontSize + margin;
   } else {
-    codonRadius += constrainedFontSize * 2 + Math.min(constrainedFontSize - (minFontSize - 1), 4);
+    codonRadius += constrainedFontSize * 2 + margin;
   }
 
   const { aMid } = getBaseAngle(iMid);

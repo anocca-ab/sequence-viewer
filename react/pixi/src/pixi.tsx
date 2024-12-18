@@ -44,6 +44,7 @@ import { Arc, Sequence } from './sequence';
 import { useFontSize } from './use-font-size';
 import { SearchResults } from './search-results';
 import { BasePairMarkers } from './base-pair-markers';
+import { Caret } from './caret';
 
 extend({
   Container,
@@ -718,6 +719,7 @@ function CircularSequence() {
       <SearchResults />
       <Selections />
       <BasePairMarkers />
+      <Caret />
     </>
   );
 }
