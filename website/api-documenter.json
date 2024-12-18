@@ -3,7 +3,7 @@
 
   "plugins": [
     {
-      "packageName": "@anocca/doc-plugin-rush-stack",
+      "packageName": "@anocca/doc-plugin",
       "enabledFeatureNames": ["rush-stack-markdown-documenter"]
     }
   ]

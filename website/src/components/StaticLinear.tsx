@@ -87,7 +87,7 @@ export const StaticLinear = ({
           createTranslateMatrix(-w / 2 / zoomProgress / 100, 0),
           createTranslateMatrix(-(isProtein ? proteinBaseWidth : dnaBaseWidth) * mid, 0)
         ),
-        circluarCamera: {
+        circularCamera: {
           angleOffset: 0,
           scrollOffsetZoomed: 0,
           scrollOffsetZooming: 0,

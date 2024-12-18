@@ -4,11 +4,10 @@
 
 ```ts
 
-/// <reference types="react" />
-
 import { AnnotationFormProps } from '@anocca/sequence-viewer-utils';
+import { JSX as JSX_2 } from 'react/jsx-runtime';
 
 // @public
-export const AnnotationForm: ({ onSubmit, initialValues, title }: AnnotationFormProps) => JSX.Element;
+export const AnnotationForm: ({ onSubmit, initialValues, title }: AnnotationFormProps) => JSX_2.Element;
 
 ```

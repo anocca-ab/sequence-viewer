@@ -2,29 +2,28 @@
   "name": "@anocca/sequence-viewer-react-shared",
   "version": "4.2.1",
   "description": "",
-  "main": "lib-commonjs/index.js",
-  "module": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "src/index.tsx",
+  "module": "src/index.tsx",
+  "typings": "src/index.tsx",
   "files": [
     "lib",
     "lib-commonjs"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./node_modules/.bin/heft build"
+    "build": "./node_modules/.bin/tsc"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@rushstack/heft": "^0.35.0",
-    "typescript": "4.3.5",
-    "@anocca/sequence-viewer-common-rig": "1.0.0",
-    "react": "17.0.2",
-    "@types/react": "17.0.15"
+    "typescript": "5.2.2",
+    "config": "workspace:*",
+    "react": "18.3.1",
+    "@types/react": "^18.2.29"
   },
   "dependencies": {
-    "@anocca/sequence-viewer-utils": "4.1.0"
+    "@anocca/sequence-viewer-utils": "workspace:*"
   },
   "peerDependencies": {
     "react": "*"

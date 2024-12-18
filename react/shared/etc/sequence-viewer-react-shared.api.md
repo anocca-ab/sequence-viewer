@@ -8,6 +8,7 @@ import { Annotations } from '@anocca/sequence-viewer-utils';
 import { ChromatogramData } from '@anocca/sequence-viewer-utils';
 import { CircularSelection } from '@anocca/sequence-viewer-utils';
 import { DrawFunction } from '@anocca/sequence-viewer-utils';
+import { JSX as JSX_2 } from 'react/jsx-runtime';
 import { default as React_2 } from 'react';
 import { RenderData } from '@anocca/sequence-viewer-utils';
 import { SearchResult } from '@anocca/sequence-viewer-utils';
@@ -59,7 +60,7 @@ export const Flex: ({ children, style, alignItems, justifyContent }: {
     style?: React_2.CSSProperties | undefined;
     alignItems?: React_2.CSSProperties['alignItems'];
     justifyContent?: React_2.CSSProperties['justifyContent'];
-}) => JSX.Element;
+}) => JSX_2.Element;
 
 // @public
 export type SearchComponent = ({ sequence, zoomOnResult, onSearchResults, spinOnResult, isProtein }: {
@@ -99,13 +100,13 @@ export const useController: ({ isProtein, chromatogramData, clickedAnnotation, r
     chromatogramData?: ChromatogramData | undefined;
     isCircularView: boolean;
 }) => {
-    canvas: JSX.Element;
+    canvas: JSX_2.Element;
     selectedAnnotations: string[];
     circularSelection: CircularSelection[];
     setCircularSelection: (annotationId: undefined | string, cc: CircularSelection[]) => void;
     clickedAnnotation: string | undefined;
-    search: JSX.Element | undefined;
-    filterChromatogram: JSX.Element | undefined;
+    search: JSX_2.Element | undefined;
+    filterChromatogram: JSX_2.Element | undefined;
     canvasRef: (buffer: HTMLCanvasElement | null) => void;
     zoomToSearchResult: (nextViewRange: SelectionRange, zoom: boolean) => void;
     setSearchResults: React_2.Dispatch<React_2.SetStateAction<SearchResult[]>>;

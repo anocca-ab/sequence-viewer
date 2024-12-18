@@ -17,12 +17,52 @@ export declare function getFont(size: number, weight?: 'normal' | 'bold' | numbe
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  size | number |  |
-|  weight | 'normal' \| 'bold' \| number |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+size
+
+
+</td><td>
+
+number
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+weight
+
+
+</td><td>
+
+'normal' \| 'bold' \| number
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
-
+```ts
 string
-
+```

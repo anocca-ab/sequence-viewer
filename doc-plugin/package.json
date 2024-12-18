@@ -1,0 +1,25 @@
+{
+  "name": "@anocca/doc-plugin",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API Documenter plugin used with the rushstack.io website",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "./node_modules/.bin/tsc"
+  },
+  "dependencies": {
+    "@microsoft/api-documenter": "7.25.21",
+    "@microsoft/api-extractor-model": "7.29.8",
+    "@microsoft/tsdoc": "0.15.0",
+    "@rushstack/node-core-library": "5.9.0",
+    "js-yaml": "4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "3.12.1",
+    "@types/node": "10.17.13",
+    "typescript": "5.2.2",
+    "config": "workspace:*"
+  }
+}

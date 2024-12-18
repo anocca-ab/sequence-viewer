@@ -20,13 +20,66 @@ export declare function scaleBuffer(canvas: HTMLCanvasElement, width: number, he
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  canvas | HTMLCanvasElement |  |
-|  width | number |  |
-|  height | number |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+canvas
+
+
+</td><td>
+
+HTMLCanvasElement
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+width
+
+
+</td><td>
+
+number
+
+
+</td><td>
+
+
+</td></tr>
+<tr><td>
+
+height
+
+
+</td><td>
+
+number
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
-
+```ts
 { ratio: number; shouldScale: boolean; } \| undefined
-
+```

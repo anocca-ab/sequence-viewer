@@ -317,7 +317,7 @@ export const proteinBaseWidth = 150;
 export type RenderData = {
     mouseX: number;
     mouseY: number;
-    circluarCamera: {
+    circularCamera: {
         angleOffset: number;
         scrollOffsetZoomed: number;
         scrollOffsetZooming: number;

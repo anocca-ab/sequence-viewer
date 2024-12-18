@@ -27,7 +27,7 @@ export const UsageWithoutReactResult = () => {
           data: {
             mouseX: 0,
             mouseY: 0,
-            circluarCamera: {
+            circularCamera: {
               angleOffset: 0,
               scrollOffsetZoomed: 0,
               scrollOffsetZooming: 0,

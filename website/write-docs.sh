@@ -13,4 +13,4 @@ cp ../react/mui-formik-form/temp/sequence-viewer-react-mui-formik-form.api.json 
 cp ../react/shared/temp/sequence-viewer-react-shared.api.json ./temp/
 cp ../render/circular/temp/sequence-viewer-render-circular.api.json ./temp/
 cp ../render/linear/temp/sequence-viewer-render-linear.api.json ./temp/
-api-documenter generate --input-folder ./temp --output-folder ./docs/api
+npx api-documenter generate --input-folder ./temp --output-folder ./docs/api

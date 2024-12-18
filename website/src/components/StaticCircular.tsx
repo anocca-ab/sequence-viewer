@@ -67,7 +67,7 @@ export const StaticCircular = ({
       data: {
         mouseX,
         mouseY,
-        circluarCamera: {
+        circularCamera: {
           angleOffset: 0,
           scrollOffsetZoomed: 0,
           scrollOffsetZooming: 0,

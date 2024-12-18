@@ -1,0 +1,11 @@
+packages:
+  - "app"
+  - "backend/*"
+  - "doc-plugin"
+  - "react/*"
+  - "render/*"
+  - "utils"
+  - "website"
+  - "config"
+  - "eslint-config-custom"
+  - "pixi-react"

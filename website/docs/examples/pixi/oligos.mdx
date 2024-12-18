@@ -1,0 +1,73 @@
+---
+sidebar_position: 5
+---
+
+import { StaticCircular } from '../../../src/components/StaticCircular';
+import { tuple, SeqAnnotationDirectionsEnum, CircularCameraProgress, debounce, humanCodons, CircularSelection, Annotations } from '@anocca/sequence-viewer-utils';
+
+
+# Oligos
+
+## Oligo
+<StaticCircular w={640} h={480} len={50} startZoom={100} circularSelection={[
+    {
+      state: 'selected',
+      start: 7,
+      end: 7,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "eb5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "DNA_OLIGO",
+          "fivePExtension": "ATTAGCGA",
+          "label": "FakEI",
+          "color": "#25c2a0",
+          "locations": [
+              tuple(
+                  4,
+                  10
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.FORWARD,
+        },
+      ]
+  ]}
+/>
+<StaticCircular w={640} h={480} len={50} startZoom={100} circularSelection={[
+    {
+      state: 'selected',
+      start: 7,
+      end: 7,
+      antiClockwise: undefined,
+    },
+  ]}
+  annotationLevels={[
+      [
+        {
+          "id": "eb5e3fd6-f487-4852-8d39-973954c036f8",
+          "type": "DNA_OLIGO",
+          "fivePExtension": "ATTAGCGA",
+          "label": "FakEI",
+          "color": "#25c2a0",
+          "locations": [
+              tuple(
+                  4,
+                  10
+              )
+          ],
+          "hidden": false,
+          "displayAsSequence": false,
+          "rightTag": "",
+          "displayLabel": "",
+          "direction": SeqAnnotationDirectionsEnum.REVERSE,
+        },
+      ]
+  ]}
+/>

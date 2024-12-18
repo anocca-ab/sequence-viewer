@@ -1,27 +1,26 @@
 {
   "name": "@anocca/sequence-viewer-app",
   "version": "6.0.5",
-  "main": "lib-commonjs/index.js",
-  "module": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "typings": "src/index.ts",
   "files": [
     "lib",
     "lib-commonjs"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./node_modules/.bin/heft build"
+    "build": "./node_modules/.bin/tsc build"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@rushstack/heft": "^0.35.0",
-    "@anocca/sequence-viewer-common-rig": "1.0.0",
-    "typescript": "4.3.5",
+    "config": "workspace:*",
+    "typescript": "5.2.2",
     "react-icons": "3.11.0",
-    "react": "17.0.2",
-    "@types/react": "17.0.15",
+    "react": "18.3.1",
+    "@types/react": "^18.2.29",
     "formik": "~2.2.9",
     "@mui/material": "~5.6.3",
     "@emotion/react": "~11.9.0",
@@ -36,11 +35,12 @@
     "@emotion/styled": "11.x"
   },
   "dependencies": {
-    "@anocca/sequence-viewer-react-circular": "5.0.6",
-    "@anocca/sequence-viewer-react-linear": "5.0.6",
-    "@anocca/sequence-viewer-utils": "4.1.0",
-    "@anocca/sequence-viewer-react-mui": "5.1.1",
-    "@anocca/sequence-viewer-react-shared": "4.2.1"
+    "@anocca/sequence-viewer-react-circular": "workspace:*",
+    "@anocca/sequence-viewer-react-linear": "workspace:*",
+    "@anocca/sequence-viewer-utils": "workspace:*",
+    "@anocca/sequence-viewer-react-mui": "workspace:*",
+    "@anocca/sequence-viewer-react-shared": "workspace:*",
+    "@anocca/sequence-viewer-react-pixi": "workspace:*"
   },
   "description": ""
 }
