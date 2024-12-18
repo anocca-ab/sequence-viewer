@@ -1,15 +1,13 @@
-import { type CircularSelection } from '@anocca/sequence-viewer-utils';
-import React from 'react';
-// import { DrawCallback } from "@pixi/react/src/typedefs/DrawCallback";
 import { getIndexMid, getSelectionLabel } from '@anocca/sequence-viewer-utils';
 import type { TextStyleOptions } from 'pixi.js';
+import React from 'react';
 import { CircularText } from './circular-text';
 import { minFontSize, renderAngleOffset } from './constants';
 import { useAgk } from './context';
+import { Arc } from './sequence';
 import { useBaseAngle } from './use-base-angle';
 import { useFontSize } from './use-font-size';
 import { useGetCoordinates } from './use-get-coordinates';
-import { Arc } from './sequence';
 
 export const useArrowHeight = () => {
   const [fontSize, constrainedFontSize] = useFontSize();

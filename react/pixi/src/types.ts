@@ -1,9 +1,11 @@
+import { type ControllerProps } from '@anocca/sequence-viewer-react-shared';
 import type {
   Annotations,
   CircularCamera,
   CircularSelection,
-  RenderData
+  SearchResult
 } from '@anocca/sequence-viewer-utils';
+import type React from 'react';
 
 export type PixiUpdateProps = {
   w: number;
@@ -26,4 +28,15 @@ export type PixiUpdateProps = {
   hoveringFeature: undefined | string;
   codons: Record<string, string>;
   isProtein: boolean;
+};
+
+export type BridgeType = {
+  props: ControllerProps & { layout: 'linear' | 'circular' };
+  clickedAnnotation: string | undefined;
+  setClickedAnnotation: React.Dispatch<React.SetStateAction<string | undefined>>;
+  circularSelections: CircularSelection[];
+  setCircularSelections: React.Dispatch<React.SetStateAction<CircularSelection[]>>;
+  selectedAnnotations: string[];
+  searchResults: SearchResult[];
+  setSearchResults: React.Dispatch<React.SetStateAction<SearchResult[]>>;
 };

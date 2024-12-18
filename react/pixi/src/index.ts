@@ -4,3 +4,4 @@
  * @packageDocumentation
  */
 export * from './pixi';
+export { StaticSequence } from './circular';

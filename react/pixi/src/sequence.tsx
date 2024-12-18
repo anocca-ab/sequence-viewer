@@ -1,15 +1,14 @@
-import { getNtColor, getNtComplement, getSelectionOver, tuple } from '@anocca/sequence-viewer-utils';
+import { getNtColor, getNtComplement } from '@anocca/sequence-viewer-utils';
 import type { Graphics } from 'pixi.js';
-import React, { useCallback } from 'react';
+import React from 'react';
+import { getCircleProperties } from './circular-helpers';
 import { CircularText } from './circular-text';
 import { initialCircularCamera, minFontSize } from './constants';
 import { useAgk } from './context';
-import { useArrowHeight } from './selection';
+import { SquareBase } from './square-base';
 import { useBaseAngle } from './use-base-angle';
 import { useFontSize } from './use-font-size';
 import { useGetCoordinates } from './use-get-coordinates';
-import { SquareBase } from './square-base';
-import { getCircleProperties } from './circular-helpers';
 
 export const Sequence = React.memo(function Sequence() {
   const components: JSX.Element[] = [];

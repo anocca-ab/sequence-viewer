@@ -19,3 +19,5 @@ export const initialCircularCamera: CircularCamera = {
     radius: 1
   }
 };
+export const INTERFACE_WIDTH = 800;
+export const INTERFACE_HEIGHT = 640;
