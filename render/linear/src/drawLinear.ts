@@ -740,7 +740,8 @@ export const drawLinear: DrawFunction = ({
     const drawIndicator = () => {
       c.fillStyle = 'black';
       c.font = getFont(12, 'normal');
-      drawNonScaledText(String(i + 1), xStart + baseWidth / 2, 12 - m.f, 'end', 'center');
+      const indicatorY = chromatogramData ? 12 : topAreaHeight;
+      drawNonScaledText(String(i + 1), xStart + baseWidth / 2, indicatorY - m.f, 'end', 'center');
     };
     if (i === 0 || i === iLen) {
       drawIndicator();
