@@ -17,7 +17,8 @@ import {
   SequenceControllerRef,
   SearchResult,
   SelectionRange,
-  ChromatogramData
+  ChromatogramData,
+  UpdateProps
 } from '@anocca/sequence-viewer-utils';
 import React, { useEffect, useState } from 'react';
 
@@ -56,7 +57,9 @@ export const useController = ({
   Search,
   FilterChromatogram,
   openAnnotationDialog,
-  isCircularView
+  isCircularView,
+  interactiveElement,
+  onUpdate
 }: {
   ref: React.ForwardedRef<SequenceControllerRef>;
   width: number;
@@ -79,6 +82,8 @@ export const useController = ({
   isProtein: boolean;
   chromatogramData?: ChromatogramData;
   isCircularView: boolean;
+  interactiveElement?: HTMLElement;
+  onUpdate?: (props: UpdateProps) => void;
 }) => {
   const len = sequence.length;
   const iLen = len - 1;
@@ -127,18 +132,15 @@ export const useController = ({
 
   const hasRendered = React.useRef(false);
   const render = () => {
-    if (!canRender) {
+    const data = renderData.current;
+    if (!data) {
       return;
     }
-    hasRendered.current = true;
-    const { hoveringFeature: _hoveringFeature } = draw({
+    const updateProps: UpdateProps = {
       codons,
       annotationLevels,
-      c: canRender.context,
       w: width,
       h: height,
-      ratio: canRender.ratio,
-      data: canRender.data,
       sequence,
       circularSelection,
       searchResults,
@@ -148,7 +150,21 @@ export const useController = ({
       },
       isProtein,
       filterChromOptions,
-      chromatogramData
+      chromatogramData,
+      data
+    };
+    if (onUpdate) {
+      onUpdate(updateProps);
+    }
+    if (!canRender) {
+      return;
+    }
+    hasRendered.current = true;
+    const { hoveringFeature: _hoveringFeature } = draw({
+      ...updateProps,
+      c: canRender.context,
+      ratio: canRender.ratio,
+      data: canRender.data
     });
     setHoveringFeature(_hoveringFeature);
   };
@@ -366,7 +382,15 @@ export const useController = ({
     }
   };
 
-  useDOMListeners(buffer, onClick, _onStartDrag, _onEndDrag, onScroll, onMouseMove, onDblClick);
+  useDOMListeners(
+    interactiveElement ?? buffer,
+    onClick,
+    _onStartDrag,
+    _onEndDrag,
+    onScroll,
+    onMouseMove,
+    onDblClick
+  );
 
   const renderRef = React.useRef(render);
   renderRef.current = render;
@@ -461,6 +485,7 @@ export const useController = ({
     canvasRef,
     zoomToSearchResult,
     setSearchResults,
-    render
+    render,
+    buffer
   };
 };

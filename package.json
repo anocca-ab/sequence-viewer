@@ -1,0 +1,17 @@
+{
+  "name": "@anocca/sequence-viewer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A DNA and protein sequence viewer developed and maintained by [Anocca](https://www.anocca.com).",
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "prettier": "^3.3.3",
+    "config": "workspace:*"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

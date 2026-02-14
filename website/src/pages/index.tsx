@@ -33,10 +33,7 @@ export default function Home() {
   const backend = useMockBackend();
 
   return (
-    <Layout
-      title="Home"
-      description="A DNA and protein sequence viewer"
-    >
+    <Layout>
       <HomepageHeader />
       <main style={{ paddingTop: '24px', paddingBottom: '24px', textAlign: 'center' }}>
         <SequenceViewerApp

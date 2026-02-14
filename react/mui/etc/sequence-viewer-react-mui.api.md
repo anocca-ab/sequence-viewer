@@ -4,10 +4,9 @@
 
 ```ts
 
-/// <reference types="react" />
-
 import { CircularSelection } from '@anocca/sequence-viewer-utils';
 import { FilterChromatogramType } from '@anocca/sequence-viewer-react-shared';
+import { JSX as JSX_2 } from 'react/jsx-runtime';
 import { SearchComponent } from '@anocca/sequence-viewer-react-shared';
 import { SeqAnnotationDirectionsEnum } from '@anocca/sequence-viewer-utils';
 
@@ -30,6 +29,6 @@ export const Toolbar: ({ selectedAnnotations, circularSelections, setCircularSel
     onDelete: (selectionAnnotations: string[]) => void;
     onCopySuccess?: (() => void) | undefined;
     onCopyError?: (() => void) | undefined;
-}) => JSX.Element;
+}) => JSX_2.Element;
 
 ```

@@ -9,8 +9,10 @@ import {
 import {
   Annotations,
   CircularSelection,
+  DrawFunction,
   SelectionRange,
-  SequenceControllerRef
+  SequenceControllerRef,
+  UpdateProps
 } from '@anocca/sequence-viewer-utils';
 import React from 'react';
 
@@ -23,7 +25,10 @@ export const useCircularController = ({
   allAnnotations,
   codons,
   Search,
-  openAnnotationDialog
+  openAnnotationDialog,
+  draw = drawCircular,
+  interactiveElement,
+  onUpdate
 }: {
   ref: React.ForwardedRef<SequenceControllerRef>;
   width: number;
@@ -34,6 +39,9 @@ export const useCircularController = ({
   Search?: SearchComponent;
   openAnnotationDialog?: (annotationId: string) => void;
   isProtein: boolean;
+  draw?: DrawFunction;
+  interactiveElement?: HTMLElement;
+  onUpdate?: (props: UpdateProps) => void;
 }) => {
   const len = sequence.length;
   const iLen = len - 1;
@@ -66,27 +74,27 @@ export const useCircularController = ({
       circularSelection
     });
 
-    renderData.current.circluarCamera.value.angle = 0;
-    renderData.current.circluarCamera.angleOffset = angleOffset;
+    renderData.current.circularCamera.value.angle = 0;
+    renderData.current.circularCamera.angleOffset = angleOffset;
     if (angleOffset > Math.PI) {
-      renderData.current.circluarCamera.angleOffset = -(Math.PI * 2 - angleOffset);
+      renderData.current.circularCamera.angleOffset = -(Math.PI * 2 - angleOffset);
     }
-    renderData.current.circluarCamera.scrollOffsetZooming = 0;
-    renderData.current.circluarCamera.scrollOffsetZoomed = 0;
+    renderData.current.circularCamera.scrollOffsetZooming = 0;
+    renderData.current.circularCamera.scrollOffsetZoomed = 0;
   };
 
   const zoomToSearchResult = (nextViewRange: SelectionRange, zoom: boolean) => {
     if (renderData.current) {
       resetAngularScroll();
 
-      renderData.current.circluarCamera.value = {
-        zoom: zoom ? 1 : renderData.current.circluarCamera.value.zoom,
+      renderData.current.circularCamera.value = {
+        zoom: zoom ? 1 : renderData.current.circularCamera.value.zoom,
         angle: 1,
         radius: zoom
           ? getRadiusTargetForViewRange(width, height, len, 1, nextViewRange)
-          : renderData.current.circluarCamera.value.radius
+          : renderData.current.circularCamera.value.radius
       };
-      bindValue(renderData.current.circluarCamera.value, renderData.current.circluarCamera.target);
+      bindValue(renderData.current.circularCamera.value, renderData.current.circularCamera.target);
     }
   };
 
@@ -97,7 +105,7 @@ export const useCircularController = ({
 
     const zoomDelta = Math.abs(deltaX) > Math.abs(deltaY) ? 0 : -deltaY / 7500;
     const scrollDelta = Math.abs(deltaX) > Math.abs(deltaY) ? -deltaX / 1000 : 0;
-    increase(zoomDelta, renderData.current.circluarCamera.value, renderData.current.circluarCamera.target);
+    increase(zoomDelta, renderData.current.circularCamera.value, renderData.current.circularCamera.target);
 
     const { radius } = getCircleProperties({
       data: renderData.current,
@@ -111,13 +119,13 @@ export const useCircularController = ({
 
     const scrollFactor = scrollDelta * (horizontalScrollSpeed / radius);
 
-    if (renderData.current.circluarCamera.value.angle === 1) {
-      renderData.current.circluarCamera.scrollOffsetZoomed += scrollFactor;
+    if (renderData.current.circularCamera.value.angle === 1) {
+      renderData.current.circularCamera.scrollOffsetZoomed += scrollFactor;
     } else {
-      renderData.current.circluarCamera.scrollOffsetZooming += scrollFactor;
+      renderData.current.circularCamera.scrollOffsetZooming += scrollFactor;
     }
-    renderData.current.circluarCamera.angleOffset =
-      (Math.PI * 2 + renderData.current.circluarCamera.angleOffset) % (2 * Math.PI);
+    renderData.current.circularCamera.angleOffset =
+      (Math.PI * 2 + renderData.current.circularCamera.angleOffset) % (2 * Math.PI);
   };
 
   const updateScroll = (deltaX: number, deltaY: number) => {
@@ -146,7 +154,7 @@ export const useCircularController = ({
     renderData,
     getCaretPosition,
     updateScroll,
-    draw: drawCircular,
+    draw,
     zoomToSearchResult,
     ref,
     width,
@@ -157,6 +165,8 @@ export const useCircularController = ({
     Search,
     openAnnotationDialog,
     isProtein,
-    isCircularView: true
+    isCircularView: true,
+    interactiveElement,
+    onUpdate,
   });
 };

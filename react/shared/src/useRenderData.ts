@@ -9,7 +9,7 @@ import {
   proteinBaseWidth
 } from '@anocca/sequence-viewer-utils';
 
-const getInitialTransformMatrix = (w: number, sequenceLength: number, isProtein: boolean): Matrix => {
+export const getInitialTransformMatrix = (w: number, sequenceLength: number, isProtein: boolean): Matrix => {
   const baseWidth = isProtein ? proteinBaseWidth : dnaBaseWidth;
 
   const scale = (w - 96) / (sequenceLength * baseWidth);
@@ -32,7 +32,7 @@ export const useRenderData = (width: number, sequence: string, isProtein: boolea
       mouseX: 0,
       mouseY: 0,
       matrix: getInitialTransformMatrix(width, sequence.length, isProtein),
-      circluarCamera: {
+      circularCamera: {
         angleOffset: 0,
         scrollOffsetZoomed: 0,
         scrollOffsetZooming: 0,

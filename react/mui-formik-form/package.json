@@ -2,34 +2,33 @@
   "name": "@anocca/sequence-viewer-react-mui-formik-form",
   "version": "5.0.3",
   "description": "",
-  "main": "lib-commonjs/index.js",
-  "module": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "typings": "src/index.ts",
   "files": [
     "lib",
     "lib-commonjs"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./node_modules/.bin/heft build"
+    "build": "./node_modules/.bin/tsc"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@rushstack/heft": "^0.35.0",
-    "typescript": "4.3.5",
-    "@anocca/sequence-viewer-common-rig": "1.0.0",
+    "typescript": "5.2.2",
+    "config": "workspace:*",
     "react-icons": "3.11.0",
-    "react": "17.0.2",
-    "@types/react": "17.0.15",
+    "react": "18.3.1",
+    "@types/react": "^18.2.29",
     "formik": "~2.2.9",
     "@mui/material": "~5.6.3",
     "@emotion/react": "~11.9.0",
     "@emotion/styled": "~11.8.1"
   },
   "dependencies": {
-    "@anocca/sequence-viewer-utils": "4.1.0"
+    "@anocca/sequence-viewer-utils": "workspace:*"
   },
   "peerDependencies": {
     "react-icons": "*",

@@ -1,0 +1,43 @@
+{
+  "name": "@anocca/sequence-viewer-react-pixi",
+  "version": "1.0.0",
+  "description": "Renders interactive viewer using PixiJS",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "typings": "src/index.ts",
+  "files": [
+    "lib",
+    "lib-commonjs"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "./node_modules/.bin/tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "5.2.2",
+    "config": "workspace:*",
+    "react": "18.3.1",
+    "@types/react": "^18.2.29",
+    "pixi.js": "8.2.6",
+    "@pixi/react": "workspace:*",
+    "@types/lodash.isequal": "^4.5.8"
+  },
+  "dependencies": {
+    "@anocca/sequence-viewer-react-shared": "workspace:*",
+    "@anocca/sequence-viewer-render-circular": "workspace:*",
+    "@anocca/sequence-viewer-react-circular": "workspace:*",
+    "@anocca/sequence-viewer-react-linear": "workspace:*",
+    "@anocca/sequence-viewer-utils": "workspace:*",
+    "eslint-config-custom": "workspace:*",
+    "lodash.isequal": "^4.5.0",
+    "@ricsam/react-tunnel": "0.0.3",
+    "@anocca/sequence-viewer-react-mui": "workspace:*",
+    "pixi-filters": "^6.0.5"
+  },
+  "peerDependencies": {
+    "react": "*"
+  }
+}

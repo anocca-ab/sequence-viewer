@@ -2,26 +2,25 @@
   "name": "@anocca/sequence-viewer-render-circular",
   "version": "4.0.3",
   "description": "",
-  "main": "lib-commonjs/index.js",
-  "module": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "typings": "src/index.ts",
   "files": [
     "lib",
     "lib-commonjs"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "./node_modules/.bin/heft build"
+    "build": "./node_modules/.bin/tsc"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@rushstack/heft": "^0.35.0",
-    "@anocca/sequence-viewer-common-rig": "1.0.0",
-    "typescript": "4.3.5"
+    "config": "workspace:*",
+    "typescript": "5.2.2"
   },
   "dependencies": {
-    "@anocca/sequence-viewer-utils": "4.1.0"
+    "@anocca/sequence-viewer-utils": "workspace:*"
   }
 }

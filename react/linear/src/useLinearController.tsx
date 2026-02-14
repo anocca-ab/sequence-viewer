@@ -15,7 +15,9 @@ import {
   proteinBaseWidth,
   SelectionRange,
   Matrix,
-  ChromatogramData
+  ChromatogramData,
+  DrawFunction,
+  UpdateProps
 } from '@anocca/sequence-viewer-utils';
 import React from 'react';
 import { drawLinear, getInverseMatrix, transformPoint } from '@anocca/sequence-viewer-render-linear';
@@ -65,7 +67,10 @@ export const useLinearController = ({
   codons,
   Search,
   FilterChromatogram,
-  openAnnotationDialog
+  openAnnotationDialog,
+  draw = drawLinear,
+  interactiveElement,
+  onUpdate
 }: {
   ref: React.ForwardedRef<SequenceControllerRef>;
   width: number;
@@ -78,6 +83,9 @@ export const useLinearController = ({
   openAnnotationDialog?: (annotationId: string) => void;
   isProtein: boolean;
   chromatogramData?: ChromatogramData;
+  draw?: DrawFunction;
+  interactiveElement?: HTMLElement;
+  onUpdate?: (props: UpdateProps) => void;
 }) => {
   const len = sequence.length;
   const iLen = len - 1;
@@ -236,7 +244,7 @@ export const useLinearController = ({
     renderData,
     getCaretPosition,
     updateScroll,
-    draw: drawLinear,
+    draw,
     zoomToSearchResult,
     ref,
     width,
@@ -249,6 +257,8 @@ export const useLinearController = ({
     openAnnotationDialog,
     isProtein,
     chromatogramData,
-    isCircularView: false
+    isCircularView: false,
+    interactiveElement,
+    onUpdate
   });
 };

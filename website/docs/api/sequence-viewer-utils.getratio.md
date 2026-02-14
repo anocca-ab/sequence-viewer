@@ -20,11 +20,38 @@ export declare function getRatio(context: CanvasRenderingContext2D): {
 
 ## Parameters
 
-|  Parameter | Type | Description |
-|  --- | --- | --- |
-|  context | CanvasRenderingContext2D |  |
+<table><thead><tr><th>
 
+Parameter
+
+
+</th><th>
+
+Type
+
+
+</th><th>
+
+Description
+
+
+</th></tr></thead>
+<tbody><tr><td>
+
+context
+
+
+</td><td>
+
+CanvasRenderingContext2D
+
+
+</td><td>
+
+
+</td></tr>
+</tbody></table>
 **Returns:**
-
+```ts
 { ratio: number; shouldScale: boolean; }
-
+```

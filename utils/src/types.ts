@@ -72,17 +72,19 @@ export type RenderData = {
   /**
    * Used in the circular viewer
    */
-  circluarCamera: {
-    angleOffset: number;
-    scrollOffsetZoomed: number;
-    scrollOffsetZooming: number;
-    value: CircularCameraProgress;
-    target: CircularCameraProgress;
-  };
+  circularCamera: CircularCamera;
   /**
    * Used in the linear viewer
    */
   matrix: Matrix;
+};
+
+export type CircularCamera = {
+  angleOffset: number;
+  scrollOffsetZoomed: number;
+  scrollOffsetZooming: number;
+  value: CircularCameraProgress;
+  target: CircularCameraProgress;
 };
 
 /**
@@ -177,11 +179,14 @@ export type SequenceControllerRef = {
  *
  * @public
  */
-export type DrawFunction = (props: {
-  c: CanvasRenderingContext2D;
+export type DrawFunction = (props: DrawProps) => {
+  clickedFeatures: string[];
+  hoveringFeature: undefined | string;
+};
+
+export type UpdateProps = {
   w: number;
   h: number;
-  ratio: number;
   data: RenderData;
   sequence: string;
   circularSelection: CircularSelection[];
@@ -202,9 +207,11 @@ export type DrawFunction = (props: {
   };
   isProtein: boolean;
   chromatogramData?: ChromatogramData;
-}) => {
-  clickedFeatures: string[];
-  hoveringFeature: undefined | string;
+};
+
+export type DrawProps = UpdateProps & {
+  c: CanvasRenderingContext2D;
+  ratio: number;
 };
 
 /**

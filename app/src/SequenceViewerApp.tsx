@@ -1,6 +1,7 @@
 import React from 'react';
 import { CircularController } from '@anocca/sequence-viewer-react-circular';
 import { LinearController } from '@anocca/sequence-viewer-react-linear';
+import { PixiRenderer } from '@anocca/sequence-viewer-react-pixi';
 import {
   Annotation,
   humanCodons,
@@ -62,7 +63,9 @@ export const SequenceViewerApp = (props: {
     props.renderLinearByDefault ? false : !props.isProtein
   );
 
-  const Component = isCircularViewer ? CircularController : LinearController;
+  const [isPixi, setPixi] = React.useState(true);
+
+  const Component = isPixi ? PixiRenderer : isCircularViewer ? CircularController : LinearController;
 
   const AnnotationForm = props.AnnotationForm;
 
@@ -123,6 +126,7 @@ export const SequenceViewerApp = (props: {
       <Component
         width={props.width}
         height={props.height}
+        layout={isCircularViewer ? 'circular' : 'linear'}
         isProtein={!!props.isProtein}
         chromatogramData={props.chromatogramData}
         annotations={props.annotations}
@@ -176,7 +180,7 @@ export const SequenceViewerApp = (props: {
                 {search}
               </Flex>
             </Flex>
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative', height: props.height, width: props.width }}>
               {canvas}
               {!props.isProtein && (
                 <div style={{ position: 'absolute', right: '80px', bottom: '160px' }}>
@@ -193,6 +197,19 @@ export const SequenceViewerApp = (props: {
                         />
                       </Grid>
                       <Grid item>Circular</Grid>
+                    </Grid>
+                    <Grid component="label" container alignItems="center" spacing={1}>
+                      <Grid item>Canvas</Grid>
+                      <Grid item>
+                        <Switch
+                          checked={isPixi}
+                          onChange={(ev: any) => {
+                            setPixi(ev.target.checked);
+                          }}
+                          name="pixiSwitch"
+                        />
+                      </Grid>
+                      <Grid item>Pixi</Grid>
                     </Grid>
                   </Typography>
                 </div>

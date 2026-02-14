@@ -30,7 +30,10 @@ export const CircularController = React.forwardRef<SequenceControllerRef, Contro
       Search,
       children: renderLayout,
       openAnnotationDialog,
-      isProtein
+      isProtein,
+      draw,
+      interactiveElement,
+      onUpdate
     },
     ref
   ) => {
@@ -43,7 +46,8 @@ export const CircularController = React.forwardRef<SequenceControllerRef, Contro
       canvasRef,
       zoomToSearchResult,
       setSearchResults,
-      setCircularSelection
+      setCircularSelection,
+      buffer
     } = useCircularController({
       ref,
       width,
@@ -53,7 +57,10 @@ export const CircularController = React.forwardRef<SequenceControllerRef, Contro
       codons,
       Search,
       openAnnotationDialog,
-      isProtein
+      isProtein,
+      draw,
+      interactiveElement,
+      onUpdate
     });
 
     return (
@@ -66,9 +73,8 @@ export const CircularController = React.forwardRef<SequenceControllerRef, Contro
             setCircularSelection,
             clickedAnnotation,
             search,
-            canvasRef,
-            zoomToSearchResult,
-            setSearchResults
+            setSearchResults,
+            buffer,
           })
         ) : search ? (
           <div>

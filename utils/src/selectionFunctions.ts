@@ -56,7 +56,7 @@ export const isRangeOverOrigin = (selectionRange: SelectionRange, antiClockwise:
  *
  * @internal
  */
-export const isSelectionOverOrigin = (circularSelection: CircularSelection) => {
+export const isSelectionOverOrigin = (circularSelection: Pick<CircularSelection, 'antiClockwise' | 'end' | 'start'>) => {
   return isRangeOverOrigin(circularSelection, !!circularSelection.antiClockwise);
 };
 
